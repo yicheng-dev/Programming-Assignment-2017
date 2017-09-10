@@ -39,19 +39,6 @@ static int cmd_q(char *args) {
   return -1;
 }
 
-static int cmd_info(char *args){
-
-	has_input_info=true;
-	return 0;
-}
-
-static int cmd_info_r(char *args){
-	if (has_input_info)
-		printf("eax:%u\necx:%u\nedx:%u\nebx:%u\nesp:%u\nebp:%u\nesi:%u\nedi:%u\n"
-		,cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esp,cpu.ebp,cpu.esi,cpu.edi);
-	return 0;
-}
-
 static int cmd_help(char *args);
 
 
@@ -68,8 +55,6 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  {"info","print the information of something",cmd_info},
-  {"r","print the status of registers",cmd_info_r}
   /* TODO: Add more commands */
 
 };
@@ -112,24 +97,7 @@ void ui_mainloop(int is_batch_mode) {
     /* extract the first token as the command */
     char *cmd = strtok(str, " ");
     if (cmd == NULL) { continue; }
-/*
-	int print_register_cnt=0;
-	while (cmd != NULL)
-	{
-		if (strcmp(cmd,"info") == 0 && print_register_cnt ==0)
-			print_register_cnt++;
-		if (strcmp(cmd,"r") == 0 && print_register_cnt == 1)
-			print_register_cnt++;
 
-		cmd = strtok(NULL," ");
-	}
-	if (print_register_cnt==2)
-		printf("eax:%u\necx:%u\nedx:%u\nebx:%u\nesp:%u\nebp:%u\nesi:%u\nedi:%u\n"
-				,cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esp,cpu.ebp,cpu.esi,cpu.edi);
-	print_register_cnt=0;
-
-*/
-	while (cmd !=NULL){
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
@@ -150,8 +118,6 @@ void ui_mainloop(int is_batch_mode) {
         break;
       }
     }
-	cmd=strtok(NULL," ");
     if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
-	}
   }
 }
