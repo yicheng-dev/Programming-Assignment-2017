@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+//暂添
+
 
 void cpu_exec(uint64_t);
 
@@ -90,27 +92,16 @@ void ui_mainloop(int is_batch_mode) {
     char *cmd = strtok(str, " ");
     if (cmd == NULL) { continue; }
 	
-	int print_register_cnt=0;
-	while (cmd!=NULL)
-	{
-		if (strcmp(cmd,"info")==0 && print_register_cnt==0)
-			print_register_cnt++;
-		if (strcmp(cmd,"r")==0 && print_register_cnt==1)
-			print_register_cnt++;
-
-		cmd=strtok(NULL," ");
-	}
-	if (print_register_cnt==2)
-		printf("%u %u %u %u %u %u %u %u\n",cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esp,cpu.ebp,cpu.esi,cpu.edi);		
 	
-
-
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
     char *args = cmd + strlen(cmd) + 1;
     if (args >= str_end) {
       args = NULL;
+
+	
+
     }
 
 #ifdef HAS_IOE
