@@ -89,6 +89,21 @@ void ui_mainloop(int is_batch_mode) {
     /* extract the first token as the command */
     char *cmd = strtok(str, " ");
     if (cmd == NULL) { continue; }
+	
+	int print_register_cnt=0;
+	while (cmd!=NULL)
+	{
+		if (cmd=="info" && print_register_cnt==0)
+			print_register_cnt++;
+		if (cmd=="r" && print_register_cnt==1)
+			print_register_cnt++;
+
+		cmd=strtok(NULL," ");
+	}
+//	if (print_register_cnt==2)
+		
+	
+
 
     /* treat the remaining string as the arguments,
      * which may need further parsing
