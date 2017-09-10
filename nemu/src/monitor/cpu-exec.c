@@ -38,6 +38,7 @@ void cpu_exec(uint64_t n) {
 #endif
 
     if (nemu_state != NEMU_RUNNING) { return; }
+
   }
 
   if (nemu_state == NEMU_RUNNING) { nemu_state = NEMU_STOP; }
