@@ -2,7 +2,7 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
-
+#include <string.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -93,15 +93,15 @@ void ui_mainloop(int is_batch_mode) {
 	int print_register_cnt=0;
 	while (cmd!=NULL)
 	{
-		if (cmd=="info" && print_register_cnt==0)
+		if (strcmp(cmd,"info")==0 && print_register_cnt==0)
 			print_register_cnt++;
-		if (cmd=="r" && print_register_cnt==1)
+		if (strcmp(cmd,"r")==0 && print_register_cnt==1)
 			print_register_cnt++;
 
 		cmd=strtok(NULL," ");
 	}
-//	if (print_register_cnt==2)
-		
+	if (print_register_cnt==2)
+		printf("%u %u %u %u %u %u %u %u\n",cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esp,cpu.ebp,cpu.esi,cpu.edi);		
 	
 
 
