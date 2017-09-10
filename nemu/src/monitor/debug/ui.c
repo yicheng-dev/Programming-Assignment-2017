@@ -38,6 +38,13 @@ static int cmd_q(char *args) {
   return -1;
 }
 
+static int cmd_info_r(char *args){
+	printf("eax:%u\necx:%u\nedx:%u\nebx:%u\nesp:%u\nebp:%u\nesi:%u\nedi:%u\n"
+	,cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esp,cpu.ebp,cpu.esi,cpu.edi);
+	return 0;
+	
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -48,7 +55,8 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  {"info r","print the status of registers in cpu",cmd_info_r}
+	
   /* TODO: Add more commands */
 
 };
@@ -91,7 +99,7 @@ void ui_mainloop(int is_batch_mode) {
     /* extract the first token as the command */
     char *cmd = strtok(str, " ");
     if (cmd == NULL) { continue; }
-
+/*
 	int print_register_cnt=0;
 	while (cmd != NULL)
 	{
@@ -106,6 +114,9 @@ void ui_mainloop(int is_batch_mode) {
 		printf("eax:%u\necx:%u\nedx:%u\nebx:%u\nesp:%u\nebp:%u\nesi:%u\nedi:%u\n"
 				,cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esp,cpu.ebp,cpu.esi,cpu.edi);
 	print_register_cnt=0;
+
+*/
+
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
