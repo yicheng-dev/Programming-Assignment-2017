@@ -100,11 +100,11 @@ void ui_mainloop(int is_batch_mode) {
 		if (strcmp(cmd,"r") == 0 && print_register_cnt == 1)
 			print_register_cnt++;
 
-
 		cmd = strtok(NULL," ");
 	}
 	if (print_register_cnt==2)
-		printf("%u %u %u %u %u %u %u %u\n",cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esp,cpu.ebp,cpu.esi,cpu.edi);
+		printf("eax:%u\necx:%u\nedx:%u\nebx:%u\nesp:%u\nebp:%u\nesi:%u\nedi:%u\n"
+				,cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esp,cpu.ebp,cpu.esi,cpu.edi);
 	print_register_cnt=0;
     /* treat the remaining string as the arguments,
      * which may need further parsing
@@ -112,9 +112,6 @@ void ui_mainloop(int is_batch_mode) {
     char *args = cmd + strlen(cmd) + 1;
     if (args >= str_end) {
       args = NULL;
-
-	
-
     }
 
 #ifdef HAS_IOE
