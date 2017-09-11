@@ -80,15 +80,14 @@ static int cmd_x(char *args)
 	args=strtok(NULL," ");
 	char * tmp;
 	tmp= (char*)malloc(30);
-
-	int size=strlen(args)-2; 
-	for (int i=0;i<size;i++)
+	int size1=strlen(args)-2;
+	for (int i=0;i<size1;i++)
 	{
 		tmp[i]=args[i+2];
 	}
 	int args_int=atoi(tmp);
 	free(tmp);
-	for (int i=0;i<N;i++)i
+	for (int i=0;i<N;i++)
 	{
 		printf("%u\n",pmem[args_int+4*i]);
 	}
