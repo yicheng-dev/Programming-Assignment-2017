@@ -4,6 +4,7 @@
 #include "nemu.h"
 #include <string.h>
 #include <stdlib.h>
+#include <malloc.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -77,8 +78,17 @@ static int cmd_x(char *args)
 	int N=atoi(args);
 	args=strtok(NULL," ");
 	args=strtok(NULL," ");
-	printf("%s\n",args);
-	int args_int=atoi(args);
+	char * tmp;
+	tmp= (char*)malloc(30);
+
+	int size=strlen(args)-2;
+
+	for (int i=0;i<size;i++)
+	{
+		tmp[i]=args[i+2];
+	}
+	int args_int=atoi(tmp);
+	free(tmp);
 	printf("%d\n",args_int);
 	for (int i=0;i<N;i++)
 	{
