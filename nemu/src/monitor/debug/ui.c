@@ -76,6 +76,7 @@ static int cmd_x(char *args)
 
 	int N=atoi(args);
 	args=strtok(NULL," ");
+	args=strtok(NULL," ");
 	N++;
 	printf("%s\n",args);
 
