@@ -43,13 +43,14 @@ static int cmd_help(char *args);
 
 static int cmd_info(char *args)
 {	
+	int i;
 	if (args==NULL){
 		printf("You may want to input commands like \"info r\" or \"info w\".Try again!\n");
 		return 0;
 	}
 	if (strcmp(args,"r")==0)
 	{
-		for (int i=0;i<8;i++)
+		for (i=0;i<8;i++)
 		{
 			printf("%s:%u\n",reg_name(i,4),reg_l(i));
 		}
@@ -71,36 +72,34 @@ static int cmd_si(char *args)
 
 static int cmd_x(char *args)
 {
+	int N;
+	int address;
+	const int step=4;
+	int j,k;
+	args=strtok(NULL," ");
 	if (args==NULL){
-		printf("You may want to input command like \"x [N] [address]\"\n");
+		printf("Lack arguments!You may want to input command like \"x [N] [address]\"\n");
 		return 0;
 	}
-
-	int N=atoi(args);
-
+	N=atoi(args);
 	args=strtok(NULL," ");
-	args=strtok(NULL," ");
-
-	//Now args is the address you input.
-	char * tmp;
-	tmp= (char*)malloc(30);
-	int size1=strlen(args)-2;
-	for (int i=0;i<size1;i++)
-	{
-		tmp[i]=args[i+2];
+	if (args==NULL){
+		printf("Lack arguments!You may want to input command like \"x [N] [address]\"\n");
+		return 0;
 	}
-	//此时tmp储存一个输入的16进制数
-	int size2=strlen(tmp);
-	int index_10=0;
-	for (int i=size2-1;i>=0;i--)
-		index_10+=(tmp[i]-'0')*pow(16,size2-1-i);  
+	sscanf(args, "%x", &address);
 	
-
-	for (int j=0;j<N;j++)
+	
+	for (j=0;j<N;j++)
 	{
-		printf("0x%u\n",pmem[index_10+4*j]);
+		for (k=0;k<step;k++)
+		{
+			printf("%02x ",pmem[address+k]);
+		}
+		address+=step;
+		printf("\n");
 	}
-	free(tmp);
+	
 	return 0;
 	
 }
