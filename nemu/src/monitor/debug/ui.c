@@ -52,7 +52,7 @@ static int cmd_info(char *args)
 	{
 		for (i=0;i<8;i++)
 		{
-			printf("%s:0x%u\n",reg_name(i,4),reg_l(i));
+			printf("%s:0x%x\n",reg_name(i,4),reg_l(i));
 		}
 
 	}
