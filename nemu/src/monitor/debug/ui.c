@@ -92,7 +92,7 @@ static int cmd_x(char *args)
 	
 	for (j=0;j<N;j++)
 	{
-		printf("%08x: ",address);
+		printf("0x%08x: ",address);
 		for (k=0;k<step;k++)
 		{
 			printf("%02x ",pmem[address+k]);
