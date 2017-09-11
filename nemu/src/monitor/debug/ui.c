@@ -2,6 +2,7 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+#include "math.h"
 #include <string.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -88,12 +89,18 @@ static int cmd_x(char *args)
 	{
 		tmp[i]=args[i+2];
 	}
-	int args_int=atoi(tmp);
-	free(tmp);
-	for (int i=0;i<N;i++)
+	//此时tmp储存一个输入的16进制数
+	int size2=strlen(tmp);
+	int index_10=0;
+	for (int i=size2-1;i>=0;i--)
+		index_10+=(tmp[i]-'0')*pow(16,size2-1-i);  
+	
+
+	for (int j=0;j<N;j++)
 	{
-		printf("0x%u\n",pmem[args_int+4*i]);
+		printf("0x%u\n",pmem[index_10+4*j]);
 	}
+	free(tmp);
 	return 0;
 	
 }
