@@ -69,6 +69,11 @@ static int cmd_si(char *args)
 
 static int cmd_x(char *args)
 {
+	if (args==NULL){
+		printf("You may want to input command like \"x [N] [address]\"\n");
+		return 0;
+	}
+
 	int N=atoi(args);
 	args=strtok(NULL," ");
 	N++;
