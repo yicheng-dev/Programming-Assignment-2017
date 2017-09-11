@@ -76,8 +76,11 @@ static int cmd_x(char *args)
 	}
 
 	int N=atoi(args);
+
 	args=strtok(NULL," ");
 	args=strtok(NULL," ");
+
+	//Now args is the address you input.
 	char * tmp;
 	tmp= (char*)malloc(30);
 	int size1=strlen(args)-2;
@@ -89,7 +92,7 @@ static int cmd_x(char *args)
 	free(tmp);
 	for (int i=0;i<N;i++)
 	{
-		printf("%u\n",pmem[args_int+4*i]);
+		printf("0x%u\n",pmem[args_int+4*i]);
 	}
 	return 0;
 	
