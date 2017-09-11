@@ -52,7 +52,7 @@ static int cmd_info(char *args)
 	{
 		for (i=0;i<8;i++)
 		{
-			printf("%s:%u\n",reg_name(i,4),reg_l(i));
+			printf("%s:0x%u\n",reg_name(i,4),reg_l(i));
 		}
 
 	}
@@ -92,6 +92,7 @@ static int cmd_x(char *args)
 	
 	for (j=0;j<N;j++)
 	{
+		printf("%08x: ",address);
 		for (k=0;k<step;k++)
 		{
 			printf("%02x ",pmem[address+k]);
