@@ -71,8 +71,11 @@ static int cmd_x(char *args)
 {
 	int N=atoi(args);
 	args=strtok(NULL," ");
-	vaddr_t args_int=atoi(args);
-	vaddr_read(args_int,N);
+	int args_int=atoi(args);
+	for (int i=0;i<N;i++)
+	{
+		printf("%u\n",pmem[args_int+4*i]);
+	}
 	return 0;
 	
 }
