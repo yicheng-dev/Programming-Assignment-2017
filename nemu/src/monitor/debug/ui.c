@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-//暂添
-bool has_input_info=false;
 
 
 void cpu_exec(uint64_t);
@@ -43,8 +41,10 @@ static int cmd_help(char *args);
 
 static int cmd_info(char *args)
 {	
-
-
+	if (args==NULL){
+		printf("You may want to input commands like \"info r\" or \"info w\".Try again!\n");
+		return 0;
+	}
 	if (strcmp(args,"r")==0)
 	{
 		for (int i=0;i<8;i++)
@@ -56,7 +56,16 @@ static int cmd_info(char *args)
 	return 0;
 }
 
-
+static int cmd_si(char *args)
+{
+	if (args==NULL){
+		printf("You may want to input command like \"si [N]\"\n");
+		return 0;
+	}
+	uint64_t exec_num = atoi(args);
+	cpu_exec(exec_num);
+	return 0;
+}
 
 
 
@@ -69,6 +78,8 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   {"info","Print the information of registers or watchers.",cmd_info},
+  {"si","execute one command every step",cmd_si}
+ 
   /* TODO: Add more commands */
 
 };
