@@ -67,6 +67,15 @@ static int cmd_si(char *args)
 	return 0;
 }
 
+static int cmd_x(char *args)
+{
+	int N=atoi(args);
+	args=strtok(NULL," ");
+	vaddr_t args_int=atoi(args);
+	vaddr_read(args_int,N);
+	return 0;
+	
+}
 
 
 static struct {
@@ -78,7 +87,8 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   {"info","Print the information of registers or watchers.",cmd_info},
-  {"si","execute one command every step",cmd_si}
+  {"si","execute one command every step",cmd_si},
+  {"x","scan the status of momery around the pointed address.",cmd_x}
  
   /* TODO: Add more commands */
 
