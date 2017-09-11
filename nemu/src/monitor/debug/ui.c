@@ -77,15 +77,13 @@ static int cmd_x(char *args)
 	int N=atoi(args);
 	args=strtok(NULL," ");
 	args=strtok(NULL," ");
-	N++;
-	printf("%s\n",args);
 
-/*	uint64_t args_int=atoi(args);
+	uint64_t args_int=atoi(args);
 	for (int i=0;i<N;i++)
 	{
 		printf("%u\n",pmem[args_int+4*i]);
 	}
-*/
+
 
 	return 0;
 	
