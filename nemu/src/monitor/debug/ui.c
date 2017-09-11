@@ -90,11 +90,15 @@ static int cmd_x(char *args)
 	int args_int=atoi(tmp);
 	free(tmp);
 	printf("%d\n",args_int);
-	for (int i=0;i<N;i++)
+	for (int i=0;i<128*1024*1024;i++)
+		printf("%u ",pmem[i]);
+	N++;
+	/*
+	for (int i=0;i<N;i++)i
 	{
 		printf("%u\n",pmem[args_int+4*i]);
 	}
-
+*/
 
 	return 0;
 	
