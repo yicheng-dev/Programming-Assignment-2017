@@ -41,7 +41,20 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_info(char *args)
+{	
 
+
+	if (strcmp(args,"r")==0)
+	{
+		for (int i=0;i<8;i++)
+		{
+			printf("%u\n",reg_l(i));
+		}
+
+	}
+	return 0;
+}
 
 
 
@@ -55,6 +68,7 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  {"info","Print the information of registers or watchers.",cmd_info},
   /* TODO: Add more commands */
 
 };
@@ -101,6 +115,8 @@ void ui_mainloop(int is_batch_mode) {
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
+
+
     char *args = cmd + strlen(cmd) + 1;
     if (args >= str_end) {
       args = NULL;
@@ -119,5 +135,6 @@ void ui_mainloop(int is_batch_mode) {
       }
     }
     if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
-  }
+	}
+  
 }
