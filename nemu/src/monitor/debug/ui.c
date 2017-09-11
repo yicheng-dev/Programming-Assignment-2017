@@ -81,25 +81,17 @@ static int cmd_x(char *args)
 	char * tmp;
 	tmp= (char*)malloc(30);
 
-	int size=strlen(args)-2;
-
+	int size=strlen(args)-2; 
 	for (int i=0;i<size;i++)
 	{
 		tmp[i]=args[i+2];
 	}
 	int args_int=atoi(tmp);
 	free(tmp);
-	printf("%d\n",args_int);
-	for (int i=0;i<128*1024;i++)
-		printf("%d ",pmem[i]);
-	N++;
-	/*
 	for (int i=0;i<N;i++)i
 	{
 		printf("%u\n",pmem[args_int+4*i]);
 	}
-*/
-
 	return 0;
 	
 }
