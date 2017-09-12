@@ -60,12 +60,15 @@ int nr_token;
 static bool make_token(char *e) {
   int position = 0;
   int i;
+
+
   regmatch_t pmatch;
 
   nr_token = 0;
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
+	  bool discard=false;
     for (i = 0; i < NR_REGEX; i ++) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
@@ -79,15 +82,21 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
+		Token new_token;
         switch (rules[i].token_type) {
-			case TK_NOTYPE:				break;
-			case '+':					break;
-			case TK_EQ:					break;
+			case TK_NOTYPE: discard=true;
+							break;
+			case '+':		new_token.type=rules[i].token_type;		
+							break;
+			case TK_EQ:		new_token.type=rules[i].token_type;
+							break;
 			default: TODO();
         }
-
-        break;
+		if (discard)
+			break;
+		tokens[nr_token]=new_token;
+		nr_token++;
+		break;
       }
     }
 
