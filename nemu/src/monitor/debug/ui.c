@@ -105,6 +105,15 @@ static int cmd_x(char *args)
 	
 }
 
+static int cmd_p(char *args)
+{
+	bool success = true;
+	bool *success_ptr = &success;
+
+	args=strtok(NULL," ");
+	
+	return expr(args,success_ptr);
+}
 
 static struct {
   char *name;
@@ -115,8 +124,9 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   {"info","Print the information of registers or watchers.",cmd_info},
-  {"si","execute one command every step",cmd_si},
-  {"x","scan the status of momery around the pointed address.",cmd_x}
+  {"si","Execute one command every step",cmd_si},
+  {"x","Scan the status of momery around the pointed address.",cmd_x},
+  {"p","Compute the value of the formula after 'p'",cmd_p}
  
   /* TODO: Add more commands */
 
