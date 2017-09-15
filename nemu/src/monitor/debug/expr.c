@@ -90,7 +90,7 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
 			case TK_NOTYPE: discard_space=true;
 							break;
-			case '+':		new_token.type=rules[i].token_type;
+			case TK_PLUS:	new_token.type=rules[i].token_type;
 							break;
 			case TK_EQ:		new_token.type=rules[i].token_type;
 							break;
@@ -100,15 +100,15 @@ static bool make_token(char *e) {
 								new_token.str[index]=substr_start[index];
 
 							break;
-			case '-':		new_token.type=rules[i].token_type;
+			case TK_SUB:	new_token.type=rules[i].token_type;
 							break;
-			case '/':		new_token.type=rules[i].token_type;
+			case TK_DIVIDE:	new_token.type=rules[i].token_type;
 							break;
-			case '*':		new_token.type=rules[i].token_type;
+			case TK_MULTI:	new_token.type=rules[i].token_type;
 							break;
-			case '(':		new_token.type=rules[i].token_type;
+			case TK_LBRAC:	new_token.type=rules[i].token_type;
 							break;
-			case ')':		new_token.type=rules[i].token_type;
+			case TK_RBRAC:	new_token.type=rules[i].token_type;
 							break;
 
 			default: TODO();
