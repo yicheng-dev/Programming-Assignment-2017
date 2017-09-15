@@ -23,7 +23,8 @@ static struct rule {
    */
   
   {" +", TK_NOTYPE},    // spaces
-	  
+  {"\\(",'('},			//left_bracket
+  {"\\)",')'},			//right_bracket
   {"[0-9]+",TK_NUM},		// num
   {"\\*", '*'},         // multiply
   {"/", '/'},          // divide
@@ -103,7 +104,10 @@ static bool make_token(char *e) {
 							break;
 			case '*':		new_token.type=rules[i].token_type;
 							break;
-
+			case '(':		new_token.type=rules[i].token_type;
+							break;
+			case ')':		new_token.type=rules[i].token_type;
+							break;
 
 			default: TODO();
         }
