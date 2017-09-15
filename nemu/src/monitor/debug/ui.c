@@ -63,6 +63,7 @@ static int cmd_info(char *args)
 
 static int cmd_si(char *args)
 {
+	args = strtok(NULL," ");
 	uint64_t exec_num;
 	if (args==NULL){
 		exec_num=1;	
