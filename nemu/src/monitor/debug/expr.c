@@ -24,7 +24,7 @@ static struct rule {
   
   {" +", TK_NOTYPE},    // spaces
 
-  {"[1-9]\\d*",TK_NUM},		// num
+  {"\\d+",TK_NUM},		// num
   {"\\*", '*'},         // multiply
   {"/", ','},          // divide
   {"\\+", '+'},         // plus
@@ -64,12 +64,13 @@ int nr_token;
 static bool make_token(char *e) {
   int position = 0;
   int i;
-
-
+  bool is_num=false;
+  int num_cnt=0;
   regmatch_t pmatch;
 
   nr_token = 0;
 
+  
   while (e[position] != '\0') {
     /* Try all rules one by one. */
 	  bool discard=false;
@@ -89,12 +90,16 @@ static bool make_token(char *e) {
 		Token new_token;
         switch (rules[i].token_type) {
 			case TK_NOTYPE: discard=true;
+							is_num=false;
 							break;
-			case '+':		new_token.type=rules[i].token_type;		
+			case '+':		new_token.type=rules[i].token_type;
+							is_num=false;
 							break;
 			case TK_EQ:		new_token.type=rules[i].token_type;
+							is_num=false;
 							break;
 			case TK_NUM:	new_token.type=rules[i].token_type;
+							is_num=true;
 							break;
 
 
@@ -102,9 +107,16 @@ static bool make_token(char *e) {
         }
 		if (discard)
 			break;
-		tokens[nr_token]=new_token;
-		nr_token++;
-		break;
+		if (!is_num){
+			tokens[nr_token]=new_token;
+			nr_token++;
+			num_cnt=0;
+			break;
+		}
+		else{
+			tokens[nr_token].str[num_cnt++]=substr_start[0];
+			break;
+		}
       }
     }
 
