@@ -141,7 +141,6 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
-  /*这里用来测试tokens数组是否成功
   for (i=0;i<nr_token;i++)
   {
 	  printf("type:%d\n",tokens[i].type);
@@ -153,7 +152,6 @@ uint32_t expr(char *e, bool *success) {
 		  printf("\n");
 	  }
   }
-  */
  // int ans=compute_value();
 
   /* TODO: Insert codes to evaluate the expression. */
