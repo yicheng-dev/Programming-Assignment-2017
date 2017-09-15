@@ -56,10 +56,10 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[32];
+  char str[128];
 } Token;
 
-Token tokens[32];
+Token tokens[128];
 int nr_token;
 
 static bool make_token(char *e) {
@@ -93,7 +93,8 @@ static bool make_token(char *e) {
 							break;
 			case TK_EQ:		new_token.type=rules[i].token_type;
 							break;
-			case TK_NUM:	new_token.type=rules[i].token_type;
+			case TK_NUM:	printf("substr_len:%d\n",substr_len);
+							new_token.type=rules[i].token_type;
 							for (index=0;index<substr_len;index++)
 								new_token.str[index]=substr_start[index];
 							break;
