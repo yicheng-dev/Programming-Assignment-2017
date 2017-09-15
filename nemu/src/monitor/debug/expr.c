@@ -135,7 +135,7 @@ uint32_t expr(char *e, bool *success) {
   for (int i=0;i<nr_token;i++)
   {
 	  printf("%d\n",tokens[i].type);
-	  if (tokens[i].type==248)
+	  if (tokens[i].type==258)
 	  {
 		  printf("%s\n",tokens[i].str);
 	  }
