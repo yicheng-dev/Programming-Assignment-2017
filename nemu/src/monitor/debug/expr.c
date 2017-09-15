@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,TK_NUM
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,TK_PLUS,TK_SUB,TK_EQ
 
   /* TODO: Add more token types */
 
@@ -23,13 +23,13 @@ static struct rule {
    */
   
   {" +", TK_NOTYPE},    // spaces
-  {"\\(",'('},			//left_bracket
-  {"\\)",')'},			//right_bracket
+  {"\\(",TK_LBRAC},			//left_bracket
+  {"\\)",TK_RBRAC},			//right_bracket
   {"[0-9]+",TK_NUM},		// num
-  {"\\*", '*'},         // multiply
-  {"/", '/'},          // divide
-  {"\\+", '+'},         // plus
-  {"\\-", '-'},			// subtract
+  {"\\*", TK_MULTI},         // multiply
+  {"/", TK_DIVIDE},          // divide
+  {"\\+", TK_PLUS},         // plus
+  {"\\-", TK_SUB},			// subtract
   {"==", TK_EQ},         // equal
 };
 
@@ -128,7 +128,12 @@ static bool make_token(char *e) {
 
   return true;
 }
+/*
+int compute_value()
+{
 
+}
+*/
 uint32_t expr(char *e, bool *success) {
 
   if (!make_token(e)) {
@@ -136,7 +141,7 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
-  /*
+  /*这里用来测试tokens数组是否成功
   for (i=0;i<nr_token;i++)
   {
 	  printf("type:%d\n",tokens[i].type);
@@ -149,7 +154,7 @@ uint32_t expr(char *e, bool *success) {
 	  }
   }
   */
-
+ // int ans=compute_value();
 
   /* TODO: Insert codes to evaluate the expression. */
 //  TODO();
