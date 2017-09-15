@@ -98,6 +98,7 @@ static bool make_token(char *e) {
 							new_token.type=rules[i].token_type;
 							for (index=0;index<substr_len;index++)
 								new_token.str[index]=substr_start[index];
+
 							break;
 			case '-':		new_token.type=rules[i].token_type;
 							break;
@@ -129,12 +130,13 @@ static bool make_token(char *e) {
 }
 
 uint32_t expr(char *e, bool *success) {
-  int i,j;
 
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
+
+  /*
   for (i=0;i<nr_token;i++)
   {
 	  printf("type:%d\n",tokens[i].type);
@@ -146,6 +148,9 @@ uint32_t expr(char *e, bool *success) {
 		  printf("\n");
 	  }
   }
+  */
+
+
   /* TODO: Insert codes to evaluate the expression. */
 //  TODO();
 
