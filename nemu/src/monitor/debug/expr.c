@@ -64,7 +64,7 @@ int nr_token;
 
 static bool make_token(char *e) {
   int position = 0;
-  int i;
+  int i,index;
   regmatch_t pmatch;
 
   nr_token = 0;
@@ -95,7 +95,7 @@ static bool make_token(char *e) {
 			case TK_EQ:		new_token.type=rules[i].token_type;
 							break;
 			case TK_NUM:	new_token.type=rules[i].token_type;
-							for (int index=0;index<substr_len;index++)
+							for (index=0;index<substr_len;index++)
 								new_token.str[index]=substr_start[index];
 							break;
 			case '-':		new_token.type=rules[i].token_type;
@@ -128,18 +128,22 @@ static bool make_token(char *e) {
 }
 
 uint32_t expr(char *e, bool *success) {
+  int i,j;
+
+
+
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-  for (int i=0;i<nr_token;i++)
+  for (i=0;i<nr_token;i++)
   {
 	  printf("type:%d\n",tokens[i].type);
 	  if (tokens[i].type==258)
 	  {
 		  printf("str: ");
 		  int size=strlen(tokens[i].str);
-		  for (int j=0;j<size;j++)
+		  for (j=0;j<size;j++)
 			  printf("%c",tokens[i].str[j]);
 		  printf("\n");
 	  }
