@@ -72,7 +72,7 @@ static bool make_token(char *e) {
   
   while (e[position] != '\0') {
     /* Try all rules one by one. */
-	  bool discard=false;
+	  if (e[position]==' ') continue;
     for (i = 0; i < NR_REGEX; i ++) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
@@ -88,8 +88,7 @@ static bool make_token(char *e) {
          */
 		Token new_token;
         switch (rules[i].token_type) {
-			case TK_NOTYPE: discard=true;
-							break;
+			case TK_NOTYPE: break;
 			case '+':		new_token.type=rules[i].token_type;
 							break;
 			case TK_EQ:		new_token.type=rules[i].token_type;
@@ -111,8 +110,6 @@ static bool make_token(char *e) {
 
 			default: TODO();
         }
-		if (discard)
-			break;
 		tokens[nr_token++]=new_token;
 		break;
       }
