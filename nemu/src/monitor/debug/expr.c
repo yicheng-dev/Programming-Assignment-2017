@@ -64,8 +64,6 @@ int nr_token;
 static bool make_token(char *e) {
   int position = 0;
   int i;
-  bool is_num=false;
-  int num_cnt=0;
   regmatch_t pmatch;
 
   nr_token = 0;
@@ -90,16 +88,14 @@ static bool make_token(char *e) {
 		Token new_token;
         switch (rules[i].token_type) {
 			case TK_NOTYPE: discard=true;
-							is_num=false;
 							break;
 			case '+':		new_token.type=rules[i].token_type;
-							is_num=false;
 							break;
 			case TK_EQ:		new_token.type=rules[i].token_type;
-							is_num=false;
 							break;
 			case TK_NUM:	new_token.type=rules[i].token_type;
-							is_num=true;
+							for (int index=0;index<substr_len;index++)
+								new_token.str[index]=substr_start[index];
 							break;
 
 
@@ -107,16 +103,8 @@ static bool make_token(char *e) {
         }
 		if (discard)
 			break;
-		if (!is_num){
-			tokens[nr_token]=new_token;
-			nr_token++;
-			num_cnt=0;
-			break;
-		}
-		else{
-			tokens[nr_token].str[num_cnt++]=substr_start[0];
-			break;
-		}
+		tokens[nr_token++]=new_token;
+		break;
       }
     }
 
