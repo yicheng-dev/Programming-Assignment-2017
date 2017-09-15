@@ -97,6 +97,12 @@ static bool make_token(char *e) {
 							for (int index=0;index<substr_len;index++)
 								new_token.str[index]=substr_start[index];
 							break;
+			case '-':		new_token.type=rules[i].token_type;
+							break;
+			case '/':		new_token.type=rules[i].token_type;
+							break;
+			case '*':		new_token.type=rules[i].token_type;
+							break;
 
 
 			default: TODO();
