@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ
+  TK_NOTYPE = 256, TK_EQ,TK_NUM
 
   /* TODO: Add more token types */
 
@@ -24,9 +24,9 @@ static struct rule {
   
   {" +", TK_NOTYPE},    // spaces
 
-
+  {"1-9\\d*",TK_NUM},		// num
   {"\\*", '*'},         // multiply
-  {"\\/", ','},          // divide
+  {"/", ','},          // divide
   {"\\+", '+'},         // plus
   {"\\-", '-'},			// subtract
   {"==", TK_EQ}         // equal
@@ -94,6 +94,10 @@ static bool make_token(char *e) {
 							break;
 			case TK_EQ:		new_token.type=rules[i].token_type;
 							break;
+			case TK_NUM:	new_token.type=rules[i].token_type;
+							break;
+
+
 			default: TODO();
         }
 		if (discard)
