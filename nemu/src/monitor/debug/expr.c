@@ -134,10 +134,14 @@ uint32_t expr(char *e, bool *success) {
   }
   for (int i=0;i<nr_token;i++)
   {
-	  printf("%d\n",tokens[i].type);
+	  printf("type:%d\n",tokens[i].type);
 	  if (tokens[i].type==258)
 	  {
-		  printf("%s\n",tokens[i].str);
+		  printf("str: ");
+		  int size=strlen(tokens[i].str);
+		  for (int j=0;j<size;j++)
+			  printf("%c",tokens[i].str[j]);
+		  printf("\n");
 	  }
   }
   /* TODO: Insert codes to evaluate the expression. */
