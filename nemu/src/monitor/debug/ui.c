@@ -120,8 +120,6 @@ static int cmd_p(char *args)
 	bool success = true;
 	bool *success_ptr = &success;
 
-	args=strtok(NULL," ");
-	
 	return expr(args,success_ptr);
 }
 
