@@ -141,7 +141,7 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
-
+/*
   int i,j;
   for (i=0;i<nr_token;i++)
   {
@@ -154,6 +154,7 @@ uint32_t expr(char *e, bool *success) {
 		  printf("\n");
 	  }
   }
+  */
  // int ans=compute_value();
 
   /* TODO: Insert codes to evaluate the expression. */
