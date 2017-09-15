@@ -56,16 +56,18 @@ static int cmd_info(char *args)
 		}
 
 	}
+	else
+		printf("You may want to input commands like \"info r\" or \"info w\".Try again!\n");
 	return 0;
 }
 
 static int cmd_si(char *args)
 {
+	uint64_t exec_num;
 	if (args==NULL){
-		printf("You may want to input command like \"si [N]\"\n");
-		return 0;
+		exec_num=1;	
 	}
-	uint64_t exec_num = atoi(args);
+	exec_num = atoi(args);
 	cpu_exec(exec_num);
 	return 0;
 }
