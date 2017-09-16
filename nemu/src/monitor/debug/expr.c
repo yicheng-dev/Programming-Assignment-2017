@@ -187,12 +187,12 @@ bool check_parentheses(int p,int q)
 		if (tokens[t].type==TK_RBRAC)
 			right++;
 	}
-/*
+
 	printf("p:%d\n",p);
 	printf("q:%d\n",q);
 	printf("left:%d\n",left);
 	printf("right:%d\n",right);
-*/	
+	
 	if (left!=right){
 		printf("bad:3\n");
 		bad_expression=true;
