@@ -10,7 +10,7 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,TK_PLUS,TK_SUB,TK_EQ
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,TK_PLUS,TK_SUB,TK_EQ,TK_NEQ
 
   /* TODO: Add more token types */
 
@@ -34,6 +34,7 @@ static struct rule {
   {"\\+", TK_PLUS},         // plus
   {"\\-", TK_SUB},			// subtract
   {"==", TK_EQ},         // equal
+  {"!=",TK_NEQ}			// not equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -95,8 +96,6 @@ static bool make_token(char *e) {
 							break;
 			case TK_PLUS:	new_token.type=rules[i].token_type;
 							break;
-			case TK_EQ:		new_token.type=rules[i].token_type;
-							break;
 			case TK_NUM:	new_token.str_len=substr_len;
 							new_token.type=rules[i].token_type;
 							for (index=0;index<substr_len;index++)
@@ -112,6 +111,10 @@ static bool make_token(char *e) {
 			case TK_LBRAC:	new_token.type=rules[i].token_type;
 							break;
 			case TK_RBRAC:	new_token.type=rules[i].token_type;
+							break;
+			case TK_EQ:		new_token.type=rules[i].token_type;
+							break;
+			case TK_NEQ:	new_token.type=rules[i].token_type;
 							break;
 
 			default: TODO();
@@ -183,11 +186,21 @@ int dominant(int p,int q)
 {
 	int t;
 	int bra_num=0;
+	
 	for (t=q;t>=p;t--){
 		if (tokens[t].type==258) bra_num++;
 		if (tokens[t].type==257) bra_num--;
-		if (bra_num==0 && tokens[t].type>=262 && tokens[t].type<=263)
+		if (bra_num==0 && tokens[t].type>=264 && tokens[t].type<=265)
 			return t;
+	}
+
+	if (t==p-1){
+		for (t=q;t>=p;t--){
+			if (tokens[t].type==258) bra_num++;
+			if (tokens[t].type==257) bra_num--;
+			if (bra_num==0 && tokens[t].type>=262 && tokens[t].type<=263)
+				return t;
+		}
 	}
 	if (t==p-1)
 	{
@@ -250,6 +263,8 @@ int eval(int p,int q)
 						  return 0;
 					 }
 				 	 break;
+			case 264:return val1==val2;break;
+			case 265:return val1!=val2;break;
 			default:assert(0);
 		}
 	}
