@@ -266,13 +266,14 @@ int eval(int p,int q)
 		bad_expression=true;
 		return 0;
 	}
-	else if (p==q){
-		if (tokens[p].type==TK_NUM){
+	else if (p==q || (q==p+1 && tokens[p].type==TK_NEGSIG)){
+		if (tokens[q].type==TK_NUM){
 			int ret=0,add=1,i;
-			for (i=tokens[p].str_len-1;i>=0;i--){
-				ret+=add*(tokens[p].str[i]-'0');
+			for (i=tokens[q].str_len-1;i>=0;i--){
+				ret+=add*(tokens[q].str[i]-'0');
 				add*=10;
 			}
+			if (q==p+1) ret=-ret;
 		//	printf("sub_ans:%d\n",ret);
 			return ret;
 		}
