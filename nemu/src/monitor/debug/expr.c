@@ -10,8 +10,8 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REGSIG,TK_DEREF,TK_NEGSIG,TK_MULTI,TK_DIVIDE,TK_MOD,
-  TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REGSIG,TK_DEREF,TK_NEGSIG,
+  TK_NOT,TK_MULTI,TK_DIVIDE,TK_MOD,TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
   TK_LESS
 
   /* TODO: Add more token types */
@@ -34,13 +34,13 @@ static struct rule {
   {"\\$e[a-d]+x",TK_REG_1},  //start of register
   {"\\$e[sd]+i",TK_REG_2},
   {"\\$e[sb]+p",TK_REG_3},
+  {"!",TK_NOT},
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
   {"%",TK_MOD},				//mod
   {"\\+", TK_PLUS},         // plus
   {"\\-", TK_SUB},			// subtract
   {"==", TK_EQ},         // equal
-  {"!=",TK_NEQ},		// not equal
   {"&&",TK_AND},		//and
   {"\\|\\|",TK_OR},			//or
   {">=",TK_GE},			//greater or equal
@@ -127,13 +127,17 @@ static bool make_token(char *e) {
 							break;
 			case TK_MULTI:	new_token.type=rules[i].token_type;
 							break;
+			case TK_NOT:	if (e[position+1]=='='){
+								new_token.type=TK_NEQ;
+								position++;
+							}
+							else new_token.type=rules[i].token_type;
+							break;
 			case TK_LBRAC:	new_token.type=rules[i].token_type;
 							break;
 			case TK_RBRAC:	new_token.type=rules[i].token_type;
 							break;
 			case TK_EQ:		new_token.type=rules[i].token_type;
-							break;
-			case TK_NEQ:	new_token.type=rules[i].token_type;
 							break;
 			case TK_AND:	new_token.type=rules[i].token_type;
 							break;
@@ -446,6 +450,7 @@ uint32_t expr(char *e, bool *success) {
 	  if (tokens[i].type==TK_SUB && (i==0 || (tokens[i-1].type!=TK_HEXNUM && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_RBRAC)))
 		  tokens[i].type=TK_NEGSIG;
   }
+ 
 /*
   int i,j;
   for (i=0;i<nr_token;i++)
