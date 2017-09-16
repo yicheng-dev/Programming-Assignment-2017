@@ -10,7 +10,7 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REGSIG,TK_DEREF,TK_NEGSIG,TK_MULTI,TK_DIVIDE,TK_MOD,
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REGSIG,TK_DEREF,TK_NEGSIG,TK_MULTI,TK_DIVIDE,TK_MOD,
   TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
   TK_LESS
 
@@ -31,7 +31,9 @@ static struct rule {
   {"\\)",TK_RBRAC},			//right_bracket
   {"[1-9][0-9]*",TK_NUM},		// num
   {"0[Xx][0-9a-fA-F]+",TK_HEXNUM},	//hex_num
-  {"\\$",TK_REGSIG},		//start of register
+  {"\\$e[a-d]+x",TK_REG_1},  //start of register
+  {"\\$e[sd]+i",TK_REG_2},
+  {"\\$e[sb]+p",TK_REG_3},
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
   {"%",TK_MOD},				//mod
@@ -146,6 +148,22 @@ static bool make_token(char *e) {
 			case TK_LESS:	new_token.type=rules[i].token_type;
 							break;
 			case TK_REGSIG:	new_token.type=rules[i].token_type;
+							break;
+			case TK_REG_1:	new_token.type=rules[i].token_type;
+							new_token.str_len=substr_len;
+							for (int index=0;index<substr_len;index++)
+								new_token.str[index]=substr_start[index];
+							break;
+			case TK_REG_2:  new_token.type=rules[i].token_type;
+							new_token.str_len=substr_len;
+							for (int index=0;index<substr_len;index++)
+								new_token.str[index]=substr_start[index];
+							break;
+			case TK_REG_3:  new_token.type=rules[i].token_type;
+							new_token.str_len=substr_len;
+							for (int index=0;index<substr_len;index++)
+								new_token.str[index]=substr_start[index];
+							break;
 
 			default: TODO();
         }
@@ -305,6 +323,36 @@ int eval(int p,int q)
 				ret = vaddr_read(address,8);
 			}
 
+			return ret;
+		}
+		else if (tokens[q].type == TK_REG_1 || tokens[q].type == TK_REG_2 || tokens[q].type == TK_REG_3)
+		{
+			int ret=0;
+			if (tokens[q].type == TK_REG_1)
+			{
+				if (tokens[q].str[2]=='a')
+					ret = cpu.eax;
+				else if (tokens[q].str[2]=='b')
+					ret = cpu.ebx;
+				else if (tokens[q].str[2]=='c')
+					ret = cpu.ecx;
+				else if (tokens[q].str[2]=='d')
+					ret = cpu.edx;
+			}
+			else if (tokens[q].type == TK_REG_2)
+			{
+				if (tokens[q].str[2]=='s')
+					ret = cpu.esi;
+				else if (tokens[q].str[2]=='d')
+					ret = cpu.edi;
+			}
+			else 
+			{
+				if (tokens[q].str[2]=='s')
+					ret = cpu.esp;
+				else if (tokens[q].str[2]=='b')
+					ret = cpu.ebp;
+			}
 			return ret;
 		}
 		else{
