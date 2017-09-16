@@ -146,7 +146,7 @@ bool bad_expression=false;
 bool check_parentheses(int p,int q)
 {
 	int t;
-	if (q-p==1 && tokens[p].type==257 && tokens[q].type==258)
+	if (q-p==1 && tokens[p].type==TK_LBRAC && tokens[q].type==258)
 	{
 		printf("bad:1\n");
 		bad_expression=true;
@@ -165,7 +165,7 @@ bool check_parentheses(int p,int q)
 			bad_expression=true;
 			return false;
 		}
-		if (tokens[t].type==257)
+		if (tokens[t].type==TK_LBRAC)
 			left++;
 		if (tokens[t].type==258)
 			right++;
@@ -182,7 +182,7 @@ bool check_parentheses(int p,int q)
 		return false;
 	}
 
-	if (tokens[p].type!=257 || tokens[q].type!=258)
+	if (tokens[p].type!=TK_LBRAC || tokens[q].type!=258)
 		return false;
 	if (another_pair) return false;
 	return true;
@@ -195,7 +195,7 @@ int dominant(int p,int q)
 
 	for (t=q;t>=p;t--){
 		if (tokens[t].type==258) bra_num++;
-		if (tokens[t].type==257) bra_num--;
+		if (tokens[t].type==TK_LBRAC) bra_num--;
 		if (bra_num==0 && tokens[t].type>=266 && tokens[t].type<=267)
 			return t;
 	}
@@ -204,7 +204,7 @@ int dominant(int p,int q)
 	if (t==p-1){
 		for (t=q;t>=p;t--){
 			if (tokens[t].type==258) bra_num++;
-			if (tokens[t].type==257) bra_num--;
+			if (tokens[t].type==TK_LBRAC) bra_num--;
 			if (bra_num==0 && tokens[t].type>=264 && tokens[t].type<=265)
 				return t;
 		}
@@ -213,7 +213,7 @@ int dominant(int p,int q)
 	if (t==p-1){
 		for (t=q;t>=p;t--){
 			if (tokens[t].type==258) bra_num++;
-			if (tokens[t].type==257) bra_num--;
+			if (tokens[t].type==TK_LBRAC) bra_num--;
 			if (bra_num==0 && tokens[t].type>=262 && tokens[t].type<=263)
 				return t;
 		}
@@ -222,7 +222,7 @@ int dominant(int p,int q)
 	{
 		for (t=q;t>=p;t--){
 			if (tokens[t].type==258) bra_num++;
-			if (tokens[t].type==257) bra_num--;
+			if (tokens[t].type==TK_LBRAC) bra_num--;
 			if (bra_num==0 && tokens[t].type>=260 && tokens[t].type<=261)
 				return t;
 		}
