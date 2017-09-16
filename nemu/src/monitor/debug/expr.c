@@ -127,7 +127,7 @@ static bool make_token(char *e) {
 							break;
 			case TK_MULTI:	new_token.type=rules[i].token_type;
 							break;
-			case TK_NOT:	if (e[position+1]=='='){
+			case TK_NOT:	if (e[position]=='='){
 								new_token.type=TK_NEQ;
 								position++;
 							}
