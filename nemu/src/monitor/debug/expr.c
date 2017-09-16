@@ -10,7 +10,9 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,
+  TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
+  TK_LESS
 
   /* TODO: Add more token types */
 
@@ -36,7 +38,11 @@ static struct rule {
   {"==", TK_EQ},         // equal
   {"!=",TK_NEQ},		// not equal
   {"&&",TK_AND},		//and
-  {"\\|\\|",TK_OR}			//or
+  {"\\|\\|",TK_OR},			//or
+  {">=",TK_GE},			//greater or equal
+  {"<=",TK_LE},			//less or equal
+  {">",TK_GREATER},		//greater
+  {"<",TK_LESS}			//less
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -121,6 +127,14 @@ static bool make_token(char *e) {
 			case TK_AND:	new_token.type=rules[i].token_type;
 							break;
 			case TK_OR:		new_token.type=rules[i].token_type;
+							break;
+			case TK_GE:		new_token.type=rules[i].token_type;
+							break;
+			case TK_LE:		new_token.type=rules[i].token_type;
+							break;
+			case TK_GREATER:new_token.type=rules[i].token_type;
+							break;
+			case TK_LESS:	new_token.type=rules[i].token_type;
 							break;
 
 			default: TODO();
@@ -209,6 +223,15 @@ int dominant(int p,int q)
 				return t;
 		}
 	}
+	if (t==p-1){
+		for (t=q;t>=p;t--){
+			if (tokens[t].type==TK_RBRAC) bra_num++;
+			if (tokens[t].type==TK_LBRAC) bra_num--;
+			if (bra_num==0 && (tokens[t].type==TK_GE || tokens[t].type==TK_LE ||
+						tokens[t].type==TK_GREATER || tokens[t].type==TK_LESS))
+				return t;
+		}
+	}
 
 	if (t==p-1){
 		for (t=q;t>=p;t--){
@@ -283,6 +306,10 @@ int eval(int p,int q)
 			case TK_NEQ:return val1!=val2;break;
 			case TK_AND:return val1&&val2;break;
 			case TK_OR:return val1||val2;break;
+			case TK_GE:return val1>=val2;break;
+			case TK_LE:return val1<=val2;break;
+			case TK_GREATER:return val1>val2;break;
+			case TK_LESS:return val1<val2;break;
 			default:assert(0);
 		}
 	}
