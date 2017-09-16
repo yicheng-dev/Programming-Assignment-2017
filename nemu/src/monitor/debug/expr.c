@@ -146,7 +146,7 @@ bool bad_expression=false;
 bool check_parentheses(int p,int q)
 {
 	int t;
-	if (q-p==1 && tokens[p].type==TK_LBRAC && tokens[q].type==258)
+	if (q-p==1 && tokens[p].type==TK_LBRAC && tokens[q].type==TK_RBRAC)
 	{
 		printf("bad:1\n");
 		bad_expression=true;
@@ -167,7 +167,7 @@ bool check_parentheses(int p,int q)
 		}
 		if (tokens[t].type==TK_LBRAC)
 			left++;
-		if (tokens[t].type==258)
+		if (tokens[t].type==TK_RBRAC)
 			right++;
 	}
 /*
@@ -182,7 +182,7 @@ bool check_parentheses(int p,int q)
 		return false;
 	}
 
-	if (tokens[p].type!=TK_LBRAC || tokens[q].type!=258)
+	if (tokens[p].type!=TK_LBRAC || tokens[q].type!=TK_RBRAC)
 		return false;
 	if (another_pair) return false;
 	return true;
@@ -194,36 +194,36 @@ int dominant(int p,int q)
 	int bra_num=0;
 
 	for (t=q;t>=p;t--){
-		if (tokens[t].type==258) bra_num++;
+		if (tokens[t].type==TK_RBRAC) bra_num++;
 		if (tokens[t].type==TK_LBRAC) bra_num--;
-		if (bra_num==0 && tokens[t].type>=266 && tokens[t].type<=267)
+		if (bra_num==0 && (tokens[t].type==TK_AND || tokens[t].type==TK_OR))
 			return t;
 	}
 
 
 	if (t==p-1){
 		for (t=q;t>=p;t--){
-			if (tokens[t].type==258) bra_num++;
+			if (tokens[t].type==TK_RBRAC) bra_num++;
 			if (tokens[t].type==TK_LBRAC) bra_num--;
-			if (bra_num==0 && tokens[t].type>=264 && tokens[t].type<=265)
+			if (bra_num==0 && (tokens[t].type==TK_EQ || tokens[t].type==TK_NEQ))
 				return t;
 		}
 	}
 
 	if (t==p-1){
 		for (t=q;t>=p;t--){
-			if (tokens[t].type==258) bra_num++;
+			if (tokens[t].type==TK_RBRAC) bra_num++;
 			if (tokens[t].type==TK_LBRAC) bra_num--;
-			if (bra_num==0 && tokens[t].type>=262 && tokens[t].type<=263)
+			if (bra_num==0 && (tokens[t].type==TK_PLUS || tokens[t].type==TK_SUB))
 				return t;
 		}
 	}
 	if (t==p-1)
 	{
 		for (t=q;t>=p;t--){
-			if (tokens[t].type==258) bra_num++;
+			if (tokens[t].type==TK_RBRAC) bra_num++;
 			if (tokens[t].type==TK_LBRAC) bra_num--;
-			if (bra_num==0 && tokens[t].type>=260 && tokens[t].type<=261)
+			if (bra_num==0 && (tokens[t].type==TK_MULTI || tokens[t].type==TK_DIVIDE))
 				return t;
 		}
 	}
@@ -241,7 +241,7 @@ int eval(int p,int q)
 		return 0;
 	}
 	else if (p==q){
-		if (tokens[p].type==259){
+		if (tokens[p].type==TK_NUM){
 			int ret=0,add=1,i;
 			for (i=tokens[p].str_len-1;i>=0;i--){
 				ret+=add*(tokens[p].str[i]-'0');
@@ -268,10 +268,10 @@ int eval(int p,int q)
 		int val1=eval(p,op-1);
 		int val2=eval(op+1,q);
 		switch (tokens[op].type){
-			case 262:return val1+val2;break;
-			case 263:return val1-val2;break;
-			case 260:return val1*val2;break;
-			case 261:if (!(tokens[op+1].str_len==1 && tokens[op+1].str[0]=='0'))
+			case TK_PLUS:return val1+val2;break;
+			case TK_SUB:return val1-val2;break;
+			case TK_MULTI:return val1*val2;break;
+			case TK_DIVIDE:if (!(tokens[op+1].str_len==1 && tokens[op+1].str[0]=='0'))
 						return val1/val2;
 					 else {
 						  printf("Error:Divide by 0!\n");
@@ -279,10 +279,10 @@ int eval(int p,int q)
 						  return 0;
 					 }
 				 	 break;
-			case 264:return val1==val2;break;
-			case 265:return val1!=val2;break;
-			case 266:return val1&&val2;break;
-			case 267:return val1||val2;break;
+			case TK_EQ:return val1==val2;break;
+			case TK_NEQ:return val1!=val2;break;
+			case TK_AND:return val1&&val2;break;
+			case TK_OR:return val1||val2;break;
 			default:assert(0);
 		}
 	}
@@ -301,7 +301,7 @@ uint32_t expr(char *e, bool *success) {
   for (i=0;i<nr_token;i++)
   {
 	  printf("type:%d\n",tokens[i].type);
-	  if (tokens[i].type==259)
+	  if (tokens[i].type==TK_NUM)
 	  {
 		  printf("str: ");
 		  for (j=0;j<tokens[i].str_len;j++)
