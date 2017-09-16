@@ -34,7 +34,7 @@ static struct rule {
   {"\\$e[a-d]+x",TK_REG_1},  //start of register
   {"\\$e[sd]+i",TK_REG_2},
   {"\\$e[sb]+p",TK_REG_3},
-  {"![^.]*",TK_NOT},		//logically not
+  {"![^.]+",TK_NOT},		//logically not
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
   {"%",TK_MOD},				//mod
