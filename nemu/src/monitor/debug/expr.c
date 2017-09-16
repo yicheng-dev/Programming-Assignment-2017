@@ -300,7 +300,7 @@ int eval(int p,int q)
 			{
 				int address;
 				sscanf(tokens[q].str, "%x", &address);
-				
+				ret = pmem[address];
 			}
 
 			return ret;
