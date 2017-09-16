@@ -10,7 +10,7 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_DEREF,TK_NEGSIG,TK_MULTI,TK_DIVIDE,TK_MOD,
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REGSIG,TK_DEREF,TK_NEGSIG,TK_MULTI,TK_DIVIDE,TK_MOD,
   TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
   TK_LESS
 
@@ -31,6 +31,7 @@ static struct rule {
   {"\\)",TK_RBRAC},			//right_bracket
   {"[1-9][0-9]*",TK_NUM},		// num
   {"0[Xx][0-9a-fA-F]+",TK_HEXNUM},	//hex_num
+  {"\\$",TK_REGSIG},		//start of register
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
   {"%",TK_MOD},				//mod
@@ -144,6 +145,7 @@ static bool make_token(char *e) {
 							break;
 			case TK_LESS:	new_token.type=rules[i].token_type;
 							break;
+			case TK_REGSIG:	new_token.type=rules[i].token_type;
 
 			default: TODO();
         }
