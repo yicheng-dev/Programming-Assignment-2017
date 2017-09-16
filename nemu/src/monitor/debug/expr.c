@@ -146,6 +146,8 @@ bool check_parentheses(int p,int q)
 	int left=0;
 	int right=0;
 	for (t=p;t<=q;t++){
+		printf("left:%d\n",left);
+		printf("right:%d\n",right);
 		if (left<right){
 			printf("bad:2\n");
 			bad_expression=true;
