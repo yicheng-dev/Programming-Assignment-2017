@@ -139,6 +139,7 @@ bool check_parentheses(int p,int q)
 	int t;
 	if (tokens[p].type==257 && tokens[q].type==258)
 	{
+		printf("bad:1\n");
 		bad_expression=true;
 		return false;
 	}
@@ -146,6 +147,7 @@ bool check_parentheses(int p,int q)
 	int right=0;
 	for (t=p;t<=q;t++){
 		if (left<right){
+			printf("bad:2\n");
 			bad_expression=true;
 			return false;
 		}
@@ -155,6 +157,7 @@ bool check_parentheses(int p,int q)
 			right++;
 	}
 	if (left!=right){
+		printf("bad:3\n");
 		bad_expression=true;
 		return false;
 	}
@@ -184,7 +187,7 @@ int dominant(int p,int q)
 				return t;
 		}
 	}
-
+	printf("bad:4\n");
 	assert(0);
 }
 
@@ -192,6 +195,7 @@ int eval(int p,int q)
 {
 	if (bad_expression) return 0;
 	if (p>q){
+		printf("bad:5\n");
 		bad_expression=true;
 		return 0;
 	}
@@ -201,6 +205,7 @@ int eval(int p,int q)
 			return ret;
 		}
 		else{
+			printf("bad:6\n");
 			bad_expression=true;
 			return 0;
 		}
