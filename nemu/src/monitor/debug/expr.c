@@ -156,10 +156,10 @@ bool check_parentheses(int p,int q)
 		if (tokens[t].type==258)
 			right++;
 	}
-	printf("p:%d\n",p);
-	printf("q:%d\n",q);
-	printf("left:%d\n",left);
-	printf("right:%d\n",right);
+//	printf("p:%d\n",p);
+//	printf("q:%d\n",q);
+//	printf("left:%d\n",left);
+//	printf("right:%d\n",right);
 	if (left!=right){
 		printf("bad:3\n");
 		bad_expression=true;
@@ -206,7 +206,7 @@ int eval(int p,int q)
 	else if (p==q){
 		if (tokens[p].type==259){
 			int ret=atoi(tokens[p].str);
-			printf("sub_ans:%d\n",ret);
+		//	printf("sub_ans:%d\n",ret);
 			return ret;
 		}
 		else{
@@ -243,7 +243,7 @@ uint32_t expr(char *e, bool *success) {
   }
   
 
-/*
+
   int i,j;
   for (i=0;i<nr_token;i++)
   {
@@ -256,7 +256,7 @@ uint32_t expr(char *e, bool *success) {
 		  printf("\n");
 	  }
   }
-  */
+  
   int ans=eval(0,nr_token-1);
   if (bad_expression==false){
     printf("%d\n",ans);
