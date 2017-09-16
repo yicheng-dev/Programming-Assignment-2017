@@ -298,6 +298,8 @@ int eval(int p,int q)
 				ret=-ret;
 			else if (q==p+1 && tokens[p].type == TK_DEREF)
 			{
+				int address;
+				sscanf(tokens[q].str, "%x", &address);
 				
 			}
 
