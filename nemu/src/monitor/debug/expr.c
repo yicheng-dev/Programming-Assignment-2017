@@ -137,7 +137,7 @@ bool bad_expression=false;
 bool check_parentheses(int p,int q)
 {
 	int t;
-	if (tokens[p].type==257 && tokens[q].type==258)
+	if (q-p==1 && tokens[p].type==257 && tokens[q].type==258)
 	{
 		printf("bad:1\n");
 		bad_expression=true;
