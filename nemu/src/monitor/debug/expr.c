@@ -199,7 +199,8 @@ int dominant(int p,int q)
 		}
 	}
 	printf("bad:4\n");
-	assert(0);
+	bad_expression=true;
+	return 0;
 }
 
 int eval(int p,int q)
