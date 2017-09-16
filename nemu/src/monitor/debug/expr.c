@@ -247,7 +247,7 @@ uint32_t expr(char *e, bool *success) {
   }
   
 
-
+/*
   int i,j;
   for (i=0;i<nr_token;i++)
   {
@@ -260,7 +260,7 @@ uint32_t expr(char *e, bool *success) {
 		  printf("\n");
 	  }
   }
-  
+  */
   int ans=eval(0,nr_token-1);
   if (bad_expression==false){
     printf("%d\n",ans);
