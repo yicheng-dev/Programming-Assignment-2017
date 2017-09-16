@@ -282,7 +282,7 @@ int dominant(int p,int q)
 				return t;
 		}
 	}
-	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG))
+	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG || tokens[t+1].type == TK_NOT))
 		return p;
 	printf("bad:4\n");
 	bad_expression=true;
@@ -311,8 +311,10 @@ int eval(int p,int q){
 				sscanf(tokens[q].str, "%x", &address);
 				ret = vaddr_read(address,8);
 			}
-
-
+			else if (q==p+1 && tokens[p].type == TK_NOT)
+			{
+				ret=!ret;
+			}
 	 	//	printf("sub_ans:%d\n",ret);
 			return ret;
 		}
@@ -426,6 +428,10 @@ int eval(int p,int q){
 			}
 			else if (tokens[op].type == TK_NEGSIG){
 				int ret = 0 - eval(op+1,q);
+				return ret;
+			}
+			else if (tokens[op].type == TK_NOT){
+				int ret = !eval(op+1,q);
 				return ret;
 			}
 		}
