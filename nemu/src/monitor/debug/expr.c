@@ -235,7 +235,7 @@ int eval(int p,int q)
 			case 262:return val1+val2;break;
 			case 263:return val1-val2;break;
 			case 260:return val1*val2;break;
-			case 261:if (strcmp(tokens[op+1].str,"0")!=0)
+			case 261:if (!(tokens[op+1].str_len==1 && tokens[op+1].str[0]=='0'))
 						return val1/val2;
 					 else {
 						  printf("Error:Divide by 0!\n");
