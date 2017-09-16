@@ -29,8 +29,8 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\(",TK_LBRAC},			//left_bracket
   {"\\)",TK_RBRAC},			//right_bracket
-  {"[0-9]+",TK_NUM},		// num
-  {"0[Xx][0-9A-Fa-f]+",TK_HEXNUM},	//hex_num
+  {"[1-9][0-9]*",TK_NUM},		// num
+  {"0[Xx][0-9a-fA-F]+",TK_HEXNUM},	//hex_num
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
   {"%",TK_MOD},				//mod
