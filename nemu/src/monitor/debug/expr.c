@@ -10,7 +10,7 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,TK_MOD,
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_DEREF,TK_NEGSIG,TK_MULTI,TK_DIVIDE,TK_MOD,
   TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
   TK_LESS
 
@@ -26,7 +26,6 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-  
   {" +", TK_NOTYPE},    // spaces
   {"\\(",TK_LBRAC},			//left_bracket
   {"\\)",TK_RBRAC},			//right_bracket
@@ -44,6 +43,7 @@ static struct rule {
   {"<=",TK_LE},			//less or equal
   {">",TK_GREATER},		//greater
   {"<",TK_LESS}			//less
+
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -333,7 +333,16 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
   
+  int i;
+  for (i=0;i<nr_token;i++){
+	  if (tokens[i].type==TK_MULTI && (i==0 || tokens[i-1].type != TK_NUM))
+		  tokens[i].type = TK_DEREF;
+  }
 
+  for (i=0;i<nr_token;i++){
+	  if (tokens[i].type==TK_SUB && (i==0 || tokens[i-1].type != TK_NUM))
+		  tokens[i].type=TK_NEGSIG;
+  }
 /*
   int i,j;
   for (i=0;i<nr_token;i++)
