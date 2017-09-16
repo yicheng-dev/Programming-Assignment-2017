@@ -137,13 +137,14 @@ bool bad_expression=false;
 bool check_parentheses(int p,int q)
 {
 	int t;
-	if (q-p==1){
+	if (tokens[p].type==257 && tokens[q].type==258)
+	{
 		bad_expression=true;
 		return false;
 	}
 	int left=0;
 	int right=0;
-	for (t=p+1;t<=q-1;t++){
+	for (t=p;t<=q;t++){
 		if (left<right){
 			bad_expression=true;
 			return false;
@@ -171,9 +172,19 @@ int dominant(int p,int q)
 	for (t=q-1;t>=p+1;t--){
 		if (tokens[t].type==258) bra_num++;
 		if (tokens[t].type==257) bra_num--;
-		if (bra_num==0 && tokens[t].type>=260 && tokens[t].type<=263)
+		if (bra_num==0 && tokens[t].type>=262 && tokens[t].type<=263)
 			return t;
 	}
+	if (t==p)
+	{
+		for (t=q-1;t>=p+1;t--){
+			if (tokens[t].type==258) bra_num++;
+			if (tokens[t].type==257) bra_num--;
+			if (bra_num==0 && tokens[t].type>=260 && tokens[t].type<=261)
+				return t;
+		}
+	}
+
 	assert(0);
 }
 
