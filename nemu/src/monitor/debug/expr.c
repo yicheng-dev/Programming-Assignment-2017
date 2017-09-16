@@ -10,7 +10,7 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,TK_MOD,
   TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
   TK_LESS
 
@@ -33,6 +33,7 @@ static struct rule {
   {"[0-9]+",TK_NUM},		// num
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
+  {"%",TK_MOD},				//mod
   {"\\+", TK_PLUS},         // plus
   {"\\-", TK_SUB},			// subtract
   {"==", TK_EQ},         // equal
@@ -111,6 +112,8 @@ static bool make_token(char *e) {
 
 							break;
 			case TK_SUB:	new_token.type=rules[i].token_type;
+							break;
+			case TK_MOD:	new_token.type=rules[i].token_type;
 							break;
 			case TK_DIVIDE:	new_token.type=rules[i].token_type;
 							break;
@@ -246,7 +249,7 @@ int dominant(int p,int q)
 		for (t=q;t>=p;t--){
 			if (tokens[t].type==TK_RBRAC) bra_num++;
 			if (tokens[t].type==TK_LBRAC) bra_num--;
-			if (bra_num==0 && (tokens[t].type==TK_MULTI || tokens[t].type==TK_DIVIDE))
+			if (bra_num==0 && (tokens[t].type==TK_MULTI || tokens[t].type==TK_DIVIDE || tokens[t].type==TK_MOD))
 				return t;
 		}
 	}
@@ -302,6 +305,14 @@ int eval(int p,int q)
 						  return 0;
 					 }
 				 	 break;
+			case TK_MOD:if (!(tokens[op+1].str_len==1 && tokens[op+1].str[0]=='0'))
+							return val1%val2;
+					    else {
+						     printf("Error:Divide by 0!\n");
+						     bad_expression=true;
+						     return 0;
+				    	}
+					    break;
 			case TK_EQ:return val1==val2;break;
 			case TK_NEQ:return val1!=val2;break;
 			case TK_AND:return val1&&val2;break;
