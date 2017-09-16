@@ -283,6 +283,26 @@ int eval(int p,int q)
 	 	//	printf("sub_ans:%d\n",ret);
 			return ret;
 		}
+		else if (tokens[q].type == TK_HEXNUM){
+			int ret=0,add=1,i;
+			for (i=tokens[q].str_len-1;i>=2;i--){
+				if (tokens[q].str[i]>='0' && tokens[q].str[i]<='9')
+					ret+=add*(tokens[q].str[i]-'0');
+				else if (tokens[q].str[i]>='a' && tokens[q].str[i]<='f')
+					ret+=add*(tokens[q].str[i]-'a'+10);
+				else if (tokens[q].str[i]>='A' && tokens[q].str[i]<='F')
+					ret+=add*(tokens[q].str[i]-'A'+10);
+				add*=16;
+			}
+			if (q==p+1 && tokens[p].type==TK_NEGSIG)
+				ret=-ret;
+			else if (q==p+1 && tokens[p].type == TK_DEREF)
+			{
+				
+			}
+
+			return ret;
+		}
 		else{
 			printf("bad:6\n");
 			bad_expression=true;
