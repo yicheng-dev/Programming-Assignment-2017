@@ -150,7 +150,7 @@ bool check_parentheses(int p,int q)
 
 	for (t=p;t<=q;t++){
 
-		if (left==right) another_pair=true;
+		if (left>0 && left==right) another_pair=true;
 		if (left<right){
 			printf("bad:2\n");
 			bad_expression=true;
