@@ -5,6 +5,9 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <string.h>
+#include <stdlib.h>
+
 
 enum {
   TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_MULTI,TK_DIVIDE,TK_PLUS,TK_SUB,TK_EQ
@@ -128,18 +131,96 @@ static bool make_token(char *e) {
 
   return true;
 }
-/*
-int compute_value()
-{
 
+bool bad_expression=false;
+
+bool check_parentheses(int p,int q)
+{
+	int t;
+	if (q-p==1){
+		bad_expression=true;
+		return false;
+	}
+	int left=0;
+	int right=0;
+	for (t=p+1;t<=q-1;t++){
+		if (left<right){
+			bad_expression=true;
+			return false;
+		}
+		if (tokens[t].type==257)
+			left++;
+		if (tokens[t].type==258)
+			right++;
+	}
+	if (left!=right){
+		bad_expression=true;
+		return false;
+	}
+
+	if (tokens[p].type!=257 || tokens[q].type!=258)
+		return false;
+
+	return true;
 }
-*/
+
+int dominant(int p,int q)
+{
+	int t;
+	int bra_num=0;
+	for (t=q-1;t>=p+1;t--){
+		if (tokens[t].type==258) bra_num++;
+		if (tokens[t].type==257) bra_num--;
+		if (bra_num==0 && tokens[t].type>=260 && tokens[t].type<=263)
+			return t;
+	}
+	assert(0);
+}
+
+int eval(int p,int q)
+{
+	if (bad_expression) return 0;
+	if (p>q){
+		bad_expression=true;
+		return 0;
+	}
+	else if (p==q){
+		if (tokens[p].type==259){
+			int ret=atoi(tokens[p].str);
+			return ret;
+		}
+		else{
+			bad_expression=true;
+			return 0;
+		}
+	}
+	else if (check_parentheses(p,q) == true){
+		return eval(p+1,q-1);
+	}
+	else{
+        if (bad_expression){
+			return 0;
+		}
+		int op=dominant(p,q);
+		int val1=eval(p,op-1);
+		int val2=eval(op+1,q);
+		switch (tokens[op].type){
+			case '+':return val1+val2;break;
+			case '-':return val1-val2;break;
+			case '*':return val1*val2;break;
+			case '/':return val1/val2;break;
+			default:assert(0);
+		}
+	}
+}
+
 uint32_t expr(char *e, bool *success) {
 
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
+  
 
 /*
   int i,j;
@@ -155,8 +236,11 @@ uint32_t expr(char *e, bool *success) {
 	  }
   }
   */
- // int ans=compute_value();
-
+  int ans=eval(0,nr_token-1);
+  if (bad_expression==false){
+    printf("%d\n",ans);
+  }
+  else printf("Bad expression!\n");
   /* TODO: Insert codes to evaluate the expression. */
 //  TODO();
 
