@@ -205,7 +205,11 @@ int eval(int p,int q)
 	}
 	else if (p==q){
 		if (tokens[p].type==259){
-			int ret=atoi(tokens[p].str);
+			int ret=0,add=1,i;
+			for (i=tokens[p].str_len-1;i>=0;i--){
+				ret+=add*(tokens[p].str[i]-'0');
+				add*=10;
+			}
 		//	printf("sub_ans:%d\n",ret);
 			return ret;
 		}
