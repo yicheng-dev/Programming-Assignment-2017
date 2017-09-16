@@ -278,13 +278,14 @@ int dominant(int p,int q)
 				return t;
 		}
 	}
+	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG))
+		return p;
 	printf("bad:4\n");
 	bad_expression=true;
 	return 0;
 }
 
-int eval(int p,int q)
-{
+int eval(int p,int q){
 	if (bad_expression) return 0;
 	if (p>q){
 		printf("bad:5\n");
@@ -378,39 +379,54 @@ int eval(int p,int q)
 		}
 		int op=dominant(p,q);
 //		printf("op:%d\n",op);
-		int val1=eval(p,op-1);
-		int val2=eval(op+1,q);
-		switch (tokens[op].type){
-			case TK_PLUS:return val1+val2;break;
-			case TK_SUB:return val1-val2;break;
-			case TK_MULTI:return val1*val2;break;
-			case TK_DIVIDE:if (!(tokens[op+1].str_len==1 && tokens[op+1].str[0]=='0'))
-						return val1/val2;
-					 else {
-						  printf("Error:Divide by 0!\n");
-						  bad_expression=true;
-						  return 0;
-					 }
-				 	 break;
-			case TK_MOD:if (!(tokens[op+1].str_len==1 && tokens[op+1].str[0]=='0'))
-							return val1%val2;
-					    else {
-						     printf("Error:Divide by 0!\n");
-						     bad_expression=true;
-						     return 0;
-				    	}
-					    break;
-			case TK_EQ:return val1==val2;break;
-			case TK_NEQ:return val1!=val2;break;
-			case TK_AND:return val1&&val2;break;
-			case TK_OR:return val1||val2;break;
-			case TK_GE:return val1>=val2;break;
-			case TK_LE:return val1<=val2;break;
-			case TK_GREATER:return val1>val2;break;
-			case TK_LESS:return val1<val2;break;
-			default:assert(0);
+		if (op-1>=p){
+			int val1=eval(p,op-1);
+			int val2=eval(op+1,q);
+			switch (tokens[op].type){
+				case TK_PLUS:return val1+val2;break;
+				case TK_SUB:return val1-val2;break;
+				case TK_MULTI:return val1*val2;break;
+				case TK_DIVIDE:if (!(tokens[op+1].str_len==1 && tokens[op+1].str[0]=='0'))
+									return val1/val2;
+							   else {
+						       printf("Error:Divide by 0!\n");
+						       bad_expression=true;
+						       return 0;
+					           }
+				 	           break;
+				case TK_MOD:if (!(tokens[op+1].str_len==1 && tokens[op+1].str[0]=='0'))
+							     return val1%val2;
+					        else {
+						         printf("Error:Divide by 0!\n");
+						         bad_expression=true;
+						         return 0;
+				            }
+					        break;
+				case TK_EQ:return val1==val2;break;
+				case TK_NEQ:return val1!=val2;break;
+				case TK_AND:return val1&&val2;break;
+				case TK_OR:return val1||val2;break;
+				case TK_GE:return val1>=val2;break;
+				case TK_LE:return val1<=val2;break;
+				case TK_GREATER:return val1>val2;break;
+				case TK_LESS:return val1<val2;break;
+				default:assert(0);
+			}
+		}
+		else {
+			if (tokens[op].type == TK_DEREF){
+				int address=eval(op+1,q);
+				sscanf(tokens[q].str, "%x", &address);
+				int ret = vaddr_read(address,8);
+				return ret;
+			}
+			else if (tokens[op].type == TK_NEGSIG){
+				int ret = 0 - eval(op+1,q);
+				return ret;
+			}
 		}
 	}
+	return 0;
 }
 
 uint32_t expr(char *e, bool *success) {
@@ -422,12 +438,12 @@ uint32_t expr(char *e, bool *success) {
   
   int i;
   for (i=0;i<nr_token;i++){
-	  if (tokens[i].type==TK_MULTI && (i==0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_RBRAC)))
+	  if (tokens[i].type==TK_MULTI && (i==0 || (tokens[i-1].type!=TK_HEXNUM && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_RBRAC)))
 		  tokens[i].type = TK_DEREF;
   }
 
   for (i=0;i<nr_token;i++){
-	  if (tokens[i].type==TK_SUB && (i==0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_RBRAC)))
+	  if (tokens[i].type==TK_SUB && (i==0 || (tokens[i-1].type!=TK_HEXNUM && tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_RBRAC)))
 		  tokens[i].type=TK_NEGSIG;
   }
 /*
