@@ -10,7 +10,7 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REGSIG,TK_DEREF,TK_NEGSIG,TK_NOT,TK_MULTI,TK_DIVIDE,TK_MOD,
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REGSIG,TK_DEREF,TK_NEGSIG,TK_MULTI,TK_DIVIDE,TK_MOD,
   TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
   TK_LESS
 
@@ -34,7 +34,6 @@ static struct rule {
   {"\\$e[a-d]+x",TK_REG_1},  //start of register
   {"\\$e[sd]+i",TK_REG_2},
   {"\\$e[sb]+p",TK_REG_3},
-  {"!",TK_NOT},		//logically not
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
   {"%",TK_MOD},				//mod
@@ -127,8 +126,6 @@ static bool make_token(char *e) {
 			case TK_DIVIDE:	new_token.type=rules[i].token_type;
 							break;
 			case TK_MULTI:	new_token.type=rules[i].token_type;
-							break;
-			case TK_NOT:	new_token.type=rules[i].token_type;
 							break;
 			case TK_LBRAC:	new_token.type=rules[i].token_type;
 							break;
@@ -281,7 +278,7 @@ int dominant(int p,int q)
 				return t;
 		}
 	}
-	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG || tokens[t+1].type == TK_NOT))
+	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG))
 		return p;
 	printf("bad:4\n");
 	bad_expression=true;
@@ -425,10 +422,6 @@ int eval(int p,int q){
 			}
 			else if (tokens[op].type == TK_NEGSIG){
 				int ret = 0 - eval(op+1,q);
-				return ret;
-			}
-			else if (tokens[op].type == TK_NOT){
-				int ret = !eval(op+1,q);
 				return ret;
 			}
 		}
