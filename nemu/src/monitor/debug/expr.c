@@ -206,6 +206,7 @@ int eval(int p,int q)
 	else if (p==q){
 		if (tokens[p].type==259){
 			int ret=atoi(tokens[p].str);
+			printf("sub_ans:%d\n",ret);
 			return ret;
 		}
 		else{
