@@ -300,6 +300,14 @@ int eval(int p,int q)
 			}
 			if (q==p+1 && tokens[p].type==TK_NEGSIG)
 				ret=-ret;
+			else if (q==p+1 && tokens[p].type == TK_DEREF)
+			{
+				int address;
+				sscanf(tokens[q].str, "%x", &address);
+				ret = vaddr_read(address,8);
+			}
+
+
 	 	//	printf("sub_ans:%d\n",ret);
 			return ret;
 		}
