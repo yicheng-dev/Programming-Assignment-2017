@@ -460,9 +460,9 @@ uint32_t expr(char *e, bool *success) {
 	  }
   }
   */
-  int ans=eval(0,nr_token-1);
+  uint32_t ans=eval(0,nr_token-1);
   if (bad_expression==false){
-    printf("%d\n",ans);
+     printf("%d\n",ans);
   }
   else printf("Bad expression!\n");
   /* TODO: Insert codes to evaluate the expression. */
