@@ -335,12 +335,12 @@ uint32_t expr(char *e, bool *success) {
   
   int i;
   for (i=0;i<nr_token;i++){
-	  if (tokens[i].type==TK_MULTI && (i==0 || tokens[i-1].type != TK_NUM))
+	  if (tokens[i].type==TK_MULTI && (i==0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_RBRAC)))
 		  tokens[i].type = TK_DEREF;
   }
 
   for (i=0;i<nr_token;i++){
-	  if (tokens[i].type==TK_SUB && (i==0 || tokens[i-1].type != TK_NUM))
+	  if (tokens[i].type==TK_SUB && (i==0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_RBRAC)))
 		  tokens[i].type=TK_NEGSIG;
   }
 /*
