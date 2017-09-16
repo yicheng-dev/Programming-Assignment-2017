@@ -145,9 +145,12 @@ bool check_parentheses(int p,int q)
 	}
 	int left=0;
 	int right=0;
+
+	bool another_pair=false;
+
 	for (t=p;t<=q;t++){
-		printf("left:%d\n",left);
-		printf("right:%d\n",right);
+
+		if (left==right) another_pair=true;
 		if (left<right){
 			printf("bad:2\n");
 			bad_expression=true;
@@ -172,7 +175,7 @@ bool check_parentheses(int p,int q)
 
 	if (tokens[p].type!=257 || tokens[q].type!=258)
 		return false;
-
+	if (another_pair) return false;
 	return true;
 }
 
