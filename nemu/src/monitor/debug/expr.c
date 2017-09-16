@@ -235,6 +235,7 @@ int eval(int p,int q)
 			return 0;
 		}
 		int op=dominant(p,q);
+		printf("op:%d\n",op);
 		int val1=eval(p,op-1);
 		int val2=eval(op+1,q);
 		switch (tokens[op].type){
