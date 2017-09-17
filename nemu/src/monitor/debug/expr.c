@@ -119,12 +119,9 @@ static bool make_token(char *e) {
 							for (index=0;index<substr_len;index++)
 								new_token.str[index]=substr_start[index];
 							break;
-			case TK_SUB:	new_token.type=rules[i].token_type;
-							break;
-			case TK_MOD:	new_token.type=rules[i].token_type;
-							break;
-			case TK_DIVIDE:	new_token.type=rules[i].token_type;
-							break;
+			case TK_SUB:	
+			case TK_MOD:	
+			case TK_DIVIDE:	
 			case TK_MULTI:	new_token.type=rules[i].token_type;
 							break;
 			case TK_NOT:	if (e[position]=='='){
@@ -133,24 +130,15 @@ static bool make_token(char *e) {
 							}
 							else new_token.type=rules[i].token_type;
 							break;
-			case TK_LBRAC:	new_token.type=rules[i].token_type;
-							break;
-			case TK_RBRAC:	new_token.type=rules[i].token_type;
-							break;
-			case TK_EQ:		new_token.type=rules[i].token_type;
-							break;
-			case TK_AND:	new_token.type=rules[i].token_type;
-							break;
-			case TK_OR:		new_token.type=rules[i].token_type;
-							break;
-			case TK_GE:		new_token.type=rules[i].token_type;
-							break;
-			case TK_LE:		new_token.type=rules[i].token_type;
-							break;
-			case TK_GREATER:new_token.type=rules[i].token_type;
-							break;
-			case TK_LESS:	new_token.type=rules[i].token_type;
-							break;
+			case TK_LBRAC:	
+			case TK_RBRAC:	
+			case TK_EQ:		
+			case TK_AND:	
+			case TK_OR:		
+			case TK_GE:		
+			case TK_LE:		
+			case TK_GREATER:
+			case TK_LESS:	
 			case TK_REGSIG:	new_token.type=rules[i].token_type;
 							break;
 			case TK_REG_1:	new_token.type=rules[i].token_type;
