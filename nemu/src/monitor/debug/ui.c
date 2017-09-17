@@ -123,6 +123,20 @@ static int cmd_p(char *args)
 	return expr(args,success_ptr);
 }
 
+static int cmd_w(char *args)
+{
+	args=strtok(NULL," ");
+	new_wp(args);
+	return 0;
+}
+
+static int cmd_d(char *args)
+{
+	args=strtok(NULL," ");
+	free_wp(args);
+	return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -134,8 +148,9 @@ static struct {
   {"info","Print the information of registers or watchers.",cmd_info},
   {"si","Execute one command every step",cmd_si},
   {"x","Scan the status of momery around the pointed address.",cmd_x},
-  {"p","Compute the value of the formula after 'p'",cmd_p}
- 
+  {"p","Compute the value of the formula after 'p'",cmd_p},
+  {"w","Set a watchpoint",cmd_w},
+  {"d","delete a watchpoint",cmd_d}
   /* TODO: Add more commands */
 
 };
