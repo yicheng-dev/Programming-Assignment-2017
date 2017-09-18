@@ -172,6 +172,10 @@ static bool make_token(char *e) {
 		if (discard_space)
 			break;
 		tokens[nr_token++]=new_token;
+		if (nr_token>=32){
+			printf("Too many tokens!\n");
+			return false;
+		}
 		break;
       }
     }
