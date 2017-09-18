@@ -10,7 +10,7 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REGSIG,TK_DEREF,TK_NEGSIG,
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REG_4,TK_REGSIG,TK_DEREF,TK_NEGSIG,
   TK_NOT,TK_MULTI,TK_DIVIDE,TK_MOD,TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
   TK_LESS
 
@@ -34,6 +34,7 @@ static struct rule {
   {"\\$e[a-d]+x",TK_REG_1},  //start of register
   {"\\$e[sd]+i",TK_REG_2},
   {"\\$e[sb]+p",TK_REG_3},
+  {"eip",TK_REG_4},
   {"!",TK_NOT},
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
@@ -156,6 +157,10 @@ static bool make_token(char *e) {
 							for (int index=0;index<substr_len;index++)
 								new_token.str[index]=substr_start[index];
 							break;
+			case TK_REG_4:  new_token.type=rules[i].token_type;
+							new_token.str_len=substr_len;
+							for (int index=0;index<substr_len;index++)
+								new_token.str[index]=substr_start[index];
 
 			default: TODO();
         }
@@ -327,7 +332,8 @@ int eval(int p,int q){
 
 			return ret;
 		}
-		else if (tokens[q].type == TK_REG_1 || tokens[q].type == TK_REG_2 || tokens[q].type == TK_REG_3)
+		else if (tokens[q].type == TK_REG_1 || tokens[q].type == TK_REG_2 
+				|| tokens[q].type == TK_REG_3 || tokens[q].type == TK_REG_4)
 		{
 			int ret=0;
 			if (tokens[q].type == TK_REG_1)
@@ -348,13 +354,15 @@ int eval(int p,int q){
 				else if (tokens[q].str[2]=='d')
 					ret = cpu.edi;
 			}
-			else 
+			else if (tokens[q].type == TK_REG_3)
 			{
 				if (tokens[q].str[2]=='s')
 					ret = cpu.esp;
 				else if (tokens[q].str[2]=='b')
 					ret = cpu.ebp;
 			}
+			else
+				ret=cpu.eip;
 			return ret;
 		}
 		else{

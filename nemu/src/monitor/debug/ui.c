@@ -54,6 +54,7 @@ static int cmd_info(char *args)
 		{
 			printf("%s:0x%x\n",reg_name(i,4),reg_l(i));
 		}
+		printf("eip:0x%x\n",cpu.eip);
 
 	}
 	else if (strcmp(args,"w")==0)
