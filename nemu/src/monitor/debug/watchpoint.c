@@ -69,7 +69,7 @@ void free_wp(char *args)
 		printf("Delete watchpoint %d:%s\n",head->NO,head->expr);
 		head->next=free_;
 		free_=head;
-		head=NULL;
+		head=head->next;
 		return;
 	}
 	while (p->next!=NULL){
