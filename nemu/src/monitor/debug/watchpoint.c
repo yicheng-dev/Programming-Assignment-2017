@@ -108,8 +108,9 @@ bool check_expr_val()
 		bool success=true;
 		bool *success_ptr=&success;
 		uint32_t tmp=expr(p->expr,success_ptr);
-		printf("%d\n",tmp);
+//		printf("%d\n",tmp);
 		if (tmp!=p->expr_val){
+			printf("Watchpoint %d is triggered!\n",p->NO);
 			flag=false;
 			p->expr_val=tmp;
 		}
