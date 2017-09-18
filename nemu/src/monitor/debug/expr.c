@@ -286,18 +286,24 @@ int eval(int p,int q){
 				add*=10;
 			}
 			if (q==p+1 && tokens[p].type==TK_NEGSIG)
-				ret=-ret;
+				return -ret;
 			else if (q==p+1 && tokens[p].type == TK_DEREF)
 			{
 				int address;
 				sscanf(tokens[q].str, "%x", &address);
-				ret = vaddr_read(address,8);
+				return vaddr_read(address,8);
 			}
 			else if (q==p+1 && tokens[p].type == TK_NOT)
 			{
-				ret=!ret;
+				return !ret;
 			}
-			return ret;
+			else if (p==q)
+				return ret;
+			else{
+				bad_expression=true;
+				printf("bad:6\n");
+				return 0;
+			}
 		}
 		else if (tokens[q].type == TK_HEXNUM){
 			int ret=0,add=1,i;
@@ -352,7 +358,7 @@ int eval(int p,int q){
 			return ret;
 		}
 		else{
-			printf("bad:6\n");
+			printf("bad:7\n");
 			bad_expression=true;
 			return 0;
 		}
