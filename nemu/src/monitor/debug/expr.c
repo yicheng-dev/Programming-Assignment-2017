@@ -34,7 +34,7 @@ static struct rule {
   {"\\$e[a-d]+x",TK_REG_1},  //start of register
   {"\\$e[sd]+i",TK_REG_2},
   {"\\$e[sb]+p",TK_REG_3},
-  {"$eip",TK_REG_4},
+  {"\\$eip",TK_REG_4},
   {"!",TK_NOT},
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
