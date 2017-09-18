@@ -69,17 +69,19 @@ void free_wp(char *args)
 	}
 	if (head->NO==num){
 		printf("Delete watchpoint %d:%s\n",head->NO,head->expr);
-		head->next=free_;
-		free_=head;
+		WP * tmp=head;
 		head=head->next;
+		tmp->next=free_;
+		free_=tmp;
 		return;
 	}
 	while (p->next!=NULL){
 		if (p->next->NO==num){
-			p->next->next=free_;
-			free_ = p->next;
+			WP * tmp=p->next;
+			p->next=p->next->next;
 			printf("Delete watchpoint %d:%s\n",p->next->NO,p->next->expr);
-			p->next = p->next->next;
+			tmp->next=free_;
+			free_=tmp;
 			return;
 		}
 		p=p->next;
