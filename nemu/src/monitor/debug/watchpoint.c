@@ -27,7 +27,16 @@ void new_wp(char *args)
 {
 	if (free_==NULL)
 		assert(0);
-	WP* wp_new=get_wp(args); 
+	
+	bool success=true;
+	bool *success_ptr=&success;
+	uint32_t tmp=expr(args,success_ptr);
+	if (*success_ptr==false){
+		printf("Please enter a valid expression.\n");
+		return;
+	}
+	WP* wp_new=get_wp(args);
+	wp_new->expr_val=tmp;
 	wp_new->next=head;
 	head=wp_new;
 	printf("New watchpoint %d:%s\n",wp_new->NO,wp_new->expr);
@@ -37,8 +46,8 @@ void new_wp(char *args)
 WP* get_wp(char *args)
 {
 	WP * p = free_;
-	p->NO=free_->NO;
 	strcpy(p->expr,args);
+	p->NO=free_->NO;
 	free_=free_->next;
 	return p;
 		
@@ -90,27 +99,22 @@ void free_wp(char *args)
 	return;
 }
 
-void init_expr_val()
-{
-	WP * p=head;
-	while (p!=NULL){
-		bool success=true;
-		p->expr_val=expr(p->expr,&success);
-		p=p->next;
-	}
-}
 
 bool check_expr_val()
 {
+	bool flag=true;
 	WP *p=head;
 	while (p!=NULL){
 		bool success=true;
-		uint32_t tmp=expr(p->expr,&success);
-		if (tmp!=p->expr_val)
-			return false;
+		bool *success_ptr=&success;
+		uint32_t tmp=expr(p->expr,success_ptr);
+		if (tmp!=p->expr_val){
+			flag=false;
+			p->expr_val=tmp;
+		}
 		p=p->next;
 	}
-	return true;
+	return flag;
 }
 
 void print_watchpoint()

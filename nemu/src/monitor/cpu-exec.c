@@ -23,7 +23,6 @@ void cpu_exec(uint64_t n) {
 
   bool print_flag = n < MAX_INSTR_TO_PRINT;
   
-  init_expr_val();  
 	  
   for (; n > 0; n --) {
     /* Execute one instruction, including instruction fetch,
@@ -34,7 +33,6 @@ void cpu_exec(uint64_t n) {
 	if (!check_expr_val()){
 		nemu_state=NEMU_STOP;
 	}
-		
 
 
 	/* TODO: check watchpoints here. */
