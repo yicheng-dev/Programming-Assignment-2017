@@ -29,8 +29,8 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\(",TK_LBRAC},			//left_bracket
   {"\\)",TK_RBRAC},			//right_bracket
-  {"[1-9][0-9]*",TK_NUM},		// num
-  {"0[Xx][0-9a-fA-F]+",TK_HEXNUM},	//hex_num
+  {"0[Xx][0-9a-fA-F]+",TK_HEXNUM},	//hexnum
+  {"[0-9]+",TK_NUM},		// num
   {"\\$e[a-d]+x",TK_REG_1},  //start of register
   {"\\$e[sd]+i",TK_REG_2},
   {"\\$e[sb]+p",TK_REG_3},
