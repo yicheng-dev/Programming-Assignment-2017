@@ -204,12 +204,6 @@ bool check_parentheses(int p,int q)
 		if (tokens[t].type==TK_RBRAC)
 			right++;
 	}
-/*
-	printf("p:%d\n",p);
-	printf("q:%d\n",q);
-	printf("left:%d\n",left);
-	printf("right:%d\n",right);
-*/	
 	if (left!=right){
 		printf("bad:3\n");
 		bad_expression=true;
@@ -303,7 +297,6 @@ int eval(int p,int q){
 			{
 				ret=!ret;
 			}
-	 	//	printf("sub_ans:%d\n",ret);
 			return ret;
 		}
 		else if (tokens[q].type == TK_HEXNUM){
@@ -372,7 +365,6 @@ int eval(int p,int q){
 			return 0;
 		}
 		int op=dominant(p,q);
-//		printf("op:%d\n",op);
 		if (op-1>=p){
 			int val1=eval(p,op-1);
 			int val2=eval(op+1,q);
@@ -445,20 +437,7 @@ uint32_t expr(char *e, bool *success) {
 		  tokens[i].type=TK_NEGSIG;
   }
  
-/*
-  int i,j;
-  for (i=0;i<nr_token;i++)
-  {
-	  printf("type:%d\n",tokens[i].type);
-	  if (tokens[i].type==TK_NUM)
-	  {
-		  printf("str: ");
-		  for (j=0;j<tokens[i].str_len;j++)
-			  printf("%c",tokens[i].str[j]);
-		  printf("\n");
-	  }
   }
-  */
   uint32_t ans=eval(0,nr_token-1);
   if (bad_expression==false){
      printf("%u\n",ans);
