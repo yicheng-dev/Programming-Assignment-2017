@@ -335,7 +335,7 @@ int eval(int p,int q){
 		else if (tokens[q].type == TK_REG_1 || tokens[q].type == TK_REG_2 
 				|| tokens[q].type == TK_REG_3 || tokens[q].type == TK_REG_4)
 		{
-			int ret=0;
+			uint32_t ret=0;
 			if (tokens[q].type == TK_REG_1)
 			{
 				if (tokens[q].str[2]=='a')
@@ -361,7 +361,7 @@ int eval(int p,int q){
 				else if (tokens[q].str[2]=='b')
 					ret = cpu.ebp;
 			}
-			else
+			else if (tokens[q].type == TK_REG_4)
 				ret=cpu.eip;
 			return ret;
 		}
