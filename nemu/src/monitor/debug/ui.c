@@ -56,6 +56,9 @@ static int cmd_info(char *args)
 		}
 
 	}
+	else if (strcmp(args,"w")==0)
+		print_watchpoint();
+
 	else
 		printf("You may want to input commands like \"info r\" or \"info w\".Try again!\n");
 	return 0;
@@ -119,8 +122,13 @@ static int cmd_p(char *args)
 {
 	bool success = true;
 	bool *success_ptr = &success;
-
-	return expr(args,success_ptr);
+	uint32_t ans;
+	ans = expr(args,success_ptr);
+	if (*success_ptr)
+		printf("%u\n",ans);
+	else
+		printf("Something was wrong with your command!\n");
+	return 0;
 }
 
 static int cmd_w(char *args)

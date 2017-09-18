@@ -6,7 +6,6 @@
 
 static WP wp_pool[NR_WP];
 static WP *head, *free_;
-
 WP* get_wp(char *args);
 
 
@@ -31,6 +30,7 @@ void new_wp(char *args)
 	WP* wp_new=get_wp(args); 
 	wp_new->next=head;
 	head=wp_new;
+	printf("New watchpoint %d:%s\n",wp_new->NO,wp_new->expr);
 }
 
 WP* get_wp(char *args)
@@ -75,6 +75,7 @@ void free_wp(char *args)
 		if (p->next->NO==num){
 			p->next->next=free_;
 			free_ = p->next;
+			printf("Delete watchpoint %d:%s\n",p->next->NO,p->next->expr);
 			p->next = p->next->next;
 			return;
 		}
@@ -82,5 +83,41 @@ void free_wp(char *args)
 	}
 	printf("There is no watchpoint you want to delete!\n");
 	return;
+}
+
+void init_expr_val()
+{
+	WP * p=head;
+	while (p!=NULL){
+		bool success=true;
+		p->expr_val=expr(p->expr,&success);
+		p=p->next;
+	}
+}
+
+bool check_expr_val()
+{
+	WP *p=head;
+	while (p!=NULL){
+		bool success=true;
+		uint32_t tmp=expr(p->expr,&success);
+		if (tmp!=p->expr_val)
+			return false;
+		p=p->next;
+	}
+	return true;
+}
+
+void print_watchpoint()
+{
+	WP * p=head;
+	if (p==NULL){
+		printf("There is no active watchpoint!\n");
+		return;
+	}
+	while (p!=NULL){
+		printf("Hardware watchpoint %d:%s\n",p->NO,p->expr);
+		p=p->next;
+	}
 }
 

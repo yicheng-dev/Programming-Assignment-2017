@@ -437,14 +437,15 @@ uint32_t expr(char *e, bool *success) {
 		  tokens[i].type=TK_NEGSIG;
   }
  
-  }
+  
   uint32_t ans=eval(0,nr_token-1);
-  if (bad_expression==false){
-     printf("%u\n",ans);
+  if (bad_expression) {
+	  *success=false;
+//	  printf("Bad expression!\n");
+	  return 0;
   }
-  else printf("Bad expression!\n");
   /* TODO: Insert codes to evaluate the expression. */
 //  TODO();
 
-  return 0;
+  return ans;
 }
