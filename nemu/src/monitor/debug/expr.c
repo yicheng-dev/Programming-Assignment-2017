@@ -104,6 +104,10 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
+		if (substr_len>=32){
+			printf("Too long expression!\n");
+			return false;
+		}
 		Token new_token;
         switch (rules[i].token_type) {
 			case TK_NOTYPE: discard_space=true;
