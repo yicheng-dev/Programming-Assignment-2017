@@ -14,6 +14,7 @@ void init_wp_pool() {
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
     wp_pool[i].next = &wp_pool[i + 1];
+	wp_pool[i].active=false;
   }
   wp_pool[NR_WP - 1].next = NULL;
 
@@ -38,6 +39,7 @@ WP* get_wp(char *args)
 	WP * p = free_;
 	p->NO=free_->NO;
 	strcpy(p->expr,args);
+	p->active=true;
 	free_=free_->next;
 	return p;
 		
@@ -66,16 +68,18 @@ void free_wp(char *args)
 		return;
 	}
 	if (head->NO==num){
+		head->active=false;
 		printf("Delete watchpoint %d:%s\n",head->NO,head->expr);
 		head->next=free_;
 		free_=head;
 		head=head->next;
 		return;
 	}
-	while (p->next!=NULL){
+	while (p->next!=NULL && p->active){
 		if (p->next->NO==num){
 			p->next->next=free_;
 			free_ = p->next;
+			p->next->active=false;
 			printf("Delete watchpoint %d:%s\n",p->next->NO,p->next->expr);
 			p->next = p->next->next;
 			return;
@@ -89,7 +93,7 @@ void free_wp(char *args)
 void init_expr_val()
 {
 	WP * p=head;
-	while (p!=NULL){
+	while (p!=NULL && p->active){
 		bool success=true;
 		p->expr_val=expr(p->expr,&success);
 		p=p->next;
@@ -99,7 +103,7 @@ void init_expr_val()
 bool check_expr_val()
 {
 	WP *p=head;
-	while (p!=NULL){
+	while (p!=NULL && p->active){
 		bool success=true;
 		uint32_t tmp=expr(p->expr,&success);
 		if (tmp!=p->expr_val)
@@ -116,7 +120,7 @@ void print_watchpoint()
 		printf("There is no active watchpoint!\n");
 		return;
 	}
-	while (p!=NULL){
+	while (p!=NULL && p->active){
 		printf("Hardware watchpoint %d:%s\n",p->NO,p->expr);
 		p=p->next;
 	}
