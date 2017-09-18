@@ -78,8 +78,8 @@ void free_wp(char *args)
 	while (p!=NULL){
 		if (p->NO==num){
 			WP * tmp=p;
-			p=p->next;
 			printf("Delete watchpoint %d:%s\n",p->NO,p->expr);
+			p=p->next;
 			tmp->next=free_;
 			free_=tmp;
 			return;
