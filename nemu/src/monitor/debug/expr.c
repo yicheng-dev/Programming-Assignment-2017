@@ -161,6 +161,7 @@ static bool make_token(char *e) {
 							new_token.str_len=substr_len;
 							for (int index=0;index<substr_len;index++)
 								new_token.str[index]=substr_start[index];
+							break;
 
 			default: TODO();
         }
