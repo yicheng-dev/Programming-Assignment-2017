@@ -121,10 +121,9 @@ static int cmd_x(char *args)
 static int cmd_p(char *args)
 {
 	bool success = true;
-	bool *success_ptr = &success;
 	uint32_t ans;
-	ans = expr(args,success_ptr);
-	if (*success_ptr)
+	ans = expr(args,&success);
+	if (success)
 		printf("%u\n",ans);
 	else
 		printf("Something was wrong with your command!\n");
