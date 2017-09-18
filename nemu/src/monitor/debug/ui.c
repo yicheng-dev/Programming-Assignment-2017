@@ -133,7 +133,6 @@ static int cmd_p(char *args)
 
 static int cmd_w(char *args)
 {
-	args=strtok(NULL," ");
 	new_wp(args);
 	return 0;
 }
