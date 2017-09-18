@@ -120,6 +120,10 @@ static int cmd_x(char *args)
 
 static int cmd_p(char *args)
 {
+	if (args==NULL){
+		printf("Please enter p [EXPR].\n");
+		return 0;
+	}
 	bool success = true;
 	bool *success_ptr= & success;
 	uint32_t ans;
@@ -133,12 +137,20 @@ static int cmd_p(char *args)
 
 static int cmd_w(char *args)
 {
+	if (args==NULL){
+		printf("Please enter w [EXPR].\n");
+		return 0;
+	}
 	new_wp(args);
 	return 0;
 }
 
 static int cmd_d(char *args)
 {
+	if (args==NULL){
+		printf("Please enter d [NUM].\n");
+		return 0;
+	}
 	args=strtok(NULL," ");
 	free_wp(args);
 	return 0;
