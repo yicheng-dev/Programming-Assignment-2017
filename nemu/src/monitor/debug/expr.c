@@ -452,6 +452,7 @@ void init_tokens()
 uint32_t expr(char *e, bool *success) {
   
   init_tokens();
+  bad_expression=false;
   if (!make_token(e)) {
     *success = false;
     return 0;
