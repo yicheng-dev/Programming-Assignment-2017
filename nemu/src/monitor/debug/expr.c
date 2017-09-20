@@ -196,7 +196,7 @@ bool check_parentheses(int p,int q)
 	int t;
 	if (q-p==1 && tokens[p].type==TK_LBRAC && tokens[q].type==TK_RBRAC)
 	{
-		printf("bad:1\n");
+		printf("Error: Nothing in some brackets!\n");
 		bad_expression=true;
 		return false;
 	}
@@ -209,7 +209,7 @@ bool check_parentheses(int p,int q)
 
 		if (left>0 && left==right) another_pair=true;
 		if (left<right){
-			printf("bad:2\n");
+			printf("Error: There's a right bracket without its left!\n");
 			bad_expression=true;
 			return false;
 		}
@@ -219,7 +219,7 @@ bool check_parentheses(int p,int q)
 			right++;
 	}
 	if (left!=right){
-		printf("bad:3\n");
+		printf("Error: Some brackets can't make up a pair!\n");
 		bad_expression=true;
 		return false;
 	}
@@ -280,7 +280,7 @@ int dominant(int p,int q)
 	}
 	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG || tokens[t+1].type == TK_NOT))
 		return p;
-	printf("bad:4\n");
+	printf("Error: Can't find the dominant!\n");
 	bad_expression=true;
 	return 0;
 }
@@ -288,7 +288,7 @@ int dominant(int p,int q)
 int eval(int p,int q){
 	if (bad_expression) return 0;
 	if (p>q){
-		printf("bad:5\n");
+		printf("Error: There're problems with 'eval'.\n");
 		bad_expression=true;
 		return 0;
 	}
@@ -315,7 +315,7 @@ int eval(int p,int q){
 				return ret;
 			else{
 				bad_expression=true;
-				printf("bad:6\n");
+				printf("Error: Invalid number!\n");
 				return 0;
 			}
 		}
@@ -375,7 +375,7 @@ int eval(int p,int q){
 			return ret;
 		}
 		else{
-			printf("bad:7\n");
+			printf("Error: There's something wrong with your input!\n");
 			bad_expression=true;
 			return 0;
 		}
