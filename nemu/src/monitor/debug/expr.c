@@ -442,8 +442,16 @@ int eval(int p,int q){
 	return 0;
 }
 
-uint32_t expr(char *e, bool *success) {
+void init_tokens()
+{
+	int i;
+	for (i=0;i<127;i++)
+		tokens[i].type=TK_NOTYPE;
+}
 
+uint32_t expr(char *e, bool *success) {
+  
+  init_tokens();
   if (!make_token(e)) {
     *success = false;
     return 0;
