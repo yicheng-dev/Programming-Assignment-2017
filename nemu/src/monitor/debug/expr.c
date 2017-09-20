@@ -104,7 +104,7 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-		if (substr_len>=32){
+		if (substr_len>=128){
 			printf("Too long expression!\n");
 			return false;
 		}
@@ -172,7 +172,7 @@ static bool make_token(char *e) {
 		if (discard_space)
 			break;
 		tokens[nr_token++]=new_token;
-		if (nr_token>=32){
+		if (nr_token>=128){
 			printf("Too many tokens!\n");
 			return false;
 		}
