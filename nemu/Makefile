@@ -52,3 +52,9 @@ gdb: $(BINARY)
 
 clean: 
 	rm -rf $(BUILD_DIR)
+count-c:
+	find . -name *.c | xargs wc -l
+count-h:
+	find . -name *.h | xargs wc -l
+count:
+	find . -name *.[ch] | xargs wc -l
