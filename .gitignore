@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.*
 *
 !*/
@@ -5,3 +6,18 @@
 !README.md
 !.gitignore
 !init.sh
+=======
+!*
+!*.*
+.*
+!.gitignore
+*~
+*.a
+*.o
+*.d
+*.pyc
+*.ini
+tags
+cscope.*
+build/
+>>>>>>> 1256c84659a5726527c9cb43ebe8bcd2bde8093d
