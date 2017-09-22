@@ -196,7 +196,11 @@ bool check_parentheses(int p,int q)
 	int t;
 	if (q-p==1 && tokens[p].type==TK_LBRAC && tokens[q].type==TK_RBRAC)
 	{
+<<<<<<< HEAD
 		printf("Error: Nothing in some brackets!\n");
+=======
+//		printf("bad:1\n");
+>>>>>>> pa1
 		bad_expression=true;
 		return false;
 	}
@@ -209,7 +213,11 @@ bool check_parentheses(int p,int q)
 
 		if (left>0 && left==right) another_pair=true;
 		if (left<right){
+<<<<<<< HEAD
 			printf("Error: There's a right bracket without its left!\n");
+=======
+//			printf("bad:2\n");
+>>>>>>> pa1
 			bad_expression=true;
 			return false;
 		}
@@ -219,7 +227,11 @@ bool check_parentheses(int p,int q)
 			right++;
 	}
 	if (left!=right){
+<<<<<<< HEAD
 		printf("Error: Some brackets can't make up a pair!\n");
+=======
+//		printf("bad:3\n");
+>>>>>>> pa1
 		bad_expression=true;
 		return false;
 	}
@@ -280,7 +292,11 @@ int dominant(int p,int q)
 	}
 	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG || tokens[t+1].type == TK_NOT))
 		return p;
+<<<<<<< HEAD
 	printf("Error: Can't find the dominant!\n");
+=======
+//	printf("bad:4\n");
+>>>>>>> pa1
 	bad_expression=true;
 	return 0;
 }
@@ -288,7 +304,11 @@ int dominant(int p,int q)
 int eval(int p,int q){
 	if (bad_expression) return 0;
 	if (p>q){
+<<<<<<< HEAD
 		printf("Error: There're problems with 'eval'.\n");
+=======
+//		printf("bad:5\n");
+>>>>>>> pa1
 		bad_expression=true;
 		return 0;
 	}
@@ -315,7 +335,11 @@ int eval(int p,int q){
 				return ret;
 			else{
 				bad_expression=true;
+<<<<<<< HEAD
 				printf("Error: Invalid number!\n");
+=======
+//				printf("bad:6\n");
+>>>>>>> pa1
 				return 0;
 			}
 		}
@@ -375,7 +399,11 @@ int eval(int p,int q){
 			return ret;
 		}
 		else{
+<<<<<<< HEAD
 			printf("Error: There's something wrong with your input!\n");
+=======
+//			printf("bad:7\n");
+>>>>>>> pa1
 			bad_expression=true;
 			return 0;
 		}
@@ -442,6 +470,7 @@ int eval(int p,int q){
 	return 0;
 }
 
+<<<<<<< HEAD
 void init_tokens()
 {
 	int i;
@@ -452,6 +481,9 @@ void init_tokens()
 uint32_t expr(char *e, bool *success) {
   
   init_tokens();
+=======
+uint32_t expr(char *e, bool *success) {
+>>>>>>> pa1
   bad_expression=false;
   if (!make_token(e)) {
     *success = false;
