@@ -131,8 +131,6 @@ static int cmd_p(char *args)
 	ans = expr(args,success_ptr);
 	if (*success_ptr)
 		printf("Unsigned: %u\tSigned: %d\tHex: 0x%x\n",ans,ans,ans);
-	else
-		printf("Something was wrong with your command!\n");
 	return 0;
 }
 

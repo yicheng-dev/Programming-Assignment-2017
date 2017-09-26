@@ -196,7 +196,7 @@ bool check_parentheses(int p,int q)
 	int t;
 	if (q-p==1 && tokens[p].type==TK_LBRAC && tokens[q].type==TK_RBRAC)
 	{
-//		printf("bad:1\n");
+		printf("There may be some problems with bracket pairing.\n");
 		bad_expression=true;
 		return false;
 	}
@@ -209,7 +209,7 @@ bool check_parentheses(int p,int q)
 
 		if (left>0 && left==right) another_pair=true;
 		if (left<right){
-//			printf("bad:2\n");
+			printf("There exists a ')' with no '(' forward!\n");
 			bad_expression=true;
 			return false;
 		}
@@ -219,7 +219,7 @@ bool check_parentheses(int p,int q)
 			right++;
 	}
 	if (left!=right){
-//		printf("bad:3\n");
+		printf("There exists a '(' with no ')' afterwards!\n");
 		bad_expression=true;
 		return false;
 	}
@@ -280,7 +280,7 @@ int dominant(int p,int q)
 	}
 	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG || tokens[t+1].type == TK_NOT))
 		return p;
-//	printf("bad:4\n");
+	printf("Cannot find a token type!\n");
 	bad_expression=true;
 	return 0;
 }
@@ -288,7 +288,7 @@ int dominant(int p,int q)
 int eval(int p,int q){
 	if (bad_expression) return 0;
 	if (p>q){
-//		printf("bad:5\n");
+		printf("eval error!\n");
 		bad_expression=true;
 		return 0;
 	}
@@ -315,7 +315,7 @@ int eval(int p,int q){
 				return ret;
 			else{
 				bad_expression=true;
-//				printf("bad:6\n");
+				printf("There is an invalid character before a number!\n");
 				return 0;
 			}
 		}
@@ -337,6 +337,17 @@ int eval(int p,int q){
 				int address;
 				sscanf(tokens[q].str, "%x", &address);
 				ret = vaddr_read(address,8);
+			}
+			else if (q==p+1 && tokens[p].type == TK_NOT)
+			{
+				return !ret;
+			}
+			else if (p==q)
+				return ret;
+			else{
+				bad_expression=true;
+				printf("There is an invalid character before a number!\n");
+				return 0;
 			}
 
 			return ret;
@@ -375,7 +386,7 @@ int eval(int p,int q){
 			return ret;
 		}
 		else{
-//			printf("bad:7\n");
+			printf("Invalid input.\n");
 			bad_expression=true;
 			return 0;
 		}
