@@ -276,7 +276,7 @@ make_DHelper(call_SI){
 
 make_DHelper(push_r32){
   decode_op_r(eip, id_dest, true);
-  
+  rtl_push(eip);
 }
 
 make_DHelper(push_SI) {
