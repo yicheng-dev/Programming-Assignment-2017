@@ -28,6 +28,7 @@ make_EHelper(call) {
 //  TODO();
   decoding.jmp_eip = id_dest->val;
   decoding.is_jmp = 1;
+  rtl_push(eip);
   print_asm("call %x", decoding.jmp_eip);
 }
 
