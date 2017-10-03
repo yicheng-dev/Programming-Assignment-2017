@@ -65,7 +65,7 @@ static inline make_DopHelper(a) {
 #endif
 }
 
-/* This helper function is use to decode register encoded in the opcode. */
+/* This helper function is used to decode register encoded in the opcode. */
 /* XX: AL, AH, BL, BH, CL, CH, DL, DH
  * eXX: eAX, eCX, eDX, eBX, eSP, eBP, eSI, eDI
  */
@@ -276,7 +276,6 @@ make_DHelper(call_SI){
 
 make_DHelper(push_r32){
   decode_op_r(eip, id_dest, true);
-  rtl_push(eip);
 }
 
 make_DHelper(push_SI) {
