@@ -274,6 +274,11 @@ make_DHelper(call_SI){
   printf("In D, eip: %x\n",*eip);
 }
 
+make_DHelper(push_r32){
+  decode_op_r(eip, id_dest, true);
+  
+}
+
 make_DHelper(push_SI) {
   decode_op_SI(eip, id_dest, true);
 }
