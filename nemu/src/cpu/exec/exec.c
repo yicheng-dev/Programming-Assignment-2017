@@ -26,7 +26,7 @@ static inline void idex(vaddr_t *eip, opcode_entry *e) {
   if (e->decode)
     e->decode(eip);
   e->execute(eip);
-  printf("In idex, eip:%x\n",*eip);
+//  printf("In idex, eip:%x\n",*eip);
 }
 
 static make_EHelper(2byte_esc);
@@ -222,7 +222,7 @@ make_EHelper(real) {
 
 static inline void update_eip(void) {
   cpu.eip = (decoding.is_jmp ? (decoding.is_jmp = 0, decoding.jmp_eip) : decoding.seq_eip);
-  printf("in updata_eip, eip:%x\n",cpu.eip);
+//  printf("in updata_eip, eip:%x\n",cpu.eip);
 }
 
 void exec_wrapper(bool print_flag) {

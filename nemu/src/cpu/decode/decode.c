@@ -271,7 +271,7 @@ make_DHelper(J) {
 make_DHelper(call_SI){
   decode_op_SI(eip, id_dest, true);
   rtl_add(&id_dest->val,eip,&id_dest->val);
-  printf("In D, eip: %x\n",*eip);
+//  printf("In D, eip: %x\n",*eip);
 }
 
 make_DHelper(push_r32){
