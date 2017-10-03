@@ -2,6 +2,7 @@
 #define __RTL_H__
 
 #include "nemu.h"
+#include "reg.h"
 
 extern rtlreg_t t0, t1, t2, t3;
 extern const rtlreg_t tzero;
@@ -140,15 +141,15 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
-  // esp <- esp - 4
-  // M[esp] <- src1
-  TODO();
+  cpu.esp = cpu.esp - 4;
+  pmem[cpu.esp] = *src1;
+//  TODO();
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
-  // dest <- M[esp]
-  // esp <- esp + 4
-  TODO();
+  *dest = pmem[cpu.esp];
+  cpu.esp = cpu.esp + 4;
+//  TODO();
 }
 
 static inline void rtl_eq0(rtlreg_t* dest, const rtlreg_t* src1) {
