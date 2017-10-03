@@ -8,7 +8,7 @@ make_EHelper(mov) {
 make_EHelper(push) {
 //  TODO();
 //  printf("%s\n",id_dest->val);
-  rtl_push(&id_dest->reg);
+  rtl_push(&decoding.dest.reg);
 //  reg_l(R_ESP)-=4;
 //  rtl_sm(&reg_l(R_ESP), 4, &id_dest);
   print_asm_template1(push);
