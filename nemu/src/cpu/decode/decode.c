@@ -268,6 +268,11 @@ make_DHelper(J) {
   decoding.jmp_eip = id_dest->simm + *eip;
 }
 
+make_DHelper(call_SI){
+  decode_op_SI(eip, id_dest, false);
+  decoding.jmp_eip = id_dest->simm + *eip;
+}
+
 make_DHelper(push_SI) {
   decode_op_SI(eip, id_dest, true);
 }
@@ -281,6 +286,7 @@ make_DHelper(in_I2a) {
 make_DHelper(in_dx2a) {
   id_src->type = OP_TYPE_REG;
   id_src->reg = R_DX;
+
   rtl_lr_w(&id_src->val, R_DX);
 #ifdef DEBUG
   sprintf(id_src->str, "(%%dx)");
