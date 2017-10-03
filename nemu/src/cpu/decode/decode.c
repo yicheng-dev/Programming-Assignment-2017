@@ -269,7 +269,7 @@ make_DHelper(J) {
 }
 
 make_DHelper(call_SI){
-  decode_op_O(eip, id_dest, false);
+  decode_op_SI(eip, id_dest, true);
   decoding.jmp_eip = id_dest->simm + *eip;
 }
 
