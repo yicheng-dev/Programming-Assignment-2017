@@ -249,7 +249,7 @@ void exec_wrapper(bool print_flag) {
 #endif
 
   update_eip();
-  printf("in wrapper, eip:%x\n",cpu.eip);
+//  printf("in wrapper, eip:%x\n",cpu.eip);
 #ifdef DIFF_TEST
   void difftest_step(uint32_t);
   difftest_step(eip);
