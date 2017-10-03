@@ -270,7 +270,6 @@ make_DHelper(J) {
 
 make_DHelper(call_SI){
   decode_op_SI(eip, id_src, true);
-  decoding.jmp_eip = id_dest->val;
   rtl_add(&id_src->val,eip,&id_src->val);
   printf("In D, eip: %x\n",*eip);
 }
