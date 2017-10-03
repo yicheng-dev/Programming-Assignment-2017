@@ -2,6 +2,7 @@
 
 make_EHelper(mov);
 make_EHelper(call);
+make_EHelper(jmp);
 make_EHelper(push);
 make_EHelper(pop);
 make_EHelper(xor);
