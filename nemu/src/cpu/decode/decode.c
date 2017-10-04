@@ -74,6 +74,7 @@ static inline make_DopHelper(r) {
   op->reg = decoding.opcode & 0x7;
   if (load_val) {
     rtl_lr(&op->val, op->reg, op->width);
+
   }
 
 #ifdef DEBUG
@@ -269,56 +270,12 @@ make_DHelper(J) {
 }
 
 make_DHelper(call_SI){
-  decode_op_SI(eip, id_dest, true);
   rtl_add(&id_dest->val,eip,&id_dest->val);
-//  printf("In D, eip: %x\n",*eip);
-}
-
-make_DHelper(push_r32){
-  decode_op_r(eip, id_dest, true);
+  decode_op_SI(eip, id_dest, true);
 }
 
 make_DHelper(push_SI) {
   decode_op_SI(eip, id_dest, true);
-}
-
-make_DHelper(pop_r32){
-  decode_op_r(eip, id_dest, true);
-}
-
-make_DHelper(sub_r2rm_b){
-  id_src->width = 1;
-  decode_op_rm(eip, id_dest, true, id_src, false);
-}
-
-make_DHelper(sub_r2rm_v){
-  decode_op_rm(eip, id_dest, true, id_src, false);
-}
-
-make_DHelper(sub_rm2r_b){
-  id_src->width = 1;
-  decode_op_rm(eip, id_dest, false, id_src, true);
-}
-
-make_DHelper(sub_rm2r_v){
-  decode_op_rm(eip, id_dest, false, id_src, true);
-}
-
-make_DHelper(sub_I2a_b){
-  id_src->width = 1;
-  decode_op_a(eip, id_dest, false);
-  decode_op_I(eip, id_src, true);
-}
-
-make_DHelper(sub_I2a_v){
-  decode_op_a(eip, id_dest, false);
-  decode_op_I(eip, id_src, true);
-}
-
-make_DHelper(sub_I2rm_b){
-  id_src->width = 1;
-  decode_op_rm(eip, id_dest, true, NULL, false);
-  decode_op_I(eip, id_src, true);
 }
 
 make_DHelper(in_I2a) {
