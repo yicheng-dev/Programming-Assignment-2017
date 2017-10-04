@@ -45,7 +45,7 @@ static int cmd_info(char *args)
 {	
 	int i;
 	if (args==NULL){
-		printf("You may want to input commands like \"info r\" or \"info w\".Try again!\n");
+		printf("You may want to input commands like \"info r\" or \"info w\" or \"info e\".Try again!\n");
 		return 0;
 	}
 	if (strcmp(args,"r")==0)
@@ -59,9 +59,13 @@ static int cmd_info(char *args)
 	}
 	else if (strcmp(args,"w")==0)
 		print_watchpoint();
-
+    else if (strcmp(args,"e")==0)
+	{
+		printf("CF:%d\nPF:%d\nAF:%d\nZF:%d\nSF:%d\nTF:%d\nIF:%d\nDF:%d\nOF:%d\nIOPL:%d\nNT:%d\nRF:%d\nVM:%d\n",
+				cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.TF,cpu.IF,cpu.DF,cpu.OF,cpu.IOPL,cpu.NT,cpu.RF,cpu.VM);
+	}
 	else
-		printf("You may want to input commands like \"info r\" or \"info w\".Try again!\n");
+		printf("You may want to input commands like \"info r\" or \"info w\" or \"info e\".Try again!\n");
 	return 0;
 }
 
