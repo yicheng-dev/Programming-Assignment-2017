@@ -8,9 +8,21 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
 //  TODO(); 
-  uint32_t tmp_dest;
-  rtl_sub(&tmp_dest, &id_dest->val ,&id_src->val);
-  
+  rtl_sub(&t0, &id_dest->val, &id_src->val);
+  rtl_msb(&t1, &id_src->val, id_dest->width);
+  rtl_msb(&t2, &id_dest->val, id_dest->width);
+  rtl_msb(&t3, &t0, id_dest->width);
+  rtl_update_ZFSF(&t0, id_dest->width);
+  rtl_xor(&t1,&t1,&t2);
+  rtl_xor(&t2,&t2,&t3);
+  rtl_not(&t2);
+  rtl_and(&t1,&t1,&t2);
+  rtl_set_OF(&t1);
+  rtl_ext(&t1, &id_dest->val, id_dest->width);
+  rtl_ext(&t2, &id_src->val, id_dest->width);
+  rtl_sltu(&t1, &t1, &t2);
+  rtl_set_CF(&t1);
+  /*
   if (tmp_dest == 0) cpu.ZF = 1;
   else cpu.ZF = 0;
   if (id_dest->val < id_src->val) cpu.SF = 1;
@@ -21,10 +33,8 @@ make_EHelper(sub) {
   else cpu.OF = 0;
   if (tmp_dest > id_dest->val) cpu.CF = 1;
   else cpu.CF = 0;
-
-
-  reg_l(id_dest->reg) = tmp_dest;
-
+  */
+  operand_write(id_dest, &t0);
   print_asm_template2(sub);
 }
 
