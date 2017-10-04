@@ -106,8 +106,8 @@ make_DHelper(a2O);
 make_DHelper(J);
 make_DHelper(call_SI);
 make_DHelper(push_r32);
-
 make_DHelper(push_SI);
+make_DHelper(pop_r32);
 
 make_DHelper(in_I2a);
 make_DHelper(in_dx2a);
