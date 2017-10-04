@@ -272,11 +272,14 @@ make_DHelper(J) {
 make_DHelper(call_SI){
   decode_op_SI(eip, id_dest, true);
   rtl_add(&id_dest->val,eip,&id_dest->val);
+  decoding.jmp_eip = id_dest->val;
 }
 
 make_DHelper(push_SI) {
   decode_op_SI(eip, id_dest, true);
 }
+
+make_DHelper(ret_){}
 
 make_DHelper(in_I2a) {
   id_src->width = 1;
