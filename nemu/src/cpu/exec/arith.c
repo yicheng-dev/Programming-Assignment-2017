@@ -8,10 +8,8 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
 //  TODO(); 
-  printf("id_dest->val: %d\n",id_dest->val);
-  printf("id_src->val: %d\n",id_src->val);
   rtl_sub(&id_dest->val, &id_dest->val ,&id_src->val);
-  printf("After sub, id_dest->val: %d\n",id_dest->val);
+  id_dest->reg = id_dest->val;
   print_asm_template2(sub);
 }
 
