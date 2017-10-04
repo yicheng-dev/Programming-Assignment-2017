@@ -270,8 +270,8 @@ make_DHelper(J) {
 }
 
 make_DHelper(call_SI){
-  rtl_add(&id_dest->val,eip,&id_dest->val);
   decode_op_SI(eip, id_dest, true);
+  rtl_add(&id_dest->val,eip,&id_dest->val);
 }
 
 make_DHelper(push_SI) {
