@@ -317,7 +317,7 @@ make_DHelper(sub_I2a_v){
 
 make_DHelper(sub_I2rm_b){
   id_src->width = 1;
-  decode_op_rm(eip, id_dest, false, NULL, false);
+  decode_op_rm(eip, id_dest, true, NULL, false);
   decode_op_I(eip, id_src, true);
 }
 
