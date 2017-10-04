@@ -286,6 +286,41 @@ make_DHelper(pop_r32){
   decode_op_r(eip, id_dest, true);
 }
 
+make_DHelper(sub_r2rm_b){
+  id_src->width = 1;
+  decode_op_rm(eip, id_dest, true, id_src, false);
+}
+
+make_DHelper(sub_r2rm_v){
+  decode_op_rm(eip, id_dest, true, id_src, false);
+}
+
+make_DHelper(sub_rm2r_b){
+  id_src->width = 1;
+  decode_op_rm(eip, id_dest, false, id_src, true);
+}
+
+make_DHelper(sub_rm2r_v){
+  decode_op_rm(eip, id_dest, false, id_src, true);
+}
+
+make_DHelper(sub_I2a_b){
+  id_src->width = 1;
+  decode_op_a(eip, id_dest, false);
+  decode_op_I(eip, id_src, true);
+}
+
+make_DHelper(sub_I2a_v){
+  decode_op_a(eip, id_dest, false);
+  decode_op_I(eip, id_src, true);
+}
+
+make_DHelper(sub_I2rm_b){
+  id_src->width=1;
+  decode_op_rm(eip, id_dest, true, NULL, false);
+  decode_op_I(eip, id_src, true);
+}
+
 make_DHelper(in_I2a) {
   id_src->width = 1;
   decode_op_I(eip, id_src, true);
