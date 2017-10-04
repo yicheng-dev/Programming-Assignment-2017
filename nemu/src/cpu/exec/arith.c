@@ -8,9 +8,22 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
 //  TODO(); 
+  uint32_t tmp_dest;
+  rtl_sub(&tmp_dest, &id_dest->val ,&id_src->val);
+  
+  if (tmp_dest == 0) cpu.ZF = 1;
+  else cpu.ZF = 0;
+  if (id_dest->val < id_src->val) cpu.SF = 1;
+  else cpu.SF = 0;
+  if (((int32_t)id_dest->val > 0 && (int32_t)id_src->val <0 && (int32_t)tmp_dest < 0)
+		  || ((int32_t)id_dest->val <  0 && (int32_t)id_src->val > 0 && (int32_t)tmp_dest > 0))
+	cpu.OF = 1;
+  else cpu.OF = 0;
+  if (tmp_dest > id_dest->val) cpu.CF = 1;
+  else cpu.CF = 0;
 
-  rtl_sub(&id_dest->val, &id_dest->val ,&id_src->val);
-  reg_l(id_dest->reg) = id_dest->val;
+
+  reg_l(id_dest->reg) = tmp_dest;
 
   print_asm_template2(sub);
 }
