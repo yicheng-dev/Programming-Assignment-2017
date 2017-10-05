@@ -7,6 +7,7 @@ make_EHelper(leave);
 make_EHelper(cltd);
 make_EHelper(call);
 make_EHelper(jmp);
+make_EHelper(jmp_rm);
 make_EHelper(push);
 make_EHelper(pop);
 make_EHelper(xor);

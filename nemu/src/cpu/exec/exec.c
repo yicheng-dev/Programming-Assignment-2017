@@ -63,7 +63,7 @@ make_group(gp4,
   /* 0xff */
 make_group(gp5,
     EMPTY, EMPTY, EMPTY, EMPTY,
-    EX(jmp), EX(jmp), EMPTY, EMPTY)     /*关于两个EX(jmp)还需验证*/
+    EX(jmp_rm), EX(jmp), EMPTY, EMPTY)     
 
   /* 0x0f 0x01*/
 make_group(gp7,
@@ -131,7 +131,7 @@ opcode_entry opcode_table [512] = {
   /* 0xdc */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe4 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0xe8 */	IDEX(call_SI,call), IDEX(r,jmp), IDEX(SI,jmp), IDEXW(r,jmp,1),
+  /* 0xe8 */	IDEX(call_rel32,call), IDEX(J_rel32,jmp), IDEX(SI,jmp), IDEXW(J_rel32,jmp,1),
   /* 0xec */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf4 */	EMPTY, EMPTY, IDEXW(E, gp3, 1), IDEX(E, gp3),

@@ -104,7 +104,8 @@ make_DHelper(O2a);
 make_DHelper(a2O);
 
 
-make_DHelper(call_SI);
+make_DHelper(J_rel32);
+make_DHelper(call_rel32);
 make_DHelper(push_SI);
 make_DHelper(none);
 
