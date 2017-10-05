@@ -189,3 +189,11 @@ make_EHelper(lea) {
   operand_write(id_dest, &t2);
   print_asm_template2(lea);
 }
+
+make_EHelper(xchg) {
+  rtl_mv(&t0, &id_dest->val);
+  rtl_mv(&id_dest->val, &id_src->val);
+  rtl_mv(&id_src->val, &t0);
+
+  print_asm("xchg *%s *%s", id_src->str, id_dest->str);
+}

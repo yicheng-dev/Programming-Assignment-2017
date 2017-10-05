@@ -9,6 +9,9 @@ make_EHelper(pop);
 make_EHelper(popa);
 make_EHelper(leave);
 make_EHelper(cltd);
+make_EHelper(cwtl);
+make_EHelper(lea);
+make_EHelper(xchg);
 
 // arith
 make_EHelper(add);
@@ -39,16 +42,17 @@ make_EHelper(test);
 
 // control
 make_EHelper(jmp);
+make_EHelper(jmp_rm);
 make_EHelper(jcc);
 make_EHelper(call);
 make_EHelper(call_rm);
 make_EHelper(ret);
 make_EHelper(ret_I);
 
-// system
-make_EHelper(jmp_rm);
+//prefix
 make_EHelper(operand_size);
+
+// special
 make_EHelper(nop);
 make_EHelper(inv);
 make_EHelper(nemu_trap);
-make_EHelper(lea);
