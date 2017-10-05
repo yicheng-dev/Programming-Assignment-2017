@@ -207,5 +207,45 @@ static inline void rtl_update_ZFSF(const rtlreg_t* result, int width) {
   rtl_update_ZF(result, width);
   rtl_update_SF(result, width);
 }
+/*
+static inline void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
+  switch (subcode)
+  {
+	case 0x0: if (cpu.OF == 1) *dest = 1; else *dest = 0;
+			  break;
+	case 0x1: if (cpu.OF == 0) *dest = 1; else *dest = 0;
+			  break;
+	case 0x2: if (cpu.CF == 1) *dest = 1; else *dest = 0;
+			  break;
+	case 0x3: if (cpu.CF == 0) *dest = 1; else *dest = 0;
+			  break;
+	case 0x4: if (cpu.ZF == 1) *dest = 1; else *dest = 0;
+			  break;
+	case 0x5: if (cpu.ZF == 0) *dest = 1; else *dest = 0;
+			  break;
+	case 0x6: if (cpu.CF == 1 || cpu.ZF == 1) *dest = 1; else *dest = 0;
+			  break;
+	case 0x7: if (cpu.CF ==0 && cpu.ZF == 0) *dest = 1; else *dest = 0;
+			  break;
+	case 0x8: if (cpu.SF == 1) *dest = 1; else *dest = 0;
+			  break;
+	case 0x9: if (cpu.SF == 0) *dest = 1; else *dest = 0;
+			  break;
+	case 0xa: if (cpu.PF == 1) *dest = 1; else *dest = 0;
+			  break;
+	case 0xb: if (cpu.PF == 0) *dest = 1; else *dest = 0;
+			  break;
+	case 0xc: if (cpu.SF != cpu.OF) *dest = 1; else *dest = 0;
+			  break;
+	case 0xd: if (cpu.SF == cpu.OF) *dest = 1; else *dest = 0;
+			  break;
+	case 0xe: if (cpu.ZF == 1 || cpu.SF != cpu.OF) *dest = 1; else *dest = 0;
+			  break;
+	case 0xf: if (cpu.ZF == 0 && cpu.SF == cpu.OF) *dest = 1; else *dest = 0;
+			  break;
+	default:  break;
+  }
+}
+*/
 
 #endif
