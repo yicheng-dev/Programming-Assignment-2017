@@ -16,8 +16,42 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  TODO();
-
+  if (decoding.is_operand_size_16) {
+	rtl_lr_w(&t0,R_SP);
+	rtl_lr_w(&t1,R_AX);
+	rtl_lr_w(&t2,R_CX);
+	rtl_lr_w(&t3,R_DX);
+	rtl_push(&t1);
+	rtl_push(&t2);
+	rtl_push(&t3);
+	rtl_lr_w(&t1,R_BX);
+	rtl_push(&t1);
+	rtl_push(&t0);
+	rtl_lr_w(&t0,R_BP);
+	rtl_lr_w(&t1,R_SI);
+	rtl_lr_w(&t2,R_DI);
+	rtl_push(&t0);
+	rtl_push(&t1);
+	rtl_push(&t2);
+  }
+  else {
+	rtl_lr_w(&t0,R_ESP);
+	rtl_lr_l(&t1,R_EAX);
+	rtl_lr_l(&t2,R_ECX);
+	rtl_lr_l(&t3,R_EDX);
+	rtl_push(&t1);
+	rtl_push(&t2);
+	rtl_push(&t3);
+	rtl_lr_l(&t1,R_EBX);
+	rtl_push(&t1);
+	rtl_push(&t0);
+	rtl_lr_l(&t0,R_EBP);
+	rtl_lr_l(&t1,R_ESI);
+	rtl_lr_l(&t2,R_EDI);
+	rtl_push(&t0);
+	rtl_push(&t1);
+	rtl_push(&t2);
+  }
   print_asm("pusha");
 }
 
