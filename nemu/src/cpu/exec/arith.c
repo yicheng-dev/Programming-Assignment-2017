@@ -64,12 +64,23 @@ make_EHelper(dec) {
   rtl_eq0(&t1, &id_dest->val);
   rtl_set_OF(&t1);
 
+  operand_write(id_dest, &t0);
   print_asm_template1(dec);
 }
 
 make_EHelper(neg) {
-  
+  rtl_mv(&t0, &id_dest->val);
+  rtl_neg(&t0);
+  rtl_update_ZFSF(&t0, id_dest->width);
+  if (id_dest->val != 0) rtl_set_CF(&tzero);
+  else{
+	rtl_li(&t1, 1);
+	rtl_set_CF(&t1);
+  }
+  //OF的确定还需商榷
+  rtl_set_OF(&tzero);
 
+  operand_write(id_dest, &t0);
   print_asm_template1(neg);
 }
 
