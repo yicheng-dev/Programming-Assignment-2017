@@ -279,8 +279,7 @@ make_DHelper(push_SI) {
   decode_op_SI(eip, id_dest, true);
 }
 
-make_DHelper(ret_){}
-make_DHelper(leave_){}
+make_DHelper(none){}
 
 make_DHelper(in_I2a) {
   id_src->width = 1;
