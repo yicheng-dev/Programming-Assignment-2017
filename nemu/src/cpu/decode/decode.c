@@ -183,7 +183,7 @@ make_DHelper(I) {
 }
 
 make_DHelper(SI) {
-  decode_op_SI(eip, id_dest, false);
+  decode_op_SI(eip, id_dest, true);
 }
 
 make_DHelper(r) {
