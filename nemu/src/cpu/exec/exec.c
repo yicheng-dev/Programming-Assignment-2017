@@ -57,12 +57,12 @@ make_group(gp3,
 
   /* 0xfe */
 make_group(gp4,
-    EX(inc), EMPTY, EMPTY, EMPTY,
+    EX(inc), EX(dec), EMPTY, EMPTY,
     EMPTY, EMPTY, EMPTY, EMPTY)
 
   /* 0xff */
 make_group(gp5,
-    EX(inc), EMPTY, EX(call_rm), EX(call),
+    EX(inc), EX(dec), EX(call_rm), EX(call),
     EX(jmp_rm), EX(jmp), EX(push), EMPTY)     
 
   /* 0x0f 0x01*/
@@ -91,7 +91,7 @@ opcode_entry opcode_table [512] = {
   /* 0x3c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x40 */	IDEX(r,inc), EMPTY, EMPTY, EMPTY,
   /* 0x44 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x48 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x48 */	IDEX(r,dec), EMPTY, EMPTY, EMPTY,
   /* 0x4c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x50 */	IDEX(r,push), IDEX(r,push), IDEX(r,push), IDEX(r,push),
   /* 0x54 */	IDEX(r,push), IDEX(r,push), IDEX(r,push), IDEX(r,push),
