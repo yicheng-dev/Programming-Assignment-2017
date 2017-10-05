@@ -95,11 +95,21 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-  rtl_lr_l(&t0,R_ESP);
-  rtl_lr_l(&t1,R_EBP);
-  rtl_mv(&t0,&t1);
-  rtl_sr_l(R_ESP,&t0);
-  rtl_pop(&reg_l(R_EBP));
+  if (decoding.is_operand_size_16) {
+	rtl_lr_w(&t0,R_SP);
+	rtl_lr_w(&t1,R_BP);
+	rtl_mv(&t0,&t1);
+	rtl_sr_w(R_SP,&t0);
+	rtl_pop(&t3);
+	rtl_sr_w(R_BP,&t3);
+  }
+  else {	
+    rtl_lr_l(&t0,R_ESP);
+    rtl_lr_l(&t1,R_EBP);
+    rtl_mv(&t0,&t1);
+    rtl_sr_l(R_ESP,&t0);
+    rtl_pop(&reg_l(R_EBP));
+  }
   print_asm("leave");
 }
 
