@@ -139,7 +139,8 @@ static inline void rtl_not(rtlreg_t* dest) {
 }
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
-  *dest = (int32_t)(*src1);
+  int i;
+  for (i=8*width;i<16*width;i++) dest[i]=src1[8*width-1];
 //  TODO();
 }
 
