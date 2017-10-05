@@ -56,8 +56,41 @@ make_EHelper(pusha) {
 }
 
 make_EHelper(popa) {
-  TODO();
+  if (decoding.is_operand_size_16) {
+	rtl_pop(&t0);
+	rtl_pop(&t1);
+	rtl_pop(&t2);
+	rtl_sr_w(R_DI,&t0);
+	rtl_sr_w(R_SI,&t1);
+	rtl_sr_w(R_BP,&t2);
+	rtl_pop(&t0);
+	rtl_pop(&t0);
+	rtl_pop(&t1);
+	rtl_pop(&t2);
+	rtl_pop(&t3);
+	rtl_sr_w(R_BX,&t0);
+	rtl_sr_w(R_DX,&t1);
+	rtl_sr_w(R_CX,&t2);
+	rtl_sr_w(R_AX,&t3);
+  }
+  else {
+	rtl_pop(&t0);
+	rtl_pop(&t1);
+	rtl_pop(&t2);
+	rtl_sr_l(R_EDI,&t0);
+	rtl_sr_l(R_ESI,&t1);
+	rtl_sr_l(R_EBP,&t2);
+	rtl_pop(&t0);
+	rtl_pop(&t0);
+	rtl_pop(&t1);
+	rtl_pop(&t2);
+	rtl_pop(&t3);
+	rtl_sr_l(R_EBX,&t0);
+	rtl_sr_l(R_EDX,&t1);
+	rtl_sr_l(R_ECX,&t2);
+	rtl_sr_l(R_EAX,&t3);
 
+  }
   print_asm("popa");
 }
 
