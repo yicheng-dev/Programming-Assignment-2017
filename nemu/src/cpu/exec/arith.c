@@ -12,13 +12,10 @@ make_EHelper(add) {
   rtl_and(&t1, &t1, &t2);
   rtl_set_OF(&t1);
   
-  rtl_mv(&t1, &id_src->val);
-  rtl_not(&t1);
-  rtl_addi(&t1, &t1, 1);
-  rtl_ext(&t3, &id_dest->val, id_dest->width);
-  rtl_ext(&t2, &t1,id_dest->width);
-  rtl_sltu(&t2, &t2, &t3);
-  rtl_set_CF(&t2);
+  rtl_sltu(&t1, &t0, &id_dest->val);
+  rtl_sltu(&t2, &t0, &id_src->val);
+  rtl_or(&t1,&t1,&t2);
+  rtl_set_CF(&t1);
 
   operand_write(id_dest, &t0);
   print_asm_template2(add);
