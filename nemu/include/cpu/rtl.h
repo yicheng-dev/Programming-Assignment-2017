@@ -142,6 +142,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   int i;
   for (i=0;i<8*width;i++) dest[i]=src1[i];
   for (i=8*width;i<16*width;i++) dest[i]=src1[8*width-1];
+  *dest = *src1;
 //  TODO();
 }
 
@@ -149,6 +150,7 @@ static inline void rtl_ext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   int i;
   for (i=0;i<8*width;i++) dest[i]=src1[i];
   for (i=8*width;i<16*width;i++) dest[i]=0;
+  *dest = *src1;
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
