@@ -280,6 +280,7 @@ make_DHelper(push_SI) {
 }
 
 make_DHelper(ret_){}
+make_DHelper(leave_){}
 
 make_DHelper(in_I2a) {
   id_src->width = 1;

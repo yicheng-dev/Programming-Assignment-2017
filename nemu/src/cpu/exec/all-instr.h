@@ -1,6 +1,10 @@
 #include "cpu/exec.h"
 
 make_EHelper(mov);
+make_EHelper(movsx);
+make_EHelper(movzx);
+make_EHelper(leave);
+
 make_EHelper(call);
 make_EHelper(jmp);
 make_EHelper(push);
