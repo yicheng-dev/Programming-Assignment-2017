@@ -37,18 +37,7 @@ make_EHelper(sub) {
   rtl_ext(&t2, &id_src->val, id_dest->width);
   rtl_sltu(&t1, &t1, &t2);
   rtl_set_CF(&t1);
-  /*
-  if (tmp_dest == 0) cpu.ZF = 1;
-  else cpu.ZF = 0;
-  if (id_dest->val < id_src->val) cpu.SF = 1;
-  else cpu.SF = 0;
-  if (((int32_t)id_dest->val > 0 && (int32_t)id_src->val <0 && (int32_t)tmp_dest < 0)
-		  || ((int32_t)id_dest->val <  0 && (int32_t)id_src->val > 0 && (int32_t)tmp_dest > 0))
-	cpu.OF = 1;
-  else cpu.OF = 0;
-  if (tmp_dest > id_dest->val) cpu.CF = 1;
-  else cpu.CF = 0;
-  */
+  
   operand_write(id_dest, &t0);
   print_asm_template2(sub);
 }
@@ -60,8 +49,12 @@ make_EHelper(cmp) {
 }
 
 make_EHelper(inc) {
-  TODO();
+  rtl_addi(&t0, &id_dest->val, 1);
+  rtl_update_ZFSF(&t0, id_dest->width);
+  rtl_eq0(&t1, &t0);
+  rtl_set_OF(&t1);
 
+  operand_write(id_dest, &t0);
   print_asm_template1(inc);
 }
 
