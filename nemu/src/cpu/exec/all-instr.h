@@ -20,6 +20,8 @@ make_EHelper(ret_I);
 make_EHelper(sub);
 make_EHelper(adc);
 make_EHelper(sbb);
+make_EHelper(mul);
+make_EHelper(imul);
 make_EHelper(operand_size);
 make_EHelper(nop);
 make_EHelper(inv);
