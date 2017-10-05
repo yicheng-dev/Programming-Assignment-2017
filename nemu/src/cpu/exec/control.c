@@ -34,6 +34,15 @@ make_EHelper(ret) {
   print_asm("ret");
 }
 
+make_EHelper(ret_I) {
+  rtl_pop(eip);
+  decoding.jmp_eip = *eip;
+  rtl_lr_l(&t0,R_ESP);
+  rtl_addi(&t0,&t0,id_dest->val);
+  rtl_sr_l(R_ESP,&t0);
+  print_asm("ret %d", id_dest->val);
+}
+
 make_EHelper(call_rm) {
 
   decoding.jmp_eip = id_dest->val;
