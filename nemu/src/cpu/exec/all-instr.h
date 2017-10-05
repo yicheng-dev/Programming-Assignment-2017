@@ -21,6 +21,8 @@ make_EHelper(not);
 make_EHelper(shl);
 make_EHelper(sar);
 make_EHelper(shr);
+make_EHelper(setcc);
+make_EHelper(test);
 make_EHelper(ret);
 make_EHelper(ret_I);
 make_EHelper(sub);
