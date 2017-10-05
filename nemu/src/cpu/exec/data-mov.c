@@ -143,11 +143,29 @@ make_EHelper(cltd) {
 }
 
 make_EHelper(cwtl) {
-  if (decoding.is_operand_size_16) {
-    TODO();
+  if (!decoding.is_operand_size_16) {
+    rtl_lr_w(&t0,R_AX);
+	rtl_li(&t1,0);
+	rtl_slt(&t2,&t0,&t1);
+	if (t2 == 1) {
+	    rtl_li(&t0,0xffff);
+		rtl_sr_w(R_DX,&t0);
+	}
+	else{
+		rtl_sr_w(R_DX,&tzero);
+	}
   }
   else {
-    TODO();
+    rtl_lr_b(&t0,R_AL);
+	rtl_li(&t1,0);
+	rtl_slt(&t2,&t0,&t1);
+	if (t2 == 1) {
+		rtl_li(&t0,0xff);
+		rtl_sr_b(R_DL,&t0);
+	}
+	else{
+		rtl_sr_b(R_DL,&tzero);
+	}
   }
 
   print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
