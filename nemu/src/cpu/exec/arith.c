@@ -7,7 +7,6 @@ make_EHelper(add) {
 }
 
 make_EHelper(sub) {
-//  TODO(); 
   rtl_sub(&t0, &id_dest->val, &id_src->val);
   rtl_msb(&t1, &id_dest->val, id_dest->width);
   rtl_msb(&t2, &id_src->val, id_dest->width);

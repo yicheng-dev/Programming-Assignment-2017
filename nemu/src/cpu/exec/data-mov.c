@@ -6,13 +6,11 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-//  TODO();
   rtl_push(&id_dest->val);
   print_asm_template1(push);
 }
 
 make_EHelper(pop) {
-//  TODO();
   rtl_pop(&id_dest->val);
   print_asm_template1(pop);
 }
@@ -30,18 +28,38 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-//  TODO();
-  rtl_mv(&reg_l(R_ESP),&reg_l(R_EBP));
+  rtl_lr_l(&t0,R_ESP);
+  rtl_lr_l(&t1,R_EBP);
+  rtl_mv(&t0,&t1);
+  rtl_sr_l(R_ESP,&t0);
   rtl_pop(&reg_l(R_EBP));
   print_asm("leave");
 }
 
 make_EHelper(cltd) {
   if (decoding.is_operand_size_16) {
-    TODO();
+    rtl_lr_w(&t0,R_AX);
+	rtl_li(&t1,0);
+	rtl_slt(&t2,&t0,&t1);
+	if (t2 == 1) {
+		rtl_li(&t0,0xffff);
+		rtl_sr_w(R_DX,&t0);
+	}
+	else{
+		rtl_sr_w(R_DX,&tzero);
+	}
   }
   else {
-    TODO();
+    rtl_lr_l(&t0,R_EAX);
+	rtl_li(&t1,0);
+	rtl_slt(&t2,&t0,&t1);
+	if (t2 == 1){
+		rtl_li(&t0,0xffffffff);
+		rtl_sr_l(R_EDX,&t0);
+	}
+	else{
+		rtl_sr_l(R_EDX,&tzero);
+	}
   }
 
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
