@@ -28,15 +28,15 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-  rtl_pop(eip);
-  decoding.jmp_eip = *eip;
+  rtl_pop(&t0);
+  decoding.jmp_eip = t0;
   decoding.is_jmp = 1;
   print_asm("ret");
 }
 
 make_EHelper(ret_I) {
-  rtl_pop(eip);
-  cpu.eip = *eip;
+  rtl_pop(&t0);
+  decoding.jmp_eip = t0;
   rtl_lr_l(&t0,R_ESP);
   rtl_addi(&t0,&t0,id_dest->val);
   rtl_sr_l(R_ESP,&t0);
