@@ -193,8 +193,9 @@ make_EHelper(lea) {
 
 make_EHelper(xchg) {
   rtl_mv(&t0, &id_dest->val);
-  rtl_mv(&id_dest->val, &id_src->val);
-  rtl_mv(&id_src->val, &t0);
+  rtl_mv(&t1, &id_src->val);
+  operand_write(id_dest, &t1);
+  operand_write(id_src, &t0);
 
   print_asm("xchg *%s *%s", id_src->str, id_dest->str);
 }

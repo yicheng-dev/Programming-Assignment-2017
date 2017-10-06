@@ -48,9 +48,7 @@ make_EHelper(cmp) {
   rtl_and(&t2, &t2, &t3);
   rtl_set_OF(&t2);
 
-  rtl_ext(&t2, &id_dest->val, id_dest->width);
-  rtl_ext(&t3, &t1, id_dest->width);
-  rtl_sltu(&t2, &t2,&t3);
+  rtl_sltu(&t2, &id_dest->val,&t1);
   rtl_set_CF(&t2);
 
   print_asm_template2(cmp);
