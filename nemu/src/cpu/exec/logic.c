@@ -10,6 +10,7 @@ make_EHelper(test) {
 }
 
 make_EHelper(and) {
+  rtl_sext(&id_src->val, &id_src->val, id_dest->width);
   rtl_and(&id_dest->val, &id_dest->val, &id_src->val);
   rtl_update_ZFSF(&id_dest->val, id_dest->width);
   rtl_set_CF(&tzero);
