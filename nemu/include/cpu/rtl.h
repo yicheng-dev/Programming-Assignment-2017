@@ -189,6 +189,7 @@ static inline void rtl_neq0(rtlreg_t* dest, const rtlreg_t* src1) {
 
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   *dest = (*src1)>>(width * 8 - 1);
+  printf("%d\n",*dest);
 	// dest <- src1[width * 8 - 1]
 }
 
