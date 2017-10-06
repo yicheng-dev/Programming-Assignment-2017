@@ -35,8 +35,8 @@ make_EHelper(ret) {
 }
 
 make_EHelper(ret_I) {
-  rtl_pop(&t0);
-  decoding.jmp_eip = t0;
+  rtl_pop(&t1);
+  decoding.jmp_eip = t1;
   rtl_lr_l(&t0,R_ESP);
   rtl_addi(&t0,&t0,id_dest->val);
   rtl_sr_l(R_ESP,&t0);
