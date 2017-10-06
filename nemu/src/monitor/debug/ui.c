@@ -76,15 +76,13 @@ static int cmd_si(char *args)
 	if (args==NULL){
 		cpu_exec(1);
 	}
-	else if (strlen(args)==1&&args[0]>='1'&&args[0]<='9'){
+	else if ((strlen(args)==1&&args[0]>='1'&&args[0]<='9') || (strlen(args)==2&&args[0]>='0'&&args[0]<='2'
+				&&args[1]>='0'&&args[1]<='9')){
 		exec_num = atoi(args);
 		cpu_exec(exec_num);
 	}
-	else if (strlen(args)==2&&args[0]=='1'&&args[1]=='0'){
-		cpu_exec(10);
-	}
 	else
-		printf("Please enter a number between 1 and 10!\n");
+		printf("Please enter a number between 1 and 30!\n");
 	return 0;
 }
 
