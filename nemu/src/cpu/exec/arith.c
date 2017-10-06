@@ -40,9 +40,11 @@ make_EHelper(sub) {
 
 make_EHelper(cmp) {
   rtl_sext(&t1, &id_src->val, id_dest->width);
-  rtl_sub(&t0, &id_dest->val, &t1);
+  rtl_sext(&t2, &id_dest->val, id_dest->width);
+  rtl_sub(&t0, &t2, &t1);
   rtl_update_ZFSF(&t0, id_dest->width);
-  rtl_xor(&t2, &t1, &id_dest->val);
+
+  rtl_xor(&t2, &t1, &t2);
   rtl_xor(&t3, &t0, &t1);
   rtl_not(&t3);
   rtl_and(&t2, &t2, &t3);
