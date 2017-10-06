@@ -287,9 +287,9 @@ make_DHelper(J_ptr){
 make_DHelper(call_rel){
   decode_op_SI(eip, id_dest, true);
   rtl_push(eip);
-  decoding.jmp_eip = (int8_t)id_dest->simm + *eip;
-  /*rtl_add(&id_dest->val,eip,&id_dest->val);
-  decoding.jmp_eip = id_dest->val;*/
+  //decoding.jmp_eip = (int8_t)id_dest->simm + *eip;
+  rtl_add(&id_dest->val,eip,&id_dest->val);
+  decoding.jmp_eip = id_dest->val;
 }
 
 make_DHelper(call_ptr){
