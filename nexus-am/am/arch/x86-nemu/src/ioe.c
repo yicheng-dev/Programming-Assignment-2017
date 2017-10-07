@@ -30,7 +30,7 @@ void _draw_rect(const uint32_t *pixels, int x, int y, int w, int h) {
   */
   int i;
   for (i = x*y; i < (x+w) * (y+h); i++){
-	fb[i] = pixels[i-x*y];
+	fb[i] = pixels[i];
   } 
 }
 
