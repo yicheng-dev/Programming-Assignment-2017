@@ -28,10 +28,12 @@ void _draw_rect(const uint32_t *pixels, int x, int y, int w, int h) {
     fb[i] = i;
   }
   */
-  int i;
-  for (i = x*y; i < (x+w) * (y+h); i++){
-	fb[i] = pixels[i];
-  } 
+  int i,j;
+  for (i = x; i < x + w; i++){
+	for (j = y; j < y + h; j++){
+		fb[i*_screen.width+j] = pixels[(i-x)*_screen.width+(j-y)];
+	}
+  }
 }
 
 void _draw_sync() {
