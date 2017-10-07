@@ -53,6 +53,10 @@ make_EHelper(ret_I);
 //prefix
 make_EHelper(operand_size);
 
+//io
+make_EHelper(pio_read);
+make_EHelper(pio_write);
+
 // special
 make_EHelper(nop);
 make_EHelper(inv);
