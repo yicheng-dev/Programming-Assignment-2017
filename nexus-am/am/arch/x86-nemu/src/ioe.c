@@ -31,7 +31,7 @@ void _draw_rect(const uint32_t *pixels, int x, int y, int w, int h) {
   int i,j;
   for (i = x; i < x + w; i++){
 	for (j = y; j < y + h; j++){
-		fb[i*_screen.width+j] = pixels[(i-x)*_screen.width+(j-y)];
+		fb[i*w+j] = pixels[(i-x)*w+(j-y)];
 	}
   }
 }
