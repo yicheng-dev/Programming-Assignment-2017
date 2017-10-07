@@ -171,6 +171,10 @@ void difftest_step(uint32_t eip) {
 	  diff=true;
 	  printf("r.edi: %x\tcpu.edi: %x\n",r.edi,cpu.edi);
   }
+  if (r.esi != cpu.esi){
+	  diff=true;
+	  printf("r.esi: %x\tcpu.esi: %x\n",r.esi,cpu.esi);
+  }
   if (r.esp != cpu.esp){
 	  diff=true;
 	  printf("r.esp: %x\tcpu.esp: %x\n",r.esp,cpu.esp);
