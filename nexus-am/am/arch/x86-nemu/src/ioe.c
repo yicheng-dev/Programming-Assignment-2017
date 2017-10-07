@@ -28,13 +28,10 @@ void _draw_rect(const uint32_t *pixels, int x, int y, int w, int h) {
     fb[i] = i;
   }
   */
-  int i,j;
-  for (i=x; i<x+w; i++){
-	  for (j=y; j<y+h; j++){
-		  fb[i] = pixels[i*h+j];
-	  }
-  }
-  
+  int i;
+  for (i = x*y; i < (x+w) * (y+h); i++){
+	fb[i] = pixels[i-x*y];
+  } 
 }
 
 void _draw_sync() {
