@@ -145,14 +145,14 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 //  int32_t tmp_dest = (int32_t)(*dest);
 //  *dest = tmp_dest >> (32 - 8 * width);
   
-  if (width == 4){
+  if (width != 1){
     int32_t tmp_dest = (int32_t)(*dest);
     *dest = tmp_dest >> (32 - 8 * width);
-  }
+  }/*
   else if (width == 2){
 	int16_t tmp_dest = (int16_t)(*dest);
 	*dest = tmp_dest >> (32 - 8 * width);
-  }
+  }*/
   else if (width == 1){
 	int8_t tmp_dest = (int8_t)(*dest);
 	*dest = tmp_dest >> (32 - 8 * width);
