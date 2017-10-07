@@ -54,8 +54,8 @@ make_EHelper(ret_I);
 make_EHelper(operand_size);
 
 //io
-make_EHelper(pio_read);
-make_EHelper(pio_write);
+make_EHelper(in);
+make_EHelper(out);
 
 // special
 make_EHelper(nop);
