@@ -3,13 +3,19 @@
 make_EHelper(add) {
   rtl_add(&t0, &id_dest->val, &id_src->val);
   rtl_update_ZFSF(&t0, id_dest->width);
-  rtl_msb(&t1, &id_dest->val, id_dest->width);
+/*  rtl_msb(&t1, &id_dest->val, id_dest->width);
   rtl_msb(&t2, &id_src->val, id_dest->width);
   rtl_msb(&t3, &t0, id_dest->width);
   rtl_xor(&t1, &t1, &t2);
   rtl_not(&t1);
   rtl_xor(&t2, &t2, &t3);
   rtl_and(&t1, &t1, &t2);
+  rtl_set_OF(&t1);*/
+  rtl_xor(&t1, &id_dest->val, &id_src->val);
+  rtl_not(&t1);
+  rtl_xor(&t2, &id_dest->val, &t0);
+  rtl_and(&t1, &t2, &t1);
+  rtl_msb(&t1, &t1, id_dest->width);
   rtl_set_OF(&t1);
  
   rtl_sltu(&t1, &t0, &id_dest->val);
@@ -21,14 +27,14 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
   rtl_sub(&t0, &id_dest->val, &id_src->val);
-  rtl_msb(&t1, &id_dest->val, id_dest->width);
+/*  rtl_msb(&t1, &id_dest->val, id_dest->width);
   rtl_msb(&t2, &id_src->val, id_dest->width);
-  rtl_msb(&t3, &t0, id_dest->width);
+  rtl_msb(&t3, &t0, id_dest->width);*/
   rtl_update_ZFSF(&t0, id_dest->width);
-  rtl_xor(&t1,&t1,&t2);
-  rtl_xor(&t2,&t2,&t3);
-  rtl_not(&t2);
+  rtl_xor(&t1,&id_dest->val,&id_src->val);
+  rtl_xor(&t2,&id_dest->val,&t0);
   rtl_and(&t1,&t1,&t2);
+  rtl_msb(&t1, &t1, id_dest->width);
   rtl_set_OF(&t1);
   
   rtl_sltu(&t1, &id_dest->val, &t0);
@@ -41,19 +47,19 @@ make_EHelper(sub) {
 make_EHelper(cmp) {
 //  rtl_sext(&t1, &id_src->val, id_dest->width);
 //  rtl_sext(&t2, &id_dest->val, id_dest->width);
-  rtl_ext(&t1, &id_src->val, id_dest->width);
-  rtl_ext(&t2, &id_dest->val, id_dest->width);
+//  rtl_ext(&t1, &id_src->val, id_dest->width);
+//  rtl_ext(&t2, &id_dest->val, id_dest->width);
 	
-  rtl_sub(&t0, &t2, &t1);
+  rtl_sub(&t0, &id_dest->val, &id_src->val);
   rtl_update_ZFSF(&t0, id_dest->width);
 
-  rtl_xor(&t2, &t1, &t2);
-  rtl_xor(&t3, &t0, &t1);
-  rtl_not(&t3);
+  rtl_xor(&t2, &id_dest->val, &id_src->val);
+  rtl_xor(&t3, &id_dest->val, &t0);
   rtl_and(&t2, &t2, &t3);
+  rtl_msb(&t2, &t2, id_dest->width);
   rtl_set_OF(&t2);
 
-  rtl_sltu(&t2, &id_dest->val,&t1);
+  rtl_sltu(&t2, &id_dest->val,&t0);
   rtl_set_CF(&t2);
 
   print_asm_template2(cmp);
