@@ -141,17 +141,17 @@ static inline void rtl_neg(rtlreg_t* dest) {
 }
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
-  uint32_t mask = 0x1,i;
+/*  uint32_t mask = 0x1,i;
   for (i=0;i<8*width;i++){
     *dest = (*dest)|mask;
 	mask <<= 1;
   }
+*/	
 	
-	/*
   *dest = (*src1) << (32 - 8 * width);
   int32_t tmp_dest = (int32_t)(*dest);
   *dest = tmp_dest >> (32 - 8 * width);
- */ /*
+  /*
   if (width == 4){
     int32_t tmp_dest = (int32_t)(*dest);
     *dest = tmp_dest >> (32 - 8 * width);
