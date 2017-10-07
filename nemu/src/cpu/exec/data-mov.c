@@ -5,6 +5,12 @@ make_EHelper(mov) {
   print_asm_template2(mov);
 }
 
+make_EHelper(push_I8){
+  rtl_sext(&t1, &id_dest->val, id_dest->width);
+  rtl_push(&t1);
+  print_asm_template1(push);
+}
+
 make_EHelper(push) {
   rtl_push(&id_dest->val);
   print_asm_template1(push);
