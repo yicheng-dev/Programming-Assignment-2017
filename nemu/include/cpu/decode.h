@@ -108,6 +108,7 @@ make_DHelper(a2O);
 
 make_DHelper(J_ptr);
 make_DHelper(J_rel);
+make_DHelper(jcc);
 make_DHelper(call_rel);
 make_DHelper(call_ptr);
 make_DHelper(push_SI);

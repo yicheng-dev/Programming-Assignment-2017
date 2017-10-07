@@ -281,12 +281,18 @@ make_DHelper(a2O) {
 make_DHelper(J_rel) {
   decode_op_SI(eip, id_dest, true);
   // the target address can be computed in the decode stage
-  decoding.jmp_eip = (int8_t)id_dest->simm + *eip;
+  decoding.jmp_eip = id_dest->simm + *eip;
 }
 
 make_DHelper(J_ptr){
   decode_op_SI(eip, id_dest, false);
   decoding.jmp_eip = id_dest->simm;
+}
+
+make_DHelper(jcc) {
+  decode_op_SI(eip, id_dest, true);
+  rtl_sext(&t1, &id_dest->val, id_dest->width);
+  decoding.jmp_eip = t1 + *eip;
 }
 
 make_DHelper(call_rel){
