@@ -2,7 +2,7 @@
 
 void diff_test_skip_qemu();
 void diff_test_skip_nemu();
-void raise_intr(uint8_t NO, vaddr_t ret_addr);
+extern void raise_intr(uint8_t NO, vaddr_t ret_addr);
 
 
 make_EHelper(lidt) {
