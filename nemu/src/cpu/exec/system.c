@@ -6,8 +6,8 @@ extern void raise_intr(uint8_t NO, vaddr_t ret_addr);
 
 
 make_EHelper(lidt) {
-  cpu.idtr.val = id_dest->val;
- // cpu.idtr.limit = (uint16_t)(cpu.idtr.base);
+  cpu.idtr.base = id_dest->val;
+  cpu.idtr.limit = (uint16_t)(cpu.idtr.base);
   print_asm_template1(lidt);
 }
 
@@ -28,7 +28,7 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int_) {
-  raise_intr(id_dest->addr, decoding.seq_eip);
+  raise_intr(id_dest->val, decoding.seq_eip);
   decoding.is_jmp = 0;
   print_asm("int %s", id_dest->str);
 
