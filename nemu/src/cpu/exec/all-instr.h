@@ -53,9 +53,11 @@ make_EHelper(ret_I);
 //prefix
 make_EHelper(operand_size);
 
-//io
+//system
 make_EHelper(in);
 make_EHelper(out);
+make_EHelper(int_);
+make_EHelper(lidt);
 
 // special
 make_EHelper(nop);
