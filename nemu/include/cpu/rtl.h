@@ -173,7 +173,7 @@ static inline void rtl_ext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   *dest >>= (32 - 8 * width);
 }
 
-static inline void rtl_push(const rtlreg_t* src1) {
+void rtl_push(const rtlreg_t* src1) {
   rtl_subi(&reg_l(R_ESP), &reg_l(R_ESP), 4);
   rtl_sm(&reg_l(R_ESP), 4, src1);
 }
