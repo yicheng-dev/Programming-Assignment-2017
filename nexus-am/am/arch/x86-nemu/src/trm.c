@@ -2,11 +2,8 @@
 #include <x86.h>
 
 // Define this macro after serial has been implemented
-<<<<<<< HEAD
 //#define HAS_SERIAL
-=======
 #define HAS_SERIAL
->>>>>>> pa2
 
 #define SERIAL_PORT 0x3f8
 
