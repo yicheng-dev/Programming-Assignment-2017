@@ -28,7 +28,7 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int_) {
-  raise_intr(id_dest->val, decoding.seq_eip);
+  raise_intr(id_dest->addr, decoding.seq_eip);
   decoding.is_jmp = 0;
   print_asm("int %s", id_dest->str);
 
