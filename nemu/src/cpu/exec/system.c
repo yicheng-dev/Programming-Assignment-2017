@@ -4,8 +4,8 @@ void diff_test_skip_qemu();
 void diff_test_skip_nemu();
 
 make_EHelper(lidt) {
-
-
+  cpu.idtr.base = id_dest->val;
+  cpu.idtr.limit = (uint16_t)(cpu.idtr.base);
   print_asm_template1(lidt);
 }
 
