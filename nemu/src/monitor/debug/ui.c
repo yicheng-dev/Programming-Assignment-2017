@@ -45,7 +45,7 @@ static int cmd_info(char *args)
 {	
 	int i;
 	if (args==NULL){
-		printf("You may want to input commands like \"info r\" or \"info w\".Try again!\n");
+		printf("You may want to input commands like \"info r\" or \"info w\" or \"info e\".Try again!\n");
 		return 0;
 	}
 	if (strcmp(args,"r")==0)
@@ -59,9 +59,13 @@ static int cmd_info(char *args)
 	}
 	else if (strcmp(args,"w")==0)
 		print_watchpoint();
-
+    else if (strcmp(args,"e")==0)
+	{
+		printf("CF:%d\nPF:%d\nAF:%d\nZF:%d\nSF:%d\nTF:%d\nIF:%d\nDF:%d\nOF:%d\nIOPL:%d\nNT:%d\nRF:%d\nVM:%d\n",
+				cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.TF,cpu.IF,cpu.DF,cpu.OF,cpu.IOPL,cpu.NT,cpu.RF,cpu.VM);
+	}
 	else
-		printf("You may want to input commands like \"info r\" or \"info w\".Try again!\n");
+		printf("You may want to input commands like \"info r\" or \"info w\" or \"info e\".Try again!\n");
 	return 0;
 }
 
@@ -72,15 +76,13 @@ static int cmd_si(char *args)
 	if (args==NULL){
 		cpu_exec(1);
 	}
-	else if (strlen(args)==1&&args[0]>='1'&&args[0]<='9'){
+	else if ((strlen(args)==1&&args[0]>='1'&&args[0]<='9') || (strlen(args)==2&&args[0]>='0'&&args[0]<='2'
+				&&args[1]>='0'&&args[1]<='9')){
 		exec_num = atoi(args);
 		cpu_exec(exec_num);
 	}
-	else if (strlen(args)==2&&args[0]=='1'&&args[1]=='0'){
-		cpu_exec(10);
-	}
 	else
-		printf("Please enter a number between 1 and 10!\n");
+		printf("Please enter a number between 1 and 30!\n");
 	return 0;
 }
 
@@ -156,6 +158,8 @@ static int cmd_d(char *args)
 	free_wp(args);
 	return 0;
 }
+
+	
 
 static struct {
   char *name;

@@ -58,4 +58,7 @@ count-h:
 	find . -name *.h | xargs wc -l
 count:
 	find . -name *.[ch] | xargs wc -l
+<<<<<<< HEAD
 
+=======
+>>>>>>> pa2

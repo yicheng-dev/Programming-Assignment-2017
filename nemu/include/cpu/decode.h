@@ -82,6 +82,7 @@ make_DHelper(SI_E2G);
 make_DHelper(I_E2G);
 make_DHelper(I_G2E);
 make_DHelper(I);
+make_DHelper(I_src);
 make_DHelper(r);
 make_DHelper(E);
 make_DHelper(gp7_E);
@@ -90,10 +91,13 @@ make_DHelper(SI);
 make_DHelper(G2E);
 make_DHelper(E2G);
 
+make_DHelper(xchg_r2r);
+
 make_DHelper(mov_I2r);
 make_DHelper(mov_I2E);
 make_DHelper(mov_G2E);
 make_DHelper(mov_E2G);
+make_DHelper(mov_Eb2G);
 make_DHelper(lea_M2G);
 
 make_DHelper(gp2_1_E);
@@ -103,9 +107,13 @@ make_DHelper(gp2_Ib2E);
 make_DHelper(O2a);
 make_DHelper(a2O);
 
-make_DHelper(J);
-
+make_DHelper(J_ptr);
+make_DHelper(J_rel);
+make_DHelper(jcc);
+make_DHelper(call_rel);
+make_DHelper(call_ptr);
 make_DHelper(push_SI);
+make_DHelper(none);
 
 make_DHelper(in_I2a);
 make_DHelper(in_dx2a);
@@ -113,3 +121,4 @@ make_DHelper(out_a2I);
 make_DHelper(out_a2dx);
 
 #endif
+

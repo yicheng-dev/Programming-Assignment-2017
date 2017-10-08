@@ -7,7 +7,7 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 10
+#define MAX_INSTR_TO_PRINT 30
 
 int nemu_state = NEMU_STOP;
 
@@ -19,6 +19,7 @@ void cpu_exec(uint64_t n) {
     printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
     return;
   }
+
   nemu_state = NEMU_RUNNING;
 
   bool print_flag = n < MAX_INSTR_TO_PRINT;

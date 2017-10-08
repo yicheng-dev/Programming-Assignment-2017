@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 *.*
 *
 !*/
@@ -21,3 +22,6 @@ tags
 cscope.*
 build/
 >>>>>>> 1256c84659a5726527c9cb43ebe8bcd2bde8093d
+=======
+/Makefile.*
+>>>>>>> pa2

@@ -197,10 +197,14 @@ bool check_parentheses(int p,int q)
 	if (q-p==1 && tokens[p].type==TK_LBRAC && tokens[q].type==TK_RBRAC)
 	{
 <<<<<<< HEAD
+<<<<<<< HEAD
 		printf("Error: Nothing in some brackets!\n");
 =======
 //		printf("bad:1\n");
 >>>>>>> pa1
+=======
+//		printf("bad:1\n");
+>>>>>>> pa2
 		bad_expression=true;
 		return false;
 	}
@@ -214,10 +218,14 @@ bool check_parentheses(int p,int q)
 		if (left>0 && left==right) another_pair=true;
 		if (left<right){
 <<<<<<< HEAD
+<<<<<<< HEAD
 			printf("Error: There's a right bracket without its left!\n");
 =======
 //			printf("bad:2\n");
 >>>>>>> pa1
+=======
+//			printf("bad:2\n");
+>>>>>>> pa2
 			bad_expression=true;
 			return false;
 		}
@@ -228,10 +236,14 @@ bool check_parentheses(int p,int q)
 	}
 	if (left!=right){
 <<<<<<< HEAD
+<<<<<<< HEAD
 		printf("Error: Some brackets can't make up a pair!\n");
 =======
 //		printf("bad:3\n");
 >>>>>>> pa1
+=======
+//		printf("bad:3\n");
+>>>>>>> pa2
 		bad_expression=true;
 		return false;
 	}
@@ -293,10 +305,14 @@ int dominant(int p,int q)
 	if (t==p-1 && (tokens[t+1].type == TK_DEREF || tokens[t+1].type == TK_NEGSIG || tokens[t+1].type == TK_NOT))
 		return p;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	printf("Error: Can't find the dominant!\n");
 =======
 //	printf("bad:4\n");
 >>>>>>> pa1
+=======
+//	printf("bad:4\n");
+>>>>>>> pa2
 	bad_expression=true;
 	return 0;
 }
@@ -305,10 +321,14 @@ int eval(int p,int q){
 	if (bad_expression) return 0;
 	if (p>q){
 <<<<<<< HEAD
+<<<<<<< HEAD
 		printf("Error: There're problems with 'eval'.\n");
 =======
 //		printf("bad:5\n");
 >>>>>>> pa1
+=======
+//		printf("bad:5\n");
+>>>>>>> pa2
 		bad_expression=true;
 		return 0;
 	}
@@ -336,10 +356,14 @@ int eval(int p,int q){
 			else{
 				bad_expression=true;
 <<<<<<< HEAD
+<<<<<<< HEAD
 				printf("Error: Invalid number!\n");
 =======
 //				printf("bad:6\n");
 >>>>>>> pa1
+=======
+//				printf("bad:6\n");
+>>>>>>> pa2
 				return 0;
 			}
 		}
@@ -400,10 +424,14 @@ int eval(int p,int q){
 		}
 		else{
 <<<<<<< HEAD
+<<<<<<< HEAD
 			printf("Error: There's something wrong with your input!\n");
 =======
 //			printf("bad:7\n");
 >>>>>>> pa1
+=======
+//			printf("bad:7\n");
+>>>>>>> pa2
 			bad_expression=true;
 			return 0;
 		}
@@ -471,6 +499,7 @@ int eval(int p,int q){
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void init_tokens()
 {
 	int i;
@@ -484,6 +513,9 @@ uint32_t expr(char *e, bool *success) {
 =======
 uint32_t expr(char *e, bool *success) {
 >>>>>>> pa1
+=======
+uint32_t expr(char *e, bool *success) {
+>>>>>>> pa2
   bad_expression=false;
   if (!make_token(e)) {
     *success = false;
