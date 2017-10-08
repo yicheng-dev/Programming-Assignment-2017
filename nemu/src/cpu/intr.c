@@ -14,8 +14,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   data[0] = vaddr_read(cpu.idtr.val + NO*4, 4);
   data[1] = vaddr_read(cpu.idtr.val + NO*4 + 4, 4);
   memcpy(&dest, data, 4);
-  decoding.is_jmp = 1;
-  decoding.jmp_eip = dest;
+  cpu.eip = dest;
   
 }
 
