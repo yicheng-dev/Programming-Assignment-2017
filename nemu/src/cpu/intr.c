@@ -8,7 +8,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
 
   rtl_push(&cpu.eflags);
   rtl_push(&cpu.CS);
-  rtl_push(&ret_addr);
+  rtl_push(&cpu.eip);
 
   uint32_t data[2], dest;
   printf("cpu.idtr.val: 0x%x\n",cpu.idtr.val);
