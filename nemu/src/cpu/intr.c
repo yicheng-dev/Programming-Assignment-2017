@@ -17,7 +17,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   memcpy(&dest, data, 4);
   decoding.is_jmp = 1;
   decoding.jmp_eip = dest;
-  printf("dest: 0x%p\n",&dest);
+  printf("dest: %p\n",&dest);
 
 
   
