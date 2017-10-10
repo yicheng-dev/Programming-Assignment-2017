@@ -17,7 +17,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   memcpy(&gatedesc,data,8);
   decoding.jmp_eip = gatedesc.val;
   decoding.is_jmp = 1;
-  printf("dest: %u\n",gatedesc.val);  
+  printf("dest: %u\n",gatedesc.offset_15_0);  
 }
 
 void dev_raise_intr() {
