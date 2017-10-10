@@ -19,7 +19,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   printf("data[1]:%x\n",data[1]);
   printf("cpu.idtr.val: 0x%x\n",cpu.idtr.val);
   
-  memcpy(&gatedesc,data,8);
+  memcpy(&gatedesc,data,4);
   decoding.jmp_eip = gatedesc.val;
   decoding.is_jmp = 1;
   printf("dest: %u\n",gatedesc.val);  
