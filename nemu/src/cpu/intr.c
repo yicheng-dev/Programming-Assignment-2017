@@ -13,7 +13,11 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   GateDesc gatedesc;
   data[0] = vaddr_read(cpu.idtr.val + NO*sizeof(GateDesc), 4);
   data[1] = vaddr_read(cpu.idtr.val + NO*sizeof(GateDesc) + 4, 4);
+
+  printf("data[0]:%x\n",data[0]);
+  printf("data[1]:%x\n",data[1]);
   printf("cpu.idtr.val: 0x%x\n",cpu.idtr.val);
+  
   memcpy(&gatedesc,data,8);
   decoding.jmp_eip = gatedesc.val;
   decoding.is_jmp = 1;
