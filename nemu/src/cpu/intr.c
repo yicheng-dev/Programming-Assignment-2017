@@ -9,7 +9,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   rtl_push(&cpu.eflags);
   rtl_push(&cpu.CS);
   rtl_push(&cpu.eip);
-  uint16_t data[2];
+  uint32_t data[2];
   GateDesc gatedesc;
   data[0] = vaddr_read(cpu.idtr.val + NO*8, 4);
   data[1] = vaddr_read(cpu.idtr.val + NO*8 + 4, 4);
