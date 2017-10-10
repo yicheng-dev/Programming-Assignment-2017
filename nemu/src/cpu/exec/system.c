@@ -6,10 +6,10 @@ extern void raise_intr(uint8_t NO, vaddr_t ret_addr);
 
 
 make_EHelper(lidt) {
-//  cpu.idtr.limit = (uint16_t)id_dest->val;
-//  cpu.idtr.base = id_dest->val+2;
+  cpu.idtr.limit = (uint16_t)id_dest->val;
+  cpu.idtr.base = id_dest->val+2;
 //  cpu.idtr.val = id_dest->val;
-    cpu.idtr.val = vaddr_read(id_dest->val,4);
+//    cpu.idtr.val = vaddr_read(id_dest->val,4);
 	print_asm_template1(lidt);
 }
 
