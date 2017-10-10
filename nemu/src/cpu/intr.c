@@ -11,8 +11,8 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   rtl_push(&cpu.eip);
   uint32_t data[2];
   GateDesc gatedesc;
-  data[0] = vaddr_read(cpu.idtr.val + NO*sizeof(GateDesc), 4);
-  data[1] = vaddr_read(cpu.idtr.val + NO*sizeof(GateDesc) + 4, 4);
+  data[0] = vaddr_read(cpu.idtr.val + NO*8, 4);
+  data[1] = vaddr_read(cpu.idtr.val + NO*8 + 4, 4);
 
   printf("data[0]:%x\n",data[0]);
   printf("data[1]:%x\n",data[1]);
