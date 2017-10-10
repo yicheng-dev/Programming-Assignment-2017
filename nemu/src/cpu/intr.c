@@ -9,15 +9,17 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   rtl_push(&cpu.eflags);
   rtl_push(&cpu.CS);
   rtl_push(&cpu.eip);
-
-  uint64_t data[2], dest;
-  printf("cpu.idtr.val: 0x%x\n",cpu.idtr.val);
-  data[0] = vaddr_read(cpu.idtr.val + NO*sizeof(GateDesc), sizeof(GateDesc));
-  data[1] = vaddr_read(cpu.idtr.val + NO*sizeof(GateDesc) + 4, sizeof(GateDesc));
-  memcpy(&dest, data, sizeof(GateDesc));
-  decoding.is_jmp = 1;
+//  GateDesc gatedesc;
+  uint32_t data[2];
+  uint64_t dest;
+  data[0] = vaddr_read(cpu.idtr.val + NO*sizeof(GateDesc), 4);
+  data[1] = vaddr_read(cpu.idtr.val + NO*sizeof(GateDesc) + 4, 4);
+//  printf("cpu.idtr.val: 0x%x\n",cpu.idtr.val);
+  memcpy(&dest,data,8);
   decoding.jmp_eip = dest;
-  printf("dest: %p\n",&dest);  
+  decoding.is_jmp = 1;
+//  decoding.jmp_eip = ;
+//  printf("dest: %p\n",&dest);  
 }
 
 void dev_raise_intr() {
