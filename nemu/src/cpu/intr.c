@@ -9,9 +9,9 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   rtl_push(&cpu.eflags);
   rtl_push(&cpu.CS);
   rtl_push(&cpu.eip);
-  GateDesc gatedesc;
-  rtl_lm(&gatedesc.val,&cpu.idtr.val + NO*8, 4);
-  rtl_lm(&gatedesc.val+4,&cpu.idtr.val + NO*8 + 4, 4);
+/*  GateDesc gatedesc;
+  rtl_lm(&gatedesc,&(cpu.idtr.val + NO*8), 4);
+  rtl_lm(&(gatedesc+4),&(cpu.idtr.val + NO*8 + 4), 4);*/
 //  data[0]=0x1234;
 //  data[1]=0x5678;
 //  printf("gatedesc:%x\n",data[0]);
