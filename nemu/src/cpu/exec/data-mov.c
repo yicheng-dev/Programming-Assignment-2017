@@ -155,7 +155,7 @@ make_EHelper(cwtl) {
 	 reg_w(R_AX) = tmp;
   }
   else {
-	 int32_t tmp = reg_w(R_AX);
+	 uint32_t tmp = reg_w(R_AX);
 	 reg_l(R_EAX) = tmp;
   }
 
