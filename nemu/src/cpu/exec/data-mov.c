@@ -151,12 +151,10 @@ make_EHelper(cltd) {
 
 make_EHelper(cwtl) {
   if (!decoding.is_operand_size_16) {
-	 uint16_t tmp = reg_b(R_AL);
-	 reg_w(R_AX) = tmp;
+	 reg_w(R_AX) = reg_b(R_AL);
   }
   else {
-	 uint32_t tmp = reg_w(R_AX);
-	 reg_l(R_EAX) = tmp;
+	 reg_l(R_EAX) = reg_w(R_AX);
   }
 
   print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
