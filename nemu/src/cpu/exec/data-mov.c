@@ -151,7 +151,7 @@ make_EHelper(cltd) {
 
 make_EHelper(cwtl) {
   if (!decoding.is_operand_size_16) {
-	 int16_t tmp = reg_b(R_AL);
+	 uint16_t tmp = reg_b(R_AL);
 	 reg_w(R_AX) = tmp;
   }
   else {
