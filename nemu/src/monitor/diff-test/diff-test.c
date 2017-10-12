@@ -153,42 +153,42 @@ void difftest_step(uint32_t eip) {
  
   if (r.eax != cpu.eax){
 	  diff=true;
-	  printf("r.eax: %x\tcpu.eax: %x\n",r.eax,cpu.eax);
+	  printf("now eip:%x\tr.eax: %x\tcpu.eax: %x\n",r.eip,r.eax,cpu.eax);
   }
   if (r.ecx != cpu.ecx){
 	  diff=true;
-	  printf("r.ecx: %x\tcpu.ecx: %x\n",r.ecx,cpu.ecx);
+	  printf("now eip:%x\tr.ecx: %x\tcpu.ecx: %x\n",r.eip,r.ecx,cpu.ecx);
   }
   if (r.edx != cpu.edx){
 	  diff=true;
-	  printf("r.edx: %x\tcpu.edx: %x\n",r.edx,cpu.edx);
+	  printf("now eip:%x\tr.edx: %x\tcpu.edx: %x\n",r.eip,r.edx,cpu.edx);
   }
   if (r.ebx != cpu.ebx){
 	  diff=true;
-	  printf("r.ebx: %x\tcpu.ebx: %x\n",r.ebx,cpu.ebx);
+	  printf("now eip:%x\tr.ebx: %x\tcpu.ebx: %x\n",r.eip,r.ebx,cpu.ebx);
   }
   if (r.edi != cpu.edi){
 	  diff=true;
-	  printf("r.edi: %x\tcpu.edi: %x\n",r.edi,cpu.edi);
+	  printf("now eip:%x\tr.edi: %x\tcpu.edi: %x\n",r.eip,r.edi,cpu.edi);
   }
   if (r.esi != cpu.esi){
 	  diff=true;
-	  printf("r.esi: %x\tcpu.esi: %x\n",r.esi,cpu.esi);
+	  printf("now eip:%x\tr.esi: %x\tcpu.esi: %x\n",r.eip,r.esi,cpu.esi);
   }
   if (r.esp != cpu.esp){
 	  diff=true;
-	  printf("r.esp: %x\tcpu.esp: %x\n",r.esp,cpu.esp);
+	  printf("now eip:%x\tr.esp: %x\tcpu.esp: %x\n",r.eip,r.esp,cpu.esp);
   }
   if (r.ebp != cpu.ebp){
 	  diff=true;
-	  printf("r.ebp: %x\tcpu.ebp: %x\n",r.ebp,cpu.ebp);
+	  printf("now eip:%x\tr.ebp: %x\tcpu.ebp: %x\n",r.eip,r.ebp,cpu.ebp);
   }
-/*  if (r.eip != cpu.eip){
+  if (r.eip != cpu.eip){
 	  diff=true;
 	  printf("r.eip: %x\tcpu.eip: %x\n",r.eip,cpu.eip);
   }
 
-*/
+
 
   if (diff) {
     nemu_state = NEMU_END;
