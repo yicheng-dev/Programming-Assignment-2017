@@ -187,12 +187,12 @@ void difftest_step(uint32_t eip) {
 	  diff=true;
 	  printf("r.esi: %x\tcpu.esi: %x\n",r.esi,cpu.esi);
   }
-/*  if (r.eip != cpu.eip){
+  if (r.eip != cpu.eip){
 	  diff=true;
 	  printf("r.eip: %x\tcpu.eip: %x\n",r.eip,cpu.eip);
   }
 
-*/
+
 
   if (diff) {
     nemu_state = NEMU_END;
