@@ -187,3 +187,16 @@ make_EHelper(xchg) {
 
   print_asm("xchg *%s *%s", id_src->str, id_dest->str);
 }
+
+make_EHelper(rol) {
+  rtl_mv(&t0,&id_src->val);
+  while (t0 != 0){
+    rtl_msb(&t1,&id_dest->val,id_dest->width);
+	rtl_shli(&id_dest->val,&id_dest->val,1);
+	rtl_add(&id_dest->val,&id_dest->val,&t1);
+	t0--;
+  }
+  operand_write(id_dest,id_dest->val);
+}
+
+
