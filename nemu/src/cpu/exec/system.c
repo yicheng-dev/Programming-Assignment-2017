@@ -29,8 +29,6 @@ make_EHelper(mov_cr2r) {
 
 make_EHelper(int_) {
   raise_intr(id_dest->val, decoding.seq_eip);
-//  rtl_pop(&t1);
-  
   print_asm("int %s", id_dest->str);
 
 #ifdef DIFF_TEST
@@ -39,7 +37,9 @@ make_EHelper(int_) {
 }
 
 make_EHelper(iret) {
-  TODO();
+  rtl_pop(&t1);
+  decoding.jmp_eip = t1;
+  decoding.is_jmp = 1;
 
   print_asm("iret");
 }
