@@ -56,7 +56,7 @@ typedef struct{
 	};
 	union{
 		struct{
-			uint16_t limit: 16;
+			uint32_t limit: 16;
 			uint32_t base:  32;
 		};
 		uint32_t val;
