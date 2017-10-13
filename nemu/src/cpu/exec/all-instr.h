@@ -13,6 +13,7 @@ make_EHelper(cltd);
 make_EHelper(cwtl);
 make_EHelper(lea);
 make_EHelper(xchg);
+make_EHelper(rol);
 
 // arith
 make_EHelper(add);
