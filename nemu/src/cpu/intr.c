@@ -11,8 +11,8 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   rtl_push(&cpu.eip);
   printf("NO:%d\n",NO);
   printf("cpu.idtr.val:0x%x\n",cpu.idtr.val);
-  uint32_t t1 = cpu.idtr.val + NO*8;
-  uint32_t t0 = cpu.idtr.val + NO*8 + 4;
+  uint32_t t1 = cpu.idtr.limit + NO*8;
+  uint32_t t0 = cpu.idtr.limit + NO*8 + 4;
   t0 = vaddr_read(t0,4);
   t1 = vaddr_read(t1,4);
   t0 &= 0x0000ffff;
