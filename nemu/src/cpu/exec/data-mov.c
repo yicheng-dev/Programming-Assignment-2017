@@ -196,7 +196,7 @@ make_EHelper(rol) {
 	rtl_add(&id_dest->val,&id_dest->val,&t1);
 	t0--;
   }
-  operand_write(id_dest,id_dest->val);
+  operand_write(id_dest,&id_dest->val);
 }
 
 
