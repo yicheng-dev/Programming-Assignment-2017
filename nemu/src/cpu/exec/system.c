@@ -28,7 +28,7 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int_) {
-  raise_intr(id_dest->val, decoding.seq_eip);
+  raise_intr(id_dest->val, cpu.eip/*decoding.seq_eip*/);
   print_asm("int %s", id_dest->str);
 
 #ifdef DIFF_TEST
