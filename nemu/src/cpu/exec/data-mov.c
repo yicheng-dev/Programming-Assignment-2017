@@ -42,6 +42,7 @@ make_EHelper(pusha) {
 	rtl_push(&t2);
   }
   else {
+	printf("eax:%u;ecx:%u;edx:%u;ebx:%u;esi:%u;edi:%u;esp:%u;ebp:%u\n",cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esi,cpu.edi,cpu.esp,cpu.ebp);
 	rtl_lr_l(&t0,R_ESP);
 	rtl_lr_l(&t1,R_EAX);
 	rtl_lr_l(&t2,R_ECX);
