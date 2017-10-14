@@ -42,7 +42,7 @@ make_EHelper(pusha) {
 	rtl_push(&t2);
   }
   else {
-	rtl_lr_w(&t0,R_ESP);
+	rtl_lr_l(&t0,R_ESP);
 	rtl_lr_l(&t1,R_EAX);
 	rtl_lr_l(&t2,R_ECX);
 	rtl_lr_l(&t3,R_EDX);
