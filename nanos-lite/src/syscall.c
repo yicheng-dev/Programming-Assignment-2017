@@ -11,7 +11,7 @@ _RegSet* do_syscall(_RegSet *r) {
   printf("eax:%u;ecx:%u;edx:%u;ebx:%u;esi:%u;edi:%u;esp:%u;ebp:%u\n",r->eax,r->ecx,r->edx,r->ebx,r->esi,r->edi,r->esp,r->ebp);
 
   switch (a[0]) {
-	case SYS_none: a[0]=1; break;
+	case SYS_none: SYSCALL_ARG1(r)=1; break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
