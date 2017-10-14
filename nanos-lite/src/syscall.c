@@ -9,7 +9,7 @@ _RegSet* do_syscall(_RegSet *r) {
   a[3] = SYSCALL_ARG4(r);
 
   switch (a[0]) {
-	case SYS_none: r->eax=1; break;
+	case SYS_none: a[0]=1; break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
