@@ -28,7 +28,7 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int_) {
-  raise_intr(id_dest->val, decoding.seq_eip);/*
+  raise_intr(id_dest->val, *eip);/*
   printf("eax:%u;ecx:%u;edx:%u;ebx:%u;esi:%u;edi:%u;esp:%u;ebp:%u\n",cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esi,cpu.edi,cpu.esp,cpu.ebp);*/
   print_asm("int %s", id_dest->str);
 
