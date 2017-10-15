@@ -23,43 +23,43 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  if (decoding.is_operand_size_16) {
-	rtl_lr_w(&t0,R_SP);
-	rtl_lr_w(&t1,R_AX);
-	rtl_lr_w(&t2,R_CX);
-	rtl_lr_w(&t3,R_DX);
+/*  if (decoding.is_operand_size_16) {
+	t0=cpu.sp;
+	t1=cpu.ax;
+	t2=cpu.cx;
+	t3=cpu.dx;
 	rtl_push(&t1);
 	rtl_push(&t2);
 	rtl_push(&t3);
-	rtl_lr_w(&t1,R_BX);
+	t1=cpu.bx;
+	t2=cpu.bp;
+	t3=cpu.si;
 	rtl_push(&t1);
 	rtl_push(&t0);
-	rtl_lr_w(&t0,R_BP);
-	rtl_lr_w(&t1,R_SI);
-	rtl_lr_w(&t2,R_DI);
-	rtl_push(&t0);
-	rtl_push(&t1);
 	rtl_push(&t2);
+	rtl_push(&t3);
+	t1=cpu.di;
+	rtl_push(&t1);
   }
-  else {
+  else {*/
 	printf("eax:%u;ecx:%u;edx:%u;ebx:%u;esi:%u;edi:%u;esp:%u;ebp:%u\n",cpu.eax,cpu.ecx,cpu.edx,cpu.ebx,cpu.esi,cpu.edi,cpu.esp,cpu.ebp);
-	rtl_lr_l(&t0,R_ESP);
-	rtl_lr_l(&t1,R_EAX);
-	rtl_lr_l(&t2,R_ECX);
-	rtl_lr_l(&t3,R_EDX);
+    t0=cpu.esp;
+	t1=cpu.eax;
+	t2=cpu.ecx;
+	t3=cpu.edx;
 	rtl_push(&t1);
 	rtl_push(&t2);
 	rtl_push(&t3);
-	rtl_lr_l(&t1,R_EBX);
+	t1=cpu.ebx;
+	t2=cpu.ebp;
+	t3=cpu.esi;
 	rtl_push(&t1);
 	rtl_push(&t0);
-	rtl_lr_l(&t0,R_EBP);
-	rtl_lr_l(&t1,R_ESI);
-	rtl_lr_l(&t2,R_EDI);
-	rtl_push(&t0);
-	rtl_push(&t1);
 	rtl_push(&t2);
-  }
+	rtl_push(&t3);
+	t1=cpu.edi;
+	rtl_push(&t1);
+  
   print_asm("pusha");
 }
 
