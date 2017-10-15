@@ -191,7 +191,8 @@ void difftest_step(uint32_t eip) {
 	  diff=true;
 	  printf("r.eip: %x\tcpu.eip: %x\n",r.eip,cpu.eip);
   }
-
+  if (diff==true)
+	  printf("now,eip: %x\n",cpu.eip);
 
 
   if (diff) {
