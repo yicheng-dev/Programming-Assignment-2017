@@ -1,6 +1,5 @@
 #include "common.h"
 #include "syscall.h"
-#include "stdlib.h"
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
   a[0] = SYSCALL_ARG1(r);
@@ -12,7 +11,8 @@ _RegSet* do_syscall(_RegSet *r) {
 */
   switch (a[0]) {
 	case SYS_none: a[0]=1; break;
-	case SYS_exit: _halt(a[1]);break;
+	case SYS_exit: printf("eax:0x%x; ecx:0x%x; edx:0x%x; ebx:0x%x\n",r->eax,r->ecx,r->edx,r->ebx);
+				   _halt(a[1]);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
