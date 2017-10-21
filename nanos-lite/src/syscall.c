@@ -1,5 +1,6 @@
 #include "common.h"
 #include "syscall.h"
+#include "stdlib.h"
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
   a[0] = SYSCALL_ARG1(r);
