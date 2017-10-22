@@ -25,7 +25,7 @@ _RegSet* do_syscall(_RegSet *r) {
 					   }
 				   }
 				   break;
-	case SYS_brk:  _end = SYSCALL_ARG4(r); 
+	case SYS_brk:  _end = SYSCALL_ARG4(r); printf("%d\n",_end); 
 				   SYSCALL_ARG1(r)=0; break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
