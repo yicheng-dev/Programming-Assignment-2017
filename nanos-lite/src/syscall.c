@@ -2,7 +2,6 @@
 #include "syscall.h"
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
-  int i=0;
   a[0] = SYSCALL_ARG1(r);
   a[1] = SYSCALL_ARG2(r);
   a[2] = SYSCALL_ARG3(r);
@@ -17,10 +16,9 @@ _RegSet* do_syscall(_RegSet *r) {
 	case SYS_write: //printf("eax:0x%x; ecx:0x%x; edx:0x%x; ebx:0x%x\n",r->eax,r->ecx,r->edx,r->ebx);break;
 				   if (a[1]==1 || a[1]==2){
 					   a[0]=0;
-					   for (i=0;i<a[3];i++){
+					   for (;a[0]<a[3];a[0]++){
 						   char *tmp=(char*)(a[2]);
-						   _putc(tmp[i]);
-						   a[0]++;
+						   _putc(tmp[a[0]]);
 					   }
 
 				   }
