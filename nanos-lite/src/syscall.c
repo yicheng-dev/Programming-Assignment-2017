@@ -1,7 +1,9 @@
 #include "common.h"
 #include "syscall.h"
+#include "string.h"
 
 extern uint32_t _end;
+int i;
 
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
@@ -27,6 +29,16 @@ _RegSet* do_syscall(_RegSet *r) {
 				   break;
 	case SYS_brk:  _heap.end = (void*)SYSCALL_ARG2(r);//printf("end:0x%x\n",_heap.end); 
 				   SYSCALL_ARG1(r)=0; break;
+
+	case SYS_open: for (i=0;i<NR_FILES;i++){
+					   if (strcmp((char*)SYSCALL_ARG2(r),file_table[i].name)==0)
+					     SYSCALL_ARG1(r)=i;
+				   }
+				   break;
+	case SYS_close:break;
+	case SYS_read: break;
+	case SYS_write:break;
+	case SYS_lseek:break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
