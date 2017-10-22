@@ -16,8 +16,8 @@ _RegSet* do_syscall(_RegSet *r) {
 	case SYS_write: //printf("eax:0x%x; ecx:0x%x; edx:0x%x; ebx:0x%x\n",r->eax,r->ecx,r->edx,r->ebx);break;
 				   if (SYSCALL_ARG4(r)==1 || SYSCALL_ARG4(r)==2){
 					   SYSCALL_ARG1(r)=0;
-					   for (; SYSCALL_ARG1(r) < SYSCALL_ARG3(r); SYSCALL_ARG3(r)++){
-						   char *tmp=(char*)(SYSCALL_ARG2(r));
+					   for (; SYSCALL_ARG1(r) < SYSCALL_ARG2(r); SYSCALL_ARG2(r)++){
+						   char *tmp=(char*)(SYSCALL_ARG3(r));
 						   _putc(tmp[SYSCALL_ARG1(r)]);
 					   }
 				   }
