@@ -3,6 +3,8 @@
 #include "string.h"
 
 extern uint32_t _end;
+extern void ramdisk_read(void *buf, off_t offset, size_t len);
+extern void ramdisk_write(const void *buf, off_t offset, size_t len);
 int i;
 
 _RegSet* do_syscall(_RegSet *r) {
@@ -33,11 +35,22 @@ _RegSet* do_syscall(_RegSet *r) {
 	case SYS_open: for (i=0;i<NR_FILES;i++){
 					   if (strcmp((char*)SYSCALL_ARG2(r),file_table[i].name)==0)
 					     SYSCALL_ARG1(r)=i;
+					     break;
 				   }
+				   if (i==NR_FILES) assertion(0);
 				   break;
-	case SYS_close:break;
-	case SYS_read: break;
-	case SYS_write:break;
+	case SYS_close:SYSCALL_ARG1(r)=0; 
+				   break;
+	case SYS_read: if (SYSCALL_ARG4(r)<=file_table[SYSCALL_ARG1(r)].size){
+					  ramdisk_read(SYSCALL_ARG3(r),file_table[SYSCALL_ARG1(r)].disk_offset,SYSCALL_ARG4(r));
+				   }
+				   else
+					  ramdisk_read(SYSCALL_ARG3(r),file_table[SYSCALL_ARG1(r)].disk_offset,file_table[SYSCALL_ARG1(r)].size);
+				   SYSCALL_ARG1(r)=SYSCALL_ARG4(r);
+				   break;
+	case SYS_write:
+				   
+				   break;
 	case SYS_lseek:break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
