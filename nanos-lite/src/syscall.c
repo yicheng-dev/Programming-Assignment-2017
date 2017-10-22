@@ -13,6 +13,7 @@ _RegSet* do_syscall(_RegSet *r) {
 	case SYS_none: a[0]=1; break;
 	case SYS_exit: //printf("eax:0x%x; ecx:0x%x; edx:0x%x; ebx:0x%x\n",r->eax,r->ecx,r->edx,r->ebx);
 				   _halt(a[1]);break;
+	case SYS_write: printf("eax:0x%x; ecx:0x%x; edx:0x%x; ebx:0x%x\n",r->eax,r->ecx,r->edx,r->ebx);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
