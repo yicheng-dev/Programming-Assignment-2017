@@ -10,15 +10,15 @@ _RegSet* do_syscall(_RegSet *r) {
   printf("eax:0x%x;ecx:0x%x;edx:0x%x;ebx:0x%x;esi:0x%x;edi:0x%x;esp:0x%x;ebp:0x%x\n",r->eax,r->ecx,r->edx,r->ebx,r->esi,r->edi,r->esp,r->ebp);
 */
   switch (a[0]) {
-	case SYS_none: a[0]=1; break;
+	case SYS_none: r->eax=1; break;
 	case SYS_exit: //printf("eax:0x%x; ecx:0x%x; edx:0x%x; ebx:0x%x\n",r->eax,r->ecx,r->edx,r->ebx);
-				   _halt(a[1]);break;
+				   _halt(r->ecx);break;
 	case SYS_write: //printf("eax:0x%x; ecx:0x%x; edx:0x%x; ebx:0x%x\n",r->eax,r->ecx,r->edx,r->ebx);break;
-				   if (a[1]==1 || a[1]==2){
-					   a[0]=0;
-					   for (;a[0]<a[3];a[0]++){
-						   char *tmp=(char*)(a[2]);
-						   _putc(tmp[a[0]]);
+				   if (r->ecx==1 || r->ecx==2){
+					   r->eax=0;
+					   for (;r->eax<r->ebx;r->eax++){
+						   char *tmp=(char*)(r->edx);
+						   _putc(tmp[r->eax]);
 					   }
 
 				   }
