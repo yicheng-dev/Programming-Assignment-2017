@@ -10,7 +10,6 @@ extern ssize_t fs_read(int, void*, size_t);
 extern ssize_t fs_write(int ,const void*, size_t);
 
 extern size_t fs_filesz(int fd);
-extern off_t fs_fileof(int fd);
 
 uintptr_t loader(_Protect *as, const char *filename) {
 //  size_t ramdisk_size = get_ramdisk_size();
