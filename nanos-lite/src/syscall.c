@@ -1,11 +1,13 @@
 #include "common.h"
 #include "syscall.h"
-#include "string.h"
 
 extern uint32_t _end;
-extern void ramdisk_read(void *buf, off_t offset, size_t len);
-extern void ramdisk_write(const void *buf, off_t offset, size_t len);
-int i;
+
+extern int fs_open(const char *pathname, int flags, int mode);
+extern ssize_t fs_read(int fd, void *buf, size_t len);
+extern ssize_t fs_write(int fd, const void *buf, size_t len);
+extern off_t fs_lseek(int fd, off_t offset, int whence);
+extern int fs_close(int fd);
 
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
@@ -28,30 +30,20 @@ _RegSet* do_syscall(_RegSet *r) {
 						   _putc(tmp[SYSCALL_ARG1(r)]);
 					   }
 				   }
+				   else
+				       SYSCALL_ARG1(r) = fs_write((int)SYSCALL_ARG2(r), (void*)SYSCALL_ARG3(r), (size_t)SYSCALL_ARG4(r));
 				   break;
 	case SYS_brk:  _heap.end = (void*)SYSCALL_ARG2(r);//printf("end:0x%x\n",_heap.end); 
-				   SYSCALL_ARG1(r)=0; break;
-
-	case SYS_open: for (i=0;i<NR_FILES;i++){
-					   if (strcmp((char*)SYSCALL_ARG2(r),file_table[i].name)==0)
-					     SYSCALL_ARG1(r)=i;
-					     break;
-				   }
-				   if (i==NR_FILES) assertion(0);
+				   SYSCALL_ARG1(r)=0; 
 				   break;
-	case SYS_close:SYSCALL_ARG1(r)=0; 
+	case SYS_open: SYSCALL_ARG1(r) = fs_open((const char*)SYSCALL_ARG2(r),(int) SYSCALL_ARG3(r),(int) SYSCALL_ARG4(r));
 				   break;
-	case SYS_read: if (SYSCALL_ARG4(r)<=file_table[SYSCALL_ARG1(r)].size){
-					  ramdisk_read(SYSCALL_ARG3(r),file_table[SYSCALL_ARG1(r)].disk_offset,SYSCALL_ARG4(r));
-				   }
-				   else
-					  ramdisk_read(SYSCALL_ARG3(r),file_table[SYSCALL_ARG1(r)].disk_offset,file_table[SYSCALL_ARG1(r)].size);
-				   SYSCALL_ARG1(r)=SYSCALL_ARG4(r);
+	case SYS_close:SYSCALL_ARG1(r) = fs_close((int)SYSCALL_ARG2(r));   
 				   break;
-	case SYS_write:
-				   
+	case SYS_read: SYSCALL_ARG1(r) = fs_read((int)SYSCALL_ARG2(r),(void*) SYSCALL_ARG3(r),(size_t) SYSCALL_ARG4(r));
 				   break;
-	case SYS_lseek:break;
+	case SYS_lseek:SYSCALL_ARG1(r) = fs_lseek((int)SYSCALL_ARG2(r), (off_t)SYSCALL_ARG3(r), (int)SYSCALL_ARG4(r));
+				   break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
