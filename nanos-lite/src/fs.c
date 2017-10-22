@@ -47,11 +47,17 @@ ssize_t fs_read(int fd, void *buf, size_t len)
   else if (len <= file_table[fd].size - file_table[fd].open_offset){
 	ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 	file_table[fd].open_offset += len;
+
+	printf("read type 2\n");
+
 	return len;
   }
   else{
 	ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, file_table[fd].size - file_table[fd].open_offset);
 	file_table[fd].open_offset = file_table[fd].size;
+
+	printf("read type 3\n");
+
 	return file_table[fd].size - file_table[fd].open_offset;
   }
 }
@@ -61,10 +67,16 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 {
   if (len <= file_table[fd].size-file_table[fd].open_offset){
     ramdisk_write(buf, file_table[fd].disk_offset, len);
+
+	printf("write type 1\n");
+
 	return len;
   }
   else{
 	ramdisk_write(buf, file_table[fd].disk_offset, file_table[fd].size- file_table[fd].open_offset);
+	
+	printf("write type 2\n");
+	
 	return file_table[fd].size- file_table[fd].open_offset;
   }
 }
