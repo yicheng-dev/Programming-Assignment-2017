@@ -9,6 +9,6 @@ uintptr_t loader(_Protect *as, const char *filename) {
   size_t ramdisk_size = get_ramdisk_size();
   void *buf = DEFAULT_ENTRY;
   ramdisk_read(buf, 0, ramdisk_size);
-  printf("%s\n",filename);
+//  printf("%s\n",filename);
   return (uintptr_t)DEFAULT_ENTRY;
 }
