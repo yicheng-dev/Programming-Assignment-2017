@@ -56,8 +56,14 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 extern void ramdisk_write(const void *,off_t, size_t); 
 ssize_t fs_write(int fd, const void *buf, size_t len)
 {
-  ramdisk_write(buf, file_table[fd].disk_offset, len);
-  return len;
+  if (len <= file_table[fd].size - file_table[fd].open_offset){
+    ramdisk_write(buf, file_table[fd].disk_offset, len);
+	return len;
+  }
+  else{
+	ramdisk_write(buf, file_table[fd].disk_offset, file_table[fd].size - file_table[fd].open_offset);
+	return file_table[fd].size - file_table[fd].open_offset;
+  }
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence)
