@@ -30,10 +30,10 @@ int _write(int fd, void *buf, size_t count){
   return _syscall_(SYS_write, (uintptr_t)fd, (uintptr_t)buf, (uintptr_t)count);
 }
 
-extern uintptr_t end;
+extern intptr_t end;
 void *_sbrk(intptr_t increment){
-  uintptr_t old_end = (uintptr_t)&end;
-  if ( _syscall_(SYS_brk,(uintptr_t)&end + increment, 0, 0) == 0){
+  intptr_t old_end = (intptr_t)&end;
+  if ( _syscall_(SYS_brk,(intptr_t)&end + increment, 0, 0) == 0){
     return (void*)old_end;
   }
   return (void *)-1;
