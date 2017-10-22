@@ -23,6 +23,8 @@ static Finfo file_table[] __attribute__((used)) = {
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
 void init_fs() {
+  int i;
+  for (i=0; i<NR_FILES; i++) file_table[i].open_offset = 0;
   // TODO: initialize the size of /dev/fb
 }
 
