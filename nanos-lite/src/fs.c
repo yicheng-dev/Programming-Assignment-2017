@@ -42,6 +42,8 @@ int fs_open(const char *pathname, int flags, int mode)
 extern void ramdisk_read(void *, off_t, size_t);
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
+  if (file_table[fd].open_offset >= file_table[fd].size)
+	return 0;
   if (len <= file_table[fd].size - file_table[fd].open_offset){
 	ramdisk_read(buf, file_table[fd].disk_offset, len);
 	file_table[fd].open_offset += len;
@@ -57,8 +59,6 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 extern void ramdisk_write(const void *,off_t, size_t); 
 ssize_t fs_write(int fd, const void *buf, size_t len)
 {
-  if (file_table[fd].open_offset >= file_table[fd].size)
-	return 0;
   if (len <= file_table[fd].size - file_table[fd].open_offset){
     ramdisk_write(buf, file_table[fd].disk_offset, len);
 	return len;
