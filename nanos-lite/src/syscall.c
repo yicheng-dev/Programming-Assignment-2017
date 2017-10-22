@@ -1,5 +1,8 @@
 #include "common.h"
 #include "syscall.h"
+
+extern void * _end;
+
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
   a[0] = SYSCALL_ARG1(r);
@@ -22,7 +25,7 @@ _RegSet* do_syscall(_RegSet *r) {
 					   }
 				   }
 				   break;
-	case SYS_brk:  _heap.end = (void*)SYSCALL_ARG4(r); 
+	case SYS_brk:  _end = (void*)SYSCALL_ARG4(r); 
 				   SYSCALL_ARG1(r)=0; break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
