@@ -43,24 +43,24 @@ extern void ramdisk_read(void *, off_t, size_t);
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
   if (file_table[fd].open_offset >= file_table[fd].size - 1){
-	printf("fs_read type 1 begin\nfs_read type 1 end\n");
+	printf("fs_read type 1 begin, fd:%d\nfs_read type 1 end, fd:%d\n",fd,fd);
 	return -1;
   }
   else if (len <= file_table[fd].size - 1 - file_table[fd].open_offset){
-	printf("fs_read type 2 begin\n");
+	printf("fs_read type 2 begin, fd:%d\n",fd);
 	ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 	file_table[fd].open_offset += len;
 
-	printf("fs_read type 2 end\n");
+	printf("fs_read type 2 end, fd:%d\n",fd);
 
 	return len;
   }
   else{
-	printf("fs_read type 3 begin\n");
+	printf("fs_read type 3 begin, fd:%d\n",fd);
 	ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, file_table[fd].size - 1 - file_table[fd].open_offset);
 	file_table[fd].open_offset = file_table[fd].size - 1;
 
-	printf("fs_read type 3 end\n");
+	printf("fs_read type 3 end, fd:%d\n",fd);
 
 	return file_table[fd].size - file_table[fd].open_offset - 1;
   }
