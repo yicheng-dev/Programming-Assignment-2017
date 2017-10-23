@@ -18,6 +18,6 @@ uintptr_t loader(_Protect *as, const char *filename) {
   fs_read(fd, buf, fs_filesz(fd));
   fs_close(fd);
 
-  printf("filename:%s\nfd:%d\n",filename,fd);
+//  printf("filename:%s\nfd:%d\n",filename,fd);
   return (uintptr_t)DEFAULT_ENTRY;
 }
