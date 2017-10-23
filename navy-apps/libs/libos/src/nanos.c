@@ -33,8 +33,8 @@ int _write(int fd, void *buf, size_t count){
 extern intptr_t _end;
 intptr_t old_end = (intptr_t)&_end;
 void *_sbrk(intptr_t increment){
-  intptr_t now_end = old_end + increment;
-  if ( _syscall_(SYS_brk, now_end, 0, 0) == 0)
+  old_end += increment;
+  if ( _syscall_(SYS_brk, old_end, 0, 0) == 0)
     return (void*)old_end;
   return (void *)-1;
 }
