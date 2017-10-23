@@ -53,7 +53,7 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 	file_table[fd].open_offset += len;
 
 	printf("fs_read type 2 end, fd:%d, open_offset:%d, len:%d\n",fd,file_table[fd].open_offset,len);
-
+    printf("%s\n",buf);
 	return len;
   }
   else{
