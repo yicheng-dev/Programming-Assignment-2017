@@ -43,22 +43,24 @@ extern void ramdisk_read(void *, off_t, size_t);
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
   if (file_table[fd].open_offset >= file_table[fd].size - 1){
-	printf("read type 1 end\n");
+	printf("fs_read type 1 begin\nfs_read type 1 end\n");
 	return -1;
   }
   else if (len <= file_table[fd].size - 1 - file_table[fd].open_offset){
+	printf("fs_read type 2 begin\n");
 	ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 	file_table[fd].open_offset += len;
 
-	printf("read type 2 end\n");
+	printf("fs_read type 2 end\n");
 
 	return len;
   }
   else{
+	printf("fs_read type 3 begin\n");
 	ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, file_table[fd].size - 1 - file_table[fd].open_offset);
 	file_table[fd].open_offset = file_table[fd].size - 1;
 
-	printf("read type 3 end\n");
+	printf("fs_read type 3 end\n");
 
 	return file_table[fd].size - file_table[fd].open_offset - 1;
   }
@@ -68,22 +70,22 @@ extern void ramdisk_write(const void *,off_t, size_t);
 ssize_t fs_write(int fd, const void *buf, size_t len)
 {
   if (file_table[fd].open_offset >= file_table[fd].size - 1){
-	printf("write type 1 end\n");
+	printf("fs_write type 1 end\n");
 	return -1;
   }
   else if (len <= file_table[fd].size - 1 - file_table[fd].open_offset){
-	printf("write type 2 begin\n"); 
+	printf("fs_write type 2 begin\n"); 
     ramdisk_write(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 	file_table[fd].open_offset += len;
-	printf("write type 2 end\n");
+	printf("fs_write type 2 end\n");
 
 	return len;
   }
   else {
-	printf("write type 3 begin\n");
+	printf("fs_write type 3 begin\n");
 	ramdisk_write(buf, file_table[fd].disk_offset+file_table[fd].open_offset, file_table[fd].size - 1 - file_table[fd].open_offset);
 	file_table[fd].open_offset = file_table[fd].size;
-	printf("write type 3 end\n");
+	printf("fs_write type 3 end\n");
 	
 	return file_table[fd].size - 1 - file_table[fd].open_offset;
   }
@@ -98,11 +100,13 @@ off_t fs_lseek(int fd, off_t offset, int whence)
 	case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset;break;
 	default: return -1;
   }
+  printf("fs_lseek end, open_offset:0x%x\n",file_table[fd].open_offset);
   return file_table[fd].open_offset;
 }
 
 int fs_close(int fd)
 {
+  printf("fs_close end, fd:%d\n",fd);
   return 0;
 }
 
