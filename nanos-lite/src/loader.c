@@ -13,10 +13,10 @@ extern size_t fs_filesz(int fd);
 
 uintptr_t loader(_Protect *as, const char *filename) {
 //  size_t ramdisk_size = get_ramdisk_size();
-  void *buf = DEFAULT_ENTRY;
+//  void *buf = DEFAULT_ENTRY;
   int fd = fs_open(filename, 0, 0);
-  fs_read(fd, buf, fs_filesz(fd));
-  fs_close(fd);
+//  fs_read(fd, buf, fs_filesz(fd));
+//  fs_close(fd);
 
   printf("filename:%s\nfd:%d\n",filename,fd);
   return (uintptr_t)DEFAULT_ENTRY;
