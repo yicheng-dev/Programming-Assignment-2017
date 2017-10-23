@@ -43,6 +43,7 @@ int fs_open(const char *pathname, int flags, int mode)
 extern void ramdisk_read(void *, off_t, size_t);
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
+  len=4;
   if (file_table[fd].open_offset >= file_table[fd].size - 1){
 	printf("fs_read type 1 begin, fd:%d\nfs_read type 1 end, fd:%d\n",fd,fd);
 	return -1;
