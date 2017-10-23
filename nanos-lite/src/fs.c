@@ -94,14 +94,14 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 
 off_t fs_lseek(int fd, off_t offset, int whence)
 {
-  printf("fs_lseek begin, whence:%d ;fd:%d\n ;offset:0x%x\n",whence,fd,offset);
+  printf("fs_lseek begin, whence:%d ;fd:%d\n ;offset:%d\n",whence,fd,offset);
   switch (whence){
     case SEEK_SET: file_table[fd].open_offset = offset; break;
 	case SEEK_CUR: file_table[fd].open_offset += offset; break;
 	case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset;break;
 	default: return -1;
   }
-  printf("fs_lseek end, open_offset:0x%x\n",file_table[fd].open_offset);
+  printf("fs_lseek end, open_offset:%d\n",file_table[fd].open_offset);
   return file_table[fd].open_offset;
 }
 
