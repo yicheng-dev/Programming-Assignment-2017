@@ -49,7 +49,7 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 {
 	printf("fd:%d\n",fd);
 	switch (fd) {
-		case 5:  dispinfo_read(buf, file_table[FD_FB].disk_offset, len);
+		case FD_FB:  dispinfo_read(buf, file_table[FD_FB].disk_offset, len);
 							 return len;
 		default:
 		if (len + file_table[fd].open_offset > file_table[fd].size)
