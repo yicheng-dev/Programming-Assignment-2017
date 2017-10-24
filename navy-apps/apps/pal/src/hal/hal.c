@@ -198,7 +198,7 @@ void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
 //  assert(screen->pitch == W);
 
   // this should always be true in NEMU-PAL
-  assert(screen->flags & SDL_HWSURFACE);
+//  assert(screen->flags & SDL_HWSURFACE);
 
   redraw();
 }
