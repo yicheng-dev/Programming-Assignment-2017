@@ -47,7 +47,7 @@ extern void ramdisk_read(void *, off_t, size_t);
 extern void dispinfo_read(void *, off_t, size_t);
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
-	printf("fd:%d\n",fd);
+	printf("read fd:%d\n",fd);
 	switch (fd) {
 		case FD_DISPINFO:  
 			dispinfo_read(buf, file_table[FD_FB].disk_offset, len);
@@ -68,6 +68,7 @@ extern void fb_write(const void *, off_t, size_t);
 
 ssize_t fs_write(int fd, const void *buf, size_t len)
 {
+   printf("write fd:%d\n",fd);
    switch (fd) {
 	   case FD_STDOUT:
 	   case FD_STDERR:cnt = 0;
