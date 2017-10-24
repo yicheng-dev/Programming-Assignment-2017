@@ -35,6 +35,7 @@ void init_device() {
   _ioe_init();
   int fd = fs_open("/proc/dispinfo", 0, 0);
   ramdisk_read(dispinfo, fs_fileof(fd), fs_filesz(fd));
+  printf("dispinfo:%s\n",dispinfo);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
 }
