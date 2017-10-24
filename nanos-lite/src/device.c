@@ -36,11 +36,7 @@ extern ssize_t fs_read(int, void*, size_t);
 void init_device() {
   _ioe_init();
 
-  int fd = fs_open("/proc/dispinfo", 0, 0);
-  char * buf = "WIDTH:800\nHEIGHT:600";
-  fs_write(fd, (void *)buf, strlen(buf));		   
-  fs_read(fd, dispinfo, fs_filesz(fd));
-  fs_close(fd);
+  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
 }
