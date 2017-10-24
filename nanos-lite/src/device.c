@@ -40,6 +40,7 @@ void init_device() {
   char * buf = "WIDTH:400\nHEIGHT:300";
   fs_write(fd, (void *)buf, strlen(buf));		   
   fs_read(fd, dispinfo, fs_filesz(fd));
+  printf("dispinfo:%s\n",dispinfo);
   //  ramdisk_read(dispinfo, fs_fileof(fd), fs_filesz(fd));
   fs_close(fd);
   // TODO: print the string to array `dispinfo` with the format
