@@ -38,8 +38,6 @@ extern ssize_t fs_read(int, void*, size_t);
 void init_device() {
   _ioe_init();
   sprintf(event_temp, "t 1234\nkd RETURN\nku A\n");
-  int fd = fs_open("/dev/events",0 ,0);
-  fs_write(fd, (void*)event_temp, sizeof((void*)event_temp));
   sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
