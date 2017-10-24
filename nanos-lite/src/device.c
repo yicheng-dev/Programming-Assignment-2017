@@ -10,8 +10,9 @@ static const char *keyname[256] __attribute__((used)) = {
 
 static char event_temp[10000] __attribute__((used));
 size_t events_read(void *buf, size_t len) {
-  memcpy(buf, (void*)event_temp, len);
+  memcpy(buf, (void*)event_temp, sizeof(event_temp));
   printf("buf:%s\n",buf);
+  printf("strlen(buf):%d\n",strlen(buf));
   return strlen(buf);
 }
 
