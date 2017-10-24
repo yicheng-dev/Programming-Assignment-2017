@@ -20,6 +20,7 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
   for (i=offset;i<offset+len;i++){
     buf[i-offset] = dispinfo_tmp[i];
   }*/
+  memcpy(buf, (void*)dispinfo+offset, len);
 }
 
 extern uint32_t* const fb;
