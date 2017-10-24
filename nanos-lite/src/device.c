@@ -36,13 +36,12 @@ extern ssize_t fs_read(int, void*, size_t);
 void init_device() {
   _ioe_init();
 
-
   int fd = fs_open("/proc/dispinfo", 0, 0);
   char * buf = "WIDTH:400\nHEIGHT:300";
   fs_write(fd, (void *)buf, strlen(buf));		   
-  ramdisk_read(dispinfo, fs_fileof(fd), fs_filesz(fd));
+  fs_read(fd, dispinfo, fs_filesz(fd));
+  //  ramdisk_read(dispinfo, fs_fileof(fd), fs_filesz(fd));
   fs_close(fd);
-  //fs_read(fd, dispinfo, fs_filesz(fd));
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
 }
