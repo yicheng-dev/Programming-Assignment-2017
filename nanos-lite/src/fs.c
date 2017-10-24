@@ -63,7 +63,7 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 			if (len < 0 ) return -1;
 			int rlen = events_read(buf, len);
 			file_table[fd].open_offset += rlen;
-			return len;
+			return rlen;
 		default:
 			if (len + file_table[fd].open_offset > file_table[fd].size)
 				len = file_table[fd].size - file_table[fd].open_offset;
