@@ -47,6 +47,7 @@ extern void ramdisk_read(void *, off_t, size_t);
 extern void dispinfo_read(void *, off_t, size_t);
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
+	printf("fd:%d\n",fd);
 	switch (fd) {
 		case (FD_FB):  dispinfo_read(buf, file_table[FD_FB].disk_offset, len);
 							 return len;
