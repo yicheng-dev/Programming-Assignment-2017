@@ -20,6 +20,7 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 
 extern uint32_t* const fb;
 void fb_write(const void *buf, off_t offset, size_t len) {
+  printf("offset:%d\nlen:%d\n",offset,len);
   memcpy((void*)fb+offset, buf, len);
 }
 
