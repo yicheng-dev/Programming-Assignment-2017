@@ -49,8 +49,11 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 {
 //	printf("read fd:%d\n",fd);
 	switch (fd) {
-		case FD_FB:  
-			dispinfo_read(buf, file_table[FD_FB].disk_offset, len);
+		case FD_FB: 
+			if (len + file_table[fd].open_offset > file_table[fd].size)
+			  len = file_table[fd].size - file_table[fd].open_offset;
+			if (len < 0 ) return -1;
+			dispinfo_read(buf, file_table[FD_FB].disk_offset+file_table[FD_FB].open_offset, len);
 			file_table[FD_FB].open_offset +=len;
 			return len;
 		default:
@@ -78,7 +81,11 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 						  _putc(tmp[cnt]);
 					  }
 					  return cnt;
-	   case FD_FB: fb_write(buf, file_table[FD_FB].disk_offset, len);
+	   case FD_FB: 
+				   if (len + file_table[fd].open_offset > file_table[fd].size)
+					   len = file_table[fd].size - file_table[fd].open_offset;
+				   if (len < 0) return -1;
+				   fb_write(buf, file_table[FD_FB].disk_offset, len);
 				   file_table[FD_FB].open_offset += len;
 				   return len;    
 	   default: if (len + file_table[fd].open_offset > file_table[fd].size)
