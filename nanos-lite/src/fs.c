@@ -22,6 +22,7 @@ static Finfo file_table[] __attribute__((used)) = {
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
+int fs_open(const char*, int, int);
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   int fd = fs_open("/dev/fb",0,0);
@@ -58,6 +59,8 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 
 static int cnt;
 extern void ramdisk_write(const void *,off_t, size_t); 
+extern void fb_write(const void *, off_t, size_t);
+
 ssize_t fs_write(int fd, const void *buf, size_t len)
 {
    switch (fd) {
@@ -68,7 +71,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 						  _putc(tmp[cnt]);
 					  }
 					  return cnt;
-	   case FD_FB: fb_write(buf, file_table[fd].disk_offset, len); break;    
+	   case FD_FB: fb_write(buf, file_table[fd].disk_offset, len); return len;    
 	   default: if (len + file_table[fd].open_offset > file_table[fd].size)
 					len = file_table[fd].size - file_table[fd].open_offset;
 				if (len < 0 ) return -1;
@@ -76,6 +79,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 				file_table[fd].open_offset += len; 
 				return len;
    }
+
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence)
