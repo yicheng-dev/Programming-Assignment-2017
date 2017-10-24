@@ -44,6 +44,7 @@ int fs_open(const char *pathname, int flags, int mode)
 
 extern void ramdisk_read(void *, off_t, size_t);
 extern void dispinfo_read(void *, off_t, size_t);
+extern size_t events_read(void *,size_t);
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
 //	printf("read fd:%d\n",fd);
@@ -55,13 +56,20 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 			dispinfo_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 			file_table[fd].open_offset +=len;
 			return len;
+	    case FD_EVENTS:
+			if (len + file_table[fd].open_offset > file_table[fd].size)
+			  len = file_table[fd].size - file_table[fd].open_offset;
+			if (len < 0 ) return -1;
+			events_read(buf, len);
+			file_table[fd].open_offset +=len;
+			return len;
 		default:
-		if (len + file_table[fd].open_offset > file_table[fd].size)
-			len = file_table[fd].size - file_table[fd].open_offset;
-		if (len < 0 ) return -1;
-		ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
-		file_table[fd].open_offset += len;
-		return len;
+			if (len + file_table[fd].open_offset > file_table[fd].size)
+				len = file_table[fd].size - file_table[fd].open_offset;
+			if (len < 0 ) return -1;
+			ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;
+			return len;
 	}
 }
 
