@@ -14,6 +14,7 @@ size_t events_read(void *buf, size_t len) {
 }
 
 static char dispinfo[128] __attribute__((used));
+static char *event_temp;
 
 void dispinfo_read(void *buf, off_t offset, size_t len) {
 //  printf("fb_read: offset:%d\nlen:%d\n",offset,len);
@@ -36,10 +37,9 @@ extern void ramdisk_read(void *,off_t, size_t);
 extern ssize_t fs_read(int, void*, size_t);
 void init_device() {
   _ioe_init();
-  static char * buf;
-  sprintf(buf, "t 1234\nkd RETURN\nku A\n");
+  sprintf(event_temp, "t 1234\nkd RETURN\nku A\n");
   int fd = fs_open("/dev/events",0 ,0);
-  fs_write(fd, (void*)buf, sizeof((void*)buf));
+  fs_write(fd, (void*)event_temp, sizeof((void*)event_temp));
   sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
