@@ -26,7 +26,7 @@ size_t events_read(void *buf, size_t len) {
 	  sprintf(event_temp+fs_fileof(4), "ku %s\n", keyname[key]);
   }
   else {
-    sprintf(event_temp+fs_fileof(4), "t %d\n", 1000*_uptime());
+    sprintf(event_temp+fs_fileof(4), "t %d\n", _uptime());
   }
 	  
   memcpy(buf, (void*)event_temp+fs_fileof(4), sizeof(event_temp));
