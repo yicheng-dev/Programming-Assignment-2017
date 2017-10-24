@@ -49,7 +49,7 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 {
 	printf("read fd:%d\n",fd);
 	switch (fd) {
-		case FD_DISPINFO:  
+		case FD_FB:  
 			dispinfo_read(buf, file_table[FD_FB].disk_offset, len);
 			return len;
 		default:

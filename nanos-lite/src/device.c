@@ -39,7 +39,6 @@ extern ssize_t fs_read(int, void*, size_t);
 void init_device() {
   _ioe_init();
   int fd = fs_open("/proc/dispinfo", 0, 0);
-  ramdisk_read(dispinfo, fs_fileof(fd), fs_filesz(fd));
   fs_read(fd, dispinfo, fs_filesz(fd));
   printf("dispinfo:%s\n",dispinfo);
   // TODO: print the string to array `dispinfo` with the format
