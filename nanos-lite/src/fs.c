@@ -24,15 +24,13 @@ static Finfo file_table[] __attribute__((used)) = {
 
 int fs_open(const char*, int, int);
 void init_fs() {
-  // TODO: initialize the size of /dev/fb
   int fd = fs_open("/dev/fb",0,0);
   file_table[fd].size = _screen.width * _screen.height;
-  printf("fb size: %d\n",file_table[fd].size);
 }
 
 int fs_open(const char *pathname, int flags, int mode)
 {
-//  printf("fs_open: pathname:%s\n",pathname);
+  printf("fs_open: pathname:%s\n",pathname);
   int i;
   for (i=0; i<NR_FILES; i++){
 	if (strcmp(pathname,file_table[i].name) == 0){
