@@ -57,6 +57,7 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 			file_table[fd].open_offset +=len;
 			return len;
 	    case FD_EVENTS:
+			printf("len: %d\n",len);
 			if (len + file_table[fd].open_offset > file_table[fd].size)
 			  len = file_table[fd].size - file_table[fd].open_offset;
 			if (len < 0 ) return -1;
