@@ -57,23 +57,8 @@ extern ssize_t fs_read(int, void*, size_t);
 extern unsigned long _uptime();
 extern int _read_key();
 void init_device() {
-  _ioe_init();
-  int key = _read_key();
-  bool down =false;
-  if (key & 0x8000) {
-	key = key ^ 0x8000;
-	down =true;
-  }
-  if (key != _KEY_NONE){
-	if (down)
-	  sprintf(event_temp, "kd %s\n", keyname[key]);
-	else
-	  sprintf(event_temp, "ku %s\n", keyname[key]);
-  }
-  else {
-	sprintf(event_temp, "t %d\n", 1000*_uptime());
-  } 
-    sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
+  _ioe_init(); 
+  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
 }
