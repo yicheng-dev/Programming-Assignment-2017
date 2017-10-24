@@ -8,8 +8,10 @@ static const char *keyname[256] __attribute__((used)) = {
   _KEYS(NAME)
 };
 
+extern off_t fs_fileof(int);
 static char event_temp[10000] __attribute__((used));
 size_t events_read(void *buf, size_t len) {
+  
   int key = _read_key();
   bool down =false;
   if (key & 0x8000) {
@@ -19,15 +21,15 @@ size_t events_read(void *buf, size_t len) {
   if (key != _KEY_NONE){
 //	printf("key:%d\n",key);
 	if (down)
-	  sprintf(event_temp, "kd %s\n", keyname[key]);
+	  sprintf(event_temp+fs_fileof(4), "kd %s\n", keyname[key]);
 	else
-	  sprintf(event_temp, "ku %s\n", keyname[key]);
+	  sprintf(event_temp+fs_fileof(4), "ku %s\n", keyname[key]);
   }
   else {
-    sprintf(event_temp, "t %d\n", 1000*_uptime());
+    sprintf(event_temp+fs_fileof(4), "t %d\n", 1000*_uptime());
   }
 	  
-  memcpy(buf, (void*)event_temp, sizeof(event_temp));
+  memcpy(buf, (void*)event_temp+fs_fileof(4), sizeof(event_temp));
 //  printf("buf:%s\n",buf);
 //  printf("strlen(buf):%d\n",strlen(buf));
   return strlen(buf);
@@ -51,7 +53,6 @@ extern int fs_open(const char *, int, int);
 extern ssize_t fs_write(int, const void*, size_t);
 extern int fs_close(int);
 extern size_t fs_filesz(int);
-extern off_t fs_fileof(int);
 extern void ramdisk_read(void *,off_t, size_t);
 extern ssize_t fs_read(int, void*, size_t);
 extern unsigned long _uptime();

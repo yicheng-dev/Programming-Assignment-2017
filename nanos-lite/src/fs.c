@@ -133,5 +133,5 @@ size_t fs_filesz(int fd)
 
 off_t fs_fileof(int fd)
 {
-  return file_table[fd].disk_offset;
+  return file_table[fd].open_offset;
 }
