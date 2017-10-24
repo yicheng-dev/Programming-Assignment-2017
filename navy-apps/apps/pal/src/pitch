@@ -1,0 +1,4 @@
+hal/hal.c:  printf("screen->pitch:%d\n",screen->pitch);
+hal/hal.c:  assert(screen->pitch == W);
+hal/hal.c:  printf("screen->flags:%d\nSDL_HWSURFACE:%d\n",screen->flags,SDL_HWSURFACE);
+hal/hal.c:  assert(screen->flags & SDL_HWSURFACE);

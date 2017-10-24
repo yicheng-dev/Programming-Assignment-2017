@@ -203,7 +203,7 @@ void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors,
 void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
   assert(screen);
   printf("screen->pitch:%d\n",screen->pitch);
-//  assert(screen->pitch == W);
+  assert(screen->pitch == W);
   printf("screen->flags:%d\nSDL_HWSURFACE:%d\n",screen->flags,SDL_HWSURFACE);
   // this should always be true in NEMU-PAL
   assert(screen->flags & SDL_HWSURFACE);
