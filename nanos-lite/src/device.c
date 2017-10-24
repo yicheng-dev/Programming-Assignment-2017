@@ -15,15 +15,20 @@ size_t events_read(void *buf, size_t len) {
 static char dispinfo[128] __attribute__((used));
 
 void dispinfo_read(void *buf, off_t offset, size_t len) {
+  printf("dispinfo_read begin\n");
   printf("offset: %d; len:%d\n",offset, len);
   printf("dispinfo:%s\n",dispinfo);
   memcpy(buf, (void*)dispinfo+offset, len);
   printf("buf:%s\n",buf);
+  printf("dispinfo_read end\n");
 }
 
 extern uint32_t* const fb;
 void fb_write(const void *buf, off_t offset, size_t len) {
-  memcpy((void*)fb+offset, buf, len); 
+  printf("fb_write begin\n");
+  printf("buf:%s\noffset:%d\nlen:%d\n",buf, offset,len);
+  memcpy((void*)fb+offset, buf, len);
+  printf("fb:%s\nfb_write end\n",fb);
 }
 
 extern int fs_open(const char *, int, int);
