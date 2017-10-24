@@ -68,7 +68,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 						  _putc(tmp[cnt]);
 					  }
 					  return cnt;
-	//   case FD_FB: fb_write(buf,    
+	   case FD_FB: fb_write(buf, file_table[fd].disk_offset, len); break;    
 	   default: if (len + file_table[fd].open_offset > file_table[fd].size)
 					len = file_table[fd].size - file_table[fd].open_offset;
 				if (len < 0 ) return -1;
