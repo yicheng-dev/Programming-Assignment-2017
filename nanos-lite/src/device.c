@@ -9,7 +9,7 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t events_read(void *buf, size_t len) {
-    
+      
   return 0;
 }
 
@@ -36,7 +36,10 @@ extern void ramdisk_read(void *,off_t, size_t);
 extern ssize_t fs_read(int, void*, size_t);
 void init_device() {
   _ioe_init();
-
+  static char * buf;
+  sprintf(buf, "t 1234\nkd RETURN\nku A\n");
+  int fd = fs_open("/dev/events",0 ,0);
+  fs_write(fd, (void*)buf, sizeof((void*)buf));
   sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
