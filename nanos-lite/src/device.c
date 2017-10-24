@@ -10,9 +10,25 @@ static const char *keyname[256] __attribute__((used)) = {
 
 static char event_temp[10000] __attribute__((used));
 size_t events_read(void *buf, size_t len) {
+  int key = _read_key();
+  bool down =false;
+  if (key & 0x8000) {
+	key = key ^ 0x8000;
+    down =true;
+  }
+  if (key != _KEY_NONE){
+	if (down)
+	  sprintf(event_temp, "kd %s\n", keyname[key]);
+	else
+	  sprintf(event_temp, "ku %s\n", keyname[key]);
+  }
+  else {
+    sprintf(event_temp, "t %d\n", 1000*_uptime());
+  }
+	  
   memcpy(buf, (void*)event_temp, sizeof(event_temp));
-  printf("buf:%s\n",buf);
-  printf("strlen(buf):%d\n",strlen(buf));
+//  printf("buf:%s\n",buf);
+//  printf("strlen(buf):%d\n",strlen(buf));
   return strlen(buf);
 }
 
@@ -54,7 +70,7 @@ void init_device() {
 	  sprintf(event_temp, "ku %s\n", keyname[key]);
   }
   else {
-	sprintf(event_temp, "t %d\n", _uptime());
+	sprintf(event_temp, "t %d\n", 1000*_uptime());
   } 
     sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
   // TODO: print the string to array `dispinfo` with the format
