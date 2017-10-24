@@ -17,7 +17,7 @@ size_t events_read(void *buf, size_t len) {
     down =true;
   }
   if (key != _KEY_NONE){
-	printf("key:%d\n",key);
+//	printf("key:%d\n",key);
 	if (down)
 	  sprintf(event_temp, "kd %s\n", keyname[key]);
 	else
@@ -28,8 +28,8 @@ size_t events_read(void *buf, size_t len) {
   }
 	  
   memcpy(buf, (void*)event_temp, sizeof(event_temp));
-  printf("buf:%s\n",buf);
-  printf("strlen(buf):%d\n",strlen(buf));
+//  printf("buf:%s\n",buf);
+//  printf("strlen(buf):%d\n",strlen(buf));
   return strlen(buf);
 }
 
