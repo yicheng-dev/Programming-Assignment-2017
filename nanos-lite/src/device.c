@@ -59,7 +59,7 @@ extern unsigned long _uptime();
 extern int _read_key();
 void init_device() {
   _ioe_init(); 
-  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
+  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d\n", _screen.width, _screen.height);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
 }
