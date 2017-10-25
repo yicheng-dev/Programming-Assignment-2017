@@ -40,6 +40,11 @@ static char dispinfo[128] __attribute__((used));
 void dispinfo_read(void *buf, off_t offset, size_t len) {
 //  printf("fb_read: offset:%d\nlen:%d\n",offset,len);
   memcpy(buf, (void*)dispinfo+offset, len);
+  
+  printf("(void*)dispinfo+offset: %s\n",(void*)dispinfo+offset);
+  printf("dispinfo+offset: %s\n",dispinfo+offset);
+  
+
 //  printf("buf:%s\n",buf);
 }
 
@@ -59,7 +64,7 @@ extern unsigned long _uptime();
 extern int _read_key();
 void init_device() {
   _ioe_init(); 
-  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d\n", _screen.width, _screen.height);
+  sprintf(dispinfo, "WIDTH:%d\nHEIGHT:%d", _screen.width, _screen.height);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
 }
