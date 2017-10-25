@@ -46,7 +46,7 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 extern uint32_t* const fb;
 void fb_write(const void *buf, off_t offset, size_t len) {
 //  printf("fb_write: offset:%d\nlen:%d\n",offset,len);
-  memcpy(((void*)fb)+offset, buf, len);
+  memcpy(((void*)fb)+offset/4, buf, len);
 }
 
 extern int fs_open(const char *, int, int);
