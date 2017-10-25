@@ -104,6 +104,7 @@ static void redraw() {
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, 
     SDL_Surface *dst, SDL_Rect *dstrect) {
+  printf("SDL_BlitSurface begin\n");
   assert(dst && src);
 
   int sx = (srcrect == NULL ? 0 : srcrect->x);
@@ -133,6 +134,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  printf("SDL_FillRect begin\n");
   assert(dst);
   assert(color <= 0xff);
 
@@ -158,6 +160,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 
 void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors, 
     int firstcolor, int ncolors) {
+  printf("SDL_SetPalette begin\n");
   assert(s);
   assert(s->format);
   assert(s->format->palette);
@@ -195,6 +198,7 @@ void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors,
 /* ======== The following functions are already implemented. ======== */
 
 void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
+  printf("SDL_UpdateRect begin\n");
   assert(screen);
   printf("screen->pitch:%d\n",screen->pitch);
   assert(screen->pitch == W);
@@ -207,6 +211,7 @@ void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
 
 void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, 
     SDL_Surface *dst, SDL_Rect *dstrect) {
+  printf("SDL_SoftStretch begin\n");
   assert(src && dst);
   int x = (srcrect == NULL ? 0 : srcrect->x);
   int y = (srcrect == NULL ? 0 : srcrect->y);
@@ -233,6 +238,7 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect,
 
 SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int depth,
     uint32_t Rmask, uint32_t Gmask, uint32_t Bmask, uint32_t Amask) {
+  printf("SDL_CreateRGBSurface begin\n");
   SDL_Surface *s = malloc(sizeof(SDL_Surface));
   assert(s);
   s->format = malloc(sizeof(SDL_PixelFormat));
@@ -256,11 +262,13 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
 }
 
 SDL_Surface* SDL_SetVideoMode(int width, int height, int bpp, uint32_t flags) {
-  return SDL_CreateRGBSurface(flags,  width, height, bpp,
+    printf("SDL_SetVideoMode begin\n");
+	return SDL_CreateRGBSurface(flags,  width, height, bpp,
       0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 }
 
 void SDL_FreeSurface(SDL_Surface *s) {
+  printf("SDL_FreeSurface begin\n");
   if(s != NULL) {
     if(s->format != NULL) {
       if(s->format->palette != NULL) {
