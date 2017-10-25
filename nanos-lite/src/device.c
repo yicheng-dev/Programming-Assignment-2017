@@ -39,7 +39,7 @@ static char dispinfo[128] __attribute__((used));
 
 void dispinfo_read(void *buf, off_t offset, size_t len) {
 //  printf("fb_read: offset:%d\nlen:%d\n",offset,len);
-  memcpy(buf, (void*)dispinfo+offset, len);
+  memcpy(buf, (void*)dispinfo+offset/4, len);
 
 //  printf("buf:%s\n",buf);
 }
@@ -47,7 +47,7 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 extern uint32_t* const fb;
 void fb_write(const void *buf, off_t offset, size_t len) {
 //  printf("fb_write: offset:%d\nlen:%d\n",offset,len);
-  memcpy(fb+offset/4, buf, len);
+  memcpy((void*)fb+offset, buf, len);
 }
 
 extern int fs_open(const char *, int, int);
