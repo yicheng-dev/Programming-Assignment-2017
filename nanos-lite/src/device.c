@@ -39,7 +39,7 @@ static char dispinfo[128] __attribute__((used));
 
 void dispinfo_read(void *buf, off_t offset, size_t len) {
 //  printf("fb_read: offset:%d\nlen:%d\n",offset,len);
-  memcpy(buf, dispinfo+offset, len);
+  memcpy(buf, dispinfo+offset/4, len);
 
 //  printf("buf:%s\n",buf);
 }
