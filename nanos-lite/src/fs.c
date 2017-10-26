@@ -52,7 +52,6 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 		case FD_DISPINFO: 
 			if (len + file_table[fd].open_offset > file_table[fd].size)
 			  len = file_table[fd].size - file_table[fd].open_offset;
-			if (len < 0 ) return -1;
 			dispinfo_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 			file_table[fd].open_offset +=len;
 			return len;
@@ -62,7 +61,6 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 		default:
 			if (len + file_table[fd].open_offset > file_table[fd].size)
 				len = file_table[fd].size - file_table[fd].open_offset;
-			if (len < 0 ) return -1;
 			ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 			file_table[fd].open_offset += len;
 			return len;
@@ -87,13 +85,11 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 	   case FD_FB: 
 				   if (len + file_table[fd].open_offset > file_table[fd].size)
 					   len = file_table[fd].size - file_table[fd].open_offset;
-				   if (len < 0) return -1;
 				   fb_write(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 				   file_table[fd].open_offset += len;
 				   return len;    
 	   default: if (len + file_table[fd].open_offset > file_table[fd].size)
 					len = file_table[fd].size - file_table[fd].open_offset;
-				if (len < 0 ) return -1;
 				ramdisk_write(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 				file_table[fd].open_offset += len; 
 				return len;
