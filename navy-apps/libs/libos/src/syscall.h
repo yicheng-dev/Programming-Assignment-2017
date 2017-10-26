@@ -1,5 +1,6 @@
 #ifndef __SYSCALL_H__
 #define __SYSCALL_H__
+
 enum {
   SYS_none,
   SYS_open,
