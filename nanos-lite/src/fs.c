@@ -6,11 +6,7 @@ typedef struct {
   off_t disk_offset;
   off_t open_offset;
 } Finfo;
-void ramdisk_write(const void* ,off_t,size_t );
-void ramdisk_read(void*,off_t,size_t);
-void fb_write(const void*,off_t,size_t);
-void dispinfo_read(void*,off_t,size_t);
-size_t events_read(void*,size_t);
+
 enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB, FD_EVENTS, FD_DISPINFO, FD_NORMAL};
 
 /* This is the information about all files in disk. */
@@ -26,101 +22,112 @@ static Finfo file_table[] __attribute__((used)) = {
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
+int fs_open(const char*, int, int);
 void init_fs() {
-  // TODO: initialize the size of /dev/fb
-  file_table[FD_FB].size = _screen.width * _screen.height * 4;  
+  int fd = fs_open("/dev/fb",0,0);
+  file_table[fd].size =4*( _screen.width * _screen.height);
 }
-int fs_open (const char* path,int a, int b) {
-	for (int i = 0 ;  i < NR_FILES;i++) {
-		if (strcmp(path,file_table[i].name) == 0){
-			file_table[i].open_offset = 0; 
-			return i;
-		}
-	}
-	panic("Should not reach here\n");
-	return -1;
 
+int fs_open(const char *pathname, int flags, int mode)
+{
+//  printf("fs_open: pathname:%s\n",pathname);
+  int i;
+  for (i=0; i<NR_FILES; i++){
+	if (strcmp(pathname,file_table[i].name) == 0){
+	  file_table[i].open_offset = 0;
+	  return i;
+	}
+  }
+  assert(0);
+  return -1;
 }
-ssize_t fs_write(int fd,const void*buf, size_t count) {
-	const char *p = buf;
+
+extern void ramdisk_read(void *, off_t, size_t);
+extern void dispinfo_read(void *, off_t, size_t);
+extern size_t events_read(void *,size_t);
+ssize_t fs_read(int fd, void *buf, size_t len)
+{
+//	printf("read fd:%d\n",fd);
 	switch (fd) {
-	case 1:
-	case 2:
-		for (uint32_t i = 0; i < count;i++)
-			_putc(p[i]);
-		return count;
-	case FD_FB:
-		if (file_table[FD_FB].open_offset + count > 
-				file_table[FD_FB].size)
-			count = file_table[FD_FB].size -
-				file_table[FD_FB].open_offset;
-		fb_write(buf,file_table[FD_FB].open_offset,count);
-
-		file_table[FD_FB].open_offset+=count;
-		return count;
-	default:
-		if (file_table[fd].open_offset + count > 
-				file_table[fd].size)
-			count = file_table[fd].size -
-				file_table[fd].open_offset;
-		
-	ramdisk_write(buf,file_table[fd].open_offset+file_table[fd].disk_offset,count);
-	file_table[fd].open_offset+=count;
-	return count;
-	
-	}
-}
-ssize_t fs_read(int fd,void *buf, size_t count) {
-	switch (fd){ 
-	case FD_DISPINFO:
-		if (file_table[FD_DISPINFO].open_offset + count > 
-				file_table[FD_DISPINFO].size)
-			count = file_table[FD_DISPINFO].size -
-				file_table[FD_DISPINFO].open_offset;
-
-		dispinfo_read(buf,file_table[FD_DISPINFO].open_offset,count);
-		file_table[FD_DISPINFO].open_offset+=count;
-		return count;
-	case FD_FB:
-		panic("Unimplemented");
-		return -1;
-	case FD_EVENTS:
-		return events_read(buf,count);
-	default:
-		if (file_table[fd].open_offset + count > 
-				file_table[fd].size)
-			count = file_table[fd].size -
-				file_table[fd].open_offset;
-	ramdisk_read(buf,file_table[fd].open_offset+ file_table[fd].disk_offset,count);
-	file_table[fd].open_offset +=count;
-	return count;
-	}
-}
-off_t fs_lseek(int fd ,off_t offset,int whence){
-	switch(whence)  {
-		case 0:
-			file_table[fd].open_offset = offset;
-			break;
-		case 1:
-			file_table[fd].open_offset = file_table[fd].open_offset+offset;
-			break;
-		case 2:
-			file_table[fd].open_offset = file_table[fd].size + offset;
-			break;
+		case FD_DISPINFO: 
+			if (len + file_table[fd].open_offset > file_table[fd].size)
+			  len = file_table[fd].size - file_table[fd].open_offset;
+			if (len < 0 ) return -1;
+			dispinfo_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
+			file_table[fd].open_offset +=len;
+			return len;
+	    case FD_EVENTS:
+//			printf("len: %d\n",len);
+			return events_read(buf, len);
 		default:
-			panic("Invalid parameter!\n");
-			return -1;
-	
+			if (len + file_table[fd].open_offset > file_table[fd].size)
+				len = file_table[fd].size - file_table[fd].open_offset;
+			if (len < 0 ) return -1;
+			ramdisk_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
+			file_table[fd].open_offset += len;
+			return len;
 	}
-	file_table[fd].open_offset = file_table[fd].open_offset < file_table[fd].size ? file_table[fd].open_offset : file_table[fd].size;
-   return file_table[fd].open_offset;
+}
 
+static int cnt;
+extern void ramdisk_write(const void *,off_t, size_t); 
+extern void fb_write(const void *, off_t, size_t);
+
+ssize_t fs_write(int fd, const void *buf, size_t len)
+{
+//   printf("write fd:%d\n",fd);
+   switch (fd) {
+	   case FD_STDOUT:
+	   case FD_STDERR:cnt = 0;
+					  for (; cnt < len; cnt++){
+						  char *tmp = (char*)buf;
+						  _putc(tmp[cnt]);
+					  }
+					  return cnt;
+	   case FD_FB: 
+				   if (len + file_table[fd].open_offset > file_table[fd].size)
+					   len = file_table[fd].size - file_table[fd].open_offset;
+				   if (len < 0) return -1;
+				   fb_write(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
+				   file_table[fd].open_offset += len;
+				   return len;    
+	   default: if (len + file_table[fd].open_offset > file_table[fd].size)
+					len = file_table[fd].size - file_table[fd].open_offset;
+				if (len < 0 ) return -1;
+				ramdisk_write(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
+				file_table[fd].open_offset += len; 
+				return len;
+   }
 
 }
-size_t fs_filesz(int fd) {
-	return file_table[fd].size;
 
+off_t fs_lseek(int fd, off_t offset, int whence)
+{
+//  printf("fs_lseek begin, whence:%d ;fd:%d\n ;offset:%d\n",whence,fd,offset);
+  switch (whence){
+    case SEEK_SET: file_table[fd].open_offset = offset; break;
+	case SEEK_CUR: file_table[fd].open_offset += offset; break;
+	case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset;break;
+	default: return -1;
+  }
+  if (file_table[fd].open_offset > file_table[fd].size) file_table[fd].open_offset = file_table[fd].size;
+
+//  printf("fs_lseek end, open_offset:%d\n",file_table[fd].open_offset);
+  return file_table[fd].open_offset;
 }
-int fs_close(int fd) {
-	return 0;
+
+int fs_close(int fd)
+{
+//  printf("fs_close end, fd:%d\n",fd);
+  return 0;
+}
+
+size_t fs_filesz(int fd)
+{
+  return file_table[fd].size;
+}
+
+off_t fs_fileof(int fd)
+{
+  return file_table[fd].open_offset;
 }

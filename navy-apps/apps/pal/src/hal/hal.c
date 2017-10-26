@@ -142,7 +142,6 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   int h = (dstrect == NULL ? dst->h : dstrect->h);
   if(dst->w - dx < w) { w = dst->w - dx; }
   if(dst->h - dy < h) { h = dst->h - dy; }
-  
 
   // TODO: color is uint32_t, what about palette?
   for (int i = 0; i < w; i ++)
@@ -197,6 +196,7 @@ void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors,
 void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
   assert(screen);
   assert(screen->pitch == W);
+
   // this should always be true in NEMU-PAL
   assert(screen->flags & SDL_HWSURFACE);
 
@@ -240,12 +240,10 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
   s->format->palette->colors = NULL;
 
   s->format->BitsPerPixel = depth;
-  
+
   s->flags = flags;
-  
   s->w = width;
   s->h = height;
-
   s->pitch = (width * depth) >> 3;
   s->pixels = (flags & SDL_HWSURFACE ? (void *)VMEM_ADDR : malloc(s->pitch * height));
   assert(s->pixels);
@@ -254,7 +252,7 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
 }
 
 SDL_Surface* SDL_SetVideoMode(int width, int height, int bpp, uint32_t flags) {
-	return SDL_CreateRGBSurface(flags,  width, height, bpp,
+  return SDL_CreateRGBSurface(flags,  width, height, bpp,
       0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 }
 
