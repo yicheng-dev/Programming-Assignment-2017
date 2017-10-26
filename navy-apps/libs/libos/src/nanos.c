@@ -5,14 +5,12 @@
 #include <assert.h>
 #include <time.h>
 #include "syscall.h"
-
-
+extern int _end;
 // TODO: discuss with syscall interface
 #ifndef __ISA_NATIVE__
-
+uint32_t pro_brk = &_end;
 // FIXME: this is temporary
-
-int _syscall_(int type, uintptr_t a0, uintptr_t a1, uintptr_t a2){
+int _syscall_(int type,uintptr_t a0, uintptr_t a1, uintptr_t a2){
   int ret = -1;
   asm volatile("int $0x80": "=a"(ret): "a"(type), "b"(a0), "c"(a1), "d"(a2));
   return ret;
@@ -23,33 +21,33 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  return _syscall_(SYS_open, (uintptr_t)path, (uintptr_t)flags, (uintptr_t)mode);
+  return _syscall_(SYS_open,(uintptr_t)path,0,0);
 }
 
 int _write(int fd, void *buf, size_t count){
-  return _syscall_(SYS_write, (uintptr_t)fd, (uintptr_t)buf, (uintptr_t)count);
+   return  _syscall_(SYS_write,fd,(uintptr_t)buf,count);
+  
+  
 }
 
-extern intptr_t _end;
-intptr_t old_end = (intptr_t)&_end;
 void *_sbrk(intptr_t increment){
-  old_end += increment;
-  if ( _syscall_(SYS_brk, old_end, 0, 0) == 0)
-    return (void*)old_end;
-  return (void *)-1;
+  int tem = pro_brk;
+  pro_brk += increment;
+  _syscall_(SYS_brk,pro_brk,0,0);
+  
+  return (void *) tem;
 }
 
 int _read(int fd, void *buf, size_t count) {
-  return _syscall_(SYS_read, (uintptr_t)fd, (uintptr_t)buf, (uintptr_t)count);
-
+  return _syscall_(SYS_read,fd,(uintptr_t)buf,count);
 }
 
 int _close(int fd) {
-  return _syscall_(SYS_close, (uintptr_t)fd, 0, 0);
+  return _syscall_(SYS_close,fd,0,0);
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  return _syscall_(SYS_lseek, (uintptr_t)fd, (uintptr_t)offset, (uintptr_t)whence);
+  return _syscall_(SYS_lseek,fd,offset,whence);
 }
 
 // The code below is not used by Nanos-lite.
