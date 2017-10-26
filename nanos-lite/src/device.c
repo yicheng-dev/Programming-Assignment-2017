@@ -9,30 +9,31 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 extern off_t fs_fileof(int);
-static char event_temp[10000] __attribute__((used));
+//static char event_temp[10000] __attribute__((used));
 size_t events_read(void *buf, size_t len) {
-  
+  char events[100];
   int key = _read_key();
   bool down =false;
   if (key & 0x8000) {
 	key = key ^ 0x8000;
     down =true;
   }
+  
   if (key != _KEY_NONE){
 //	printf("key:%d\n",key);
 	if (down)
-	  sprintf(event_temp+fs_fileof(4), "kd %s\n", keyname[key]);
+	  sprintf(events, "kd %s\n", keyname[key]);
 	else
-	  sprintf(event_temp+fs_fileof(4), "ku %s\n", keyname[key]);
+	  sprintf(events, "ku %s\n", keyname[key]);
   }
   else {
-    sprintf(event_temp+fs_fileof(4), "t %d\n", _uptime());
+    sprintf(events, "t %d\n", _uptime());
   }
-	  
-  memcpy(buf, (void*)event_temp+fs_fileof(4), sizeof(event_temp));
+  if (len > strlen(buf)) len = strlen(buf);
+  memcpy(buf, (void*)events, len);
 //  printf("buf:%s\n",buf);
 //  printf("strlen(buf):%d\n",strlen(buf));
-  return strlen(buf);
+  return len;
 }
 
 static char dispinfo[128] __attribute__((used));
