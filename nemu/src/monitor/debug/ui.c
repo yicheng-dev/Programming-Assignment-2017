@@ -2,16 +2,14 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
-#include "math.h"
-#include <string.h>
+
 #include <stdlib.h>
-#include <malloc.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
-
+WP* new_wp();
 void cpu_exec(uint64_t);
-
+void delete_wp(int);
+void print_wp();
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
   static char *line_read = NULL;
@@ -38,129 +36,45 @@ static int cmd_c(char *args) {
 static int cmd_q(char *args) {
   return -1;
 }
+static int cmd_d(char *args) {
+	delete_wp(atoi(args));
+	return 0;
 
+}
 static int cmd_help(char *args);
-
-static int cmd_info(char *args)
-{	
-	int i;
-	if (args==NULL){
-		printf("You may want to input commands like \"info r\" or \"info w\" or \"info e\".Try again!\n");
-		return 0;
-	}
-	if (strcmp(args,"r")==0)
-	{
-		for (i=0;i<8;i++)
-		{
-			printf("%s:0x%x\n",reg_name(i,4),reg_l(i));
-		}
-		printf("eip:0x%x\n",cpu.eip);
-
-	}
-	else if (strcmp(args,"w")==0)
-		print_watchpoint();
-    else if (strcmp(args,"e")==0)
-	{
-		printf("CF:%d\nPF:%d\nAF:%d\nZF:%d\nSF:%d\nTF:%d\nIF:%d\nDF:%d\nOF:%d\nIOPL:%d\nNT:%d\nRF:%d\nVM:%d\n",
-				cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.TF,cpu.IF,cpu.DF,cpu.OF,cpu.IOPL,cpu.NT,cpu.RF,cpu.VM);
-	}
-	else
-		printf("You may want to input commands like \"info r\" or \"info w\" or \"info e\".Try again!\n");
-	return 0;
-}
-
-static int cmd_si(char *args)
-{
-	args= strtok(NULL," ");
-	uint64_t exec_num;
-	if (args==NULL){
+static int cmd_si (char *args) {
+	if (args == NULL)
 		cpu_exec(1);
-	}
-	else if ((strlen(args)==1&&args[0]>='1'&&args[0]<='9') || (strlen(args)==2&&args[0]>='0'&&args[0]<='2'
-				&&args[1]>='0'&&args[1]<='9')){
-		exec_num = atoi(args);
-		cpu_exec(exec_num);
-	}
-	else
-		printf("Please enter a number between 1 and 30!\n");
+	else cpu_exec(atoi(args));
 	return 0;
 }
-
-static int cmd_x(char *args)
-{
-	int N;
-	int address;
-	const int step=4;
-	int j,k;
-	args=strtok(NULL," ");
-	if (args==NULL){
-		printf("Lack arguments!You may want to input command like \"x [N] [address]\"\n");
-		return 0;
+static int cmd_info (char *args){
+	if (*args == 'r') {
+		printf ("EAX  %08x\nEDX  %08x\nECX  %08x\nEBX  %08x\nEBP  %08x\nESI  %08x\nEDI  %08x\nESP  %08x\nEIP  %08x\n",cpu.eax,cpu.edx,cpu.ecx,cpu.ebx,cpu.ebp,cpu.esi,cpu.edi,cpu.esp,cpu.eip);
+		printf ("CF:%d OF:%d ZF:%d SF:%d\n",cpu.eflags.CF,cpu.eflags.OF,cpu.eflags.ZF,cpu.eflags.SF);
 	}
-	N=atoi(args);
-	args=strtok(NULL," ");
-	if (args==NULL){
-		printf("Lack arguments!You may want to input command like \"x [N] [address]\"\n");
-		return 0;
+	if (*args == 'w') {
+		print_wp();
 	}
-	sscanf(args, "%x", &address);
-	
-	
-	for (j=0;j<N;j++)
-	{
-		printf("0x%08x: ",address);
-		for (k=0;k<step;k++)
-		{
-			printf("%02x ",pmem[address+k]);
-		}
-		address+=step;
-		printf("\n");
-	}
-	
 	return 0;
-	
 }
-
-static int cmd_p(char *args)
-{
-	if (args==NULL){
-		printf("Please enter p [EXPR].\n");
-		return 0;
-	}
+static int cmd_x (char *args);
+static int cmd_w (char *args);
+static int cmd_p (char *args){
 	bool success = true;
-	bool *success_ptr= & success;
-	uint32_t ans;
-	ans = expr(args,success_ptr);
-	if (*success_ptr)
-		printf("Unsigned: %u\tSigned: %d\tHex: 0x%x\n",ans,ans,ans);
-	else
-		printf("Something was wrong with your command!\n");
-	return 0;
-}
-
-static int cmd_w(char *args)
-{
-	if (args==NULL){
-		printf("Please enter w [EXPR].\n");
-		return 0;
+	uint32_t ans = expr(args,&success);
+	if (success) {
+		printf("%x\n",ans);
+	}else {
+		puts("Invalid expression");
 	}
-	new_wp(args);
 	return 0;
+
+
+
+
+
 }
-
-static int cmd_d(char *args)
-{
-	if (args==NULL){
-		printf("Please enter d [NUM].\n");
-		return 0;
-	}
-	args=strtok(NULL," ");
-	free_wp(args);
-	return 0;
-}
-
-	
-
 static struct {
   char *name;
   char *description;
@@ -169,12 +83,12 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  {"info","Print the information of registers or watchers.",cmd_info},
-  {"si","Execute one command every step",cmd_si},
-  {"x","Scan the status of momery around the pointed address.",cmd_x},
-  {"p","Compute the value of the formula after 'p'",cmd_p},
-  {"w","Set a watchpoint",cmd_w},
-  {"d","delete a watchpoint",cmd_d}
+  { "si", "Continue the execution of the program by step",cmd_si},
+  { "info", "Print the information of the registers or the watchpoints",cmd_info},
+  { "x", "Exam the memory of a given address",cmd_x},
+  { "w", "Set watchpoint",cmd_w},
+  {"d","Delete a watchpoint",cmd_d},
+  {"p","Print the expression",cmd_p}
   /* TODO: Add more commands */
 
 };
@@ -203,7 +117,34 @@ static int cmd_help(char *args) {
   }
   return 0;
 }
-
+static int cmd_x(char *args) {
+	char* buf = strtok(args," ");
+	bool success = true;
+		args = args+strlen(buf)+1;
+		u_int len, addr;
+		sscanf(buf,"%d",&len);
+		addr = expr(args,&success);
+		if (success){	
+		for (int i = 0 ; i < len; i++) {
+			u_int mem = vaddr_read(addr+i*4,4);
+			printf("%08x:    %02x %02x %02x %02x\n",addr+i*4,mem&0xFF,(mem>>8)&0xFF,(mem>>16)&0xFF,(mem>>24)&0xFF);
+		}	  }
+		else printf("Invalid expression\n");
+	return 0;
+}
+static int cmd_w (char *args) {
+	bool success = true;
+	uint32_t temv = expr(args,&success);
+	if (!success) {
+		puts("Invalid expression");
+		return -1;
+	}
+	WP* tem = new_wp();
+	strcpy(tem->expr,args);
+	tem->last_val = temv;
+	printf("New watchpoint NO:%d   expr:%s\n",tem->NO,args);
+	return 0;
+}
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
     cmd_c(NULL);
@@ -221,8 +162,6 @@ void ui_mainloop(int is_batch_mode) {
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */
-
-
     char *args = cmd + strlen(cmd) + 1;
     if (args >= str_end) {
       args = NULL;
@@ -240,7 +179,7 @@ void ui_mainloop(int is_batch_mode) {
         break;
       }
     }
+
     if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
-	}
-  
+  }
 }

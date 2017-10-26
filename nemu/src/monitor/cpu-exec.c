@@ -1,42 +1,39 @@
 #include "nemu.h"
 #include "monitor/monitor.h"
-#include "monitor/watchpoint.h"
-#include "monitor/expr.h"
+
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
-#define MAX_INSTR_TO_PRINT 30
+#define MAX_INSTR_TO_PRINT 10
 
 int nemu_state = NEMU_STOP;
-
+int check_wp();
 void exec_wrapper(bool);
-
+void print_wp_no(int);
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
   if (nemu_state == NEMU_END) {
     printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
     return;
   }
-
   nemu_state = NEMU_RUNNING;
 
   bool print_flag = n < MAX_INSTR_TO_PRINT;
-  
-	  
+
   for (; n > 0; n --) {
     /* Execute one instruction, including instruction fetch,
      * instruction decode, and the actual execution. */
     exec_wrapper(print_flag);
 
 #ifdef DEBUG
-	if (!check_expr_val()){
-		nemu_state=NEMU_STOP;
-	}
-
-
-	/* TODO: check watchpoints here. */
+    /* TODO: check watchpoints here. */
+	int no = check_wp();
+	if (no!=-1&&nemu_state!=NEMU_END)
+	
+		nemu_state = NEMU_STOP;
+	
 
 #endif
 
@@ -46,7 +43,6 @@ void cpu_exec(uint64_t n) {
 #endif
 
     if (nemu_state != NEMU_RUNNING) { return; }
-
   }
 
   if (nemu_state == NEMU_RUNNING) { nemu_state = NEMU_STOP; }

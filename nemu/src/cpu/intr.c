@@ -5,23 +5,18 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * That is, use ``NO'' to index the IDT.
    */
-
-  rtl_push(&cpu.eflags);
-  rtl_push(&cpu.CS);
+  rtl_push((rtlreg_t*)&cpu.eflags);
+  t0 = cpu.cs;
+  rtl_push(&t0);
   rtl_push(&ret_addr);
-//  printf("NO:%d\n",NO);
-//  printf("cpu.idtr.val:0x%x\n",cpu.idtr.val);
-  uint32_t t0 = cpu.idtr.base + NO*8;
-  uint32_t t1 = cpu.idtr.base + NO*8 + 4;
-  t0 = vaddr_read(t0,4);
-  t1 = vaddr_read(t1,4);
-  t0 &= 0x0000ffff;
-  t1 &= 0xffff0000;
-  uint32_t ret = t0|t1;
-  decoding.jmp_eip = ret;
+  t0 = cpu.idtr.base+NO*sizeof(GateDesc);
+  GateDesc t;
+  rtl_lm ((rtlreg_t*)&t,&t0,4);
+  t0+=4;
+  rtl_lm(((rtlreg_t*)&t)+1,&t0,4);
+  t0 = t.offset_15_0 + (t.offset_31_16<<16);
   decoding.is_jmp = 1;
-//  printf("ret: 0x%x\n",ret);
-  
+  decoding.jmp_eip = t0;
 }
 
 void dev_raise_intr() {

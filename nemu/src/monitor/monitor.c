@@ -2,7 +2,6 @@
 #include <unistd.h>
 
 #define ENTRY_START 0x100000
-
 void init_difftest();
 void init_regex();
 void init_wp_pool();
@@ -82,8 +81,16 @@ static inline void load_img() {
 static inline void restart() {
   /* Set the initial instruction pointer. */
   cpu.eip = ENTRY_START;
-  cpu.eflags=0x2;
-  cpu.CS = 8;
+  cpu.eflags.CF = 0;
+  cpu.eflags.RE0 = 1;
+  cpu.eflags.ZF = 0;
+  cpu.eflags.SF = 0;
+  cpu.eflags.RE1 = 0;
+  cpu.eflags.IF = 0;
+  cpu.eflags.RE2 = 0;
+  cpu.eflags.OF = 0;
+  cpu.eflags.RE3 = 0;
+  cpu.cs = 8;
 #ifdef DIFF_TEST
   init_qemu_reg();
 #endif
