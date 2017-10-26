@@ -9,7 +9,7 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 extern off_t fs_fileof(int);
-//static char events[10000] __attribute__((used));
+//static char event_temp[10000] __attribute__((used));
 size_t events_read(void *buf, size_t len) {
   char events[100];
   int key = _read_key();
@@ -40,7 +40,7 @@ static char dispinfo[128] __attribute__((used));
 
 void dispinfo_read(void *buf, off_t offset, size_t len) {
 //  printf("fb_read: offset:%d\nlen:%d\n",offset,len);
-  memcpy(buf, dispinfo+offset, len);
+  memcpy(buf, (void*)dispinfo+offset, len);
 
 //  printf("buf:%s\n",buf);
 }
@@ -48,7 +48,7 @@ void dispinfo_read(void *buf, off_t offset, size_t len) {
 extern uint32_t* const fb;
 void fb_write(const void *buf, off_t offset, size_t len) {
 //  printf("fb_write: offset:%d\nlen:%d\n",offset,len);
-  memcpy(fb+offset/4, buf, len);
+  memcpy((void*)fb+offset, buf, len);
 }
 
 extern int fs_open(const char *, int, int);

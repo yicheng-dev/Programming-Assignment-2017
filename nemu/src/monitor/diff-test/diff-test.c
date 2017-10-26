@@ -146,44 +146,54 @@ void difftest_step(uint32_t eip) {
 
   gdb_si();
   gdb_getregs(&r);
-  if (cpu.eax != r.eax) {
-	printf("Find different in eax NEMU:%x     QEMU:%x\n",cpu.eax,r.eax);
-	diff = true;
-  }
-  if (cpu.ebx != r.ebx) {
-	printf("Find different in ebx NEMU:%x     QEMU:%x\n",cpu.ebx,r.ebx);
-	diff = true;
-  }
-  if (cpu.ecx != r.ecx) {
-	printf("Find different in ecx NEMU:%x     QEMU:%x\n",cpu.ecx,r.ecx);
-	diff = true;
-  }
-  if (cpu.edx != r.edx) {
-	printf("Find different in edx NEMU:%x     QEMU:%x\n",cpu.edx,r.edx);
-	diff = true;
-  }
-  if (cpu.esp != r.esp) {
-	printf("Find different in esp NEMU:%x     QEMU:%x\n",cpu.esp,r.esp);
-	diff = true;
-  }
-  if (cpu.ebp != r.ebp) {
-	printf("Find different in ebp NEMU:%x     QEMU:%x\n",cpu.ebp,r.ebp);
-	diff = true;
-  }
-  if (cpu.esi != r.esi) {
-	printf("Find different in esi NEMU:%x     QEMU:%x\n",cpu.esi,r.esi);
-	diff = true;
-  }
-  if (cpu.edi != r.edi) {
-	printf("Find different in edi NEMU:%x     QEMU:%x\n",cpu.edi,r.edi);
-	diff = true;
-  }
-  if (cpu.eip != r.eip) {
-	printf("Find different in eip NEMU:%x     QEMU:%x\n",cpu.eip,r.eip);
-	diff = true;
-  }
+
   // TODO: Check the registers state with QEMU.
   // Set `diff` as `true` if they are not the same.
+  
+ 
+  if (r.eax != cpu.eax){
+	  diff=true;
+	  printf("r.eax: %x\tcpu.eax: %x\n",r.eax,cpu.eax);
+  }
+  if (r.ecx != cpu.ecx){
+	  diff=true;
+	  printf("r.ecx: %x\tcpu.ecx: %x\n",r.ecx,cpu.ecx);
+  }
+  if (r.edx != cpu.edx){
+	  diff=true;
+	  printf("r.edx: %x\tcpu.edx: %x\n",r.edx,cpu.edx);
+  }
+  if (r.ebx != cpu.ebx){
+	  diff=true;
+	  printf("r.ebx: %x\tcpu.ebx: %x\n",r.ebx,cpu.ebx);
+  }
+  if (r.edi != cpu.edi){
+	  diff=true;
+	  printf("r.edi: %x\tcpu.edi: %x\n",r.edi,cpu.edi);
+  }
+  if (r.esi != cpu.esi){
+	  diff=true;
+	  printf("r.esi: %x\tcpu.esi: %x\n",r.esi,cpu.esi);
+  }
+  if (r.esp != cpu.esp){
+	  diff=true;
+	  printf("r.esp: %x\tcpu.esp: %x\n",r.esp,cpu.esp);
+  }
+  if (r.ebp != cpu.ebp){
+	  diff=true;
+	  printf("r.ebp: %x\tcpu.ebp: %x\n",r.ebp,cpu.ebp);
+  }
+  if (r.eip != r.eip){
+	  diff=true;
+	  printf("r.esi: %x\tcpu.esi: %x\n",r.esi,cpu.esi);
+  }
+  if (r.eip != cpu.eip){
+	  diff=true;
+	  printf("r.eip: %x\tcpu.eip: %x\n",r.eip,cpu.eip);
+  }
+  if (diff==true)
+	  printf("now,eip: %x\n",cpu.eip);
+
 
   if (diff) {
     nemu_state = NEMU_END;

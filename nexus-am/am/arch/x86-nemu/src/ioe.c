@@ -20,12 +20,13 @@ _Screen _screen = {
 };
 
 extern void* memcpy(void *, const void *, int);
-#define cod(x,y) ((_screen.width*(y))+(x))
-void _draw_rect(const uint32_t *pixels, int x, int y, int w, int h) {
-  int j,i;
-  for (i = x; i < x+w; i++) {
-    for (j = y; j < y+h;j++)
-		fb[cod(i,j)] = pixels[(j-y)*w + (i-x)];
+
+void _draw_rect(const uint32_t *pixels, int x, int y, int w, int h){
+  int i,j;
+  for (j = y; j < y + h; j++){
+	for (i = x; i < x + w; i++){
+		fb[j*_screen.width+i] = pixels[(j-y)*w+(i-x)];
+	}
   }
 }
 
@@ -33,8 +34,9 @@ void _draw_sync() {
 }
 
 int _read_key() {
-   if (inb(0x64) == 1)
-	  return inl(0x60);
-   else 
-	  return _KEY_NONE; 
+  if (inb(0x64) == 1){
+	return inl(0x60);
+  }
+  else
+    return _KEY_NONE;
 }

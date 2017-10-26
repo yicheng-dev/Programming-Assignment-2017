@@ -5,6 +5,7 @@ $(error Environment variable AM_HOME must be defined.)
 endif
 
 ARCH ?= x86-nemu
+
 ARCHS = $(shell ls $(AM_HOME)/am/arch/)
 
 ifeq ($(filter $(ARCHS), $(ARCH)), ) # ARCH must be valid

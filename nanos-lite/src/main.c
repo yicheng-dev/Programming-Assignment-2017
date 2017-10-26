@@ -4,7 +4,6 @@
 #define HAS_ASYE
 //#define HAS_PTE
 
-
 void init_mm(void);
 void init_ramdisk(void);
 void init_device(void);
@@ -13,7 +12,6 @@ void init_fs(void);
 uint32_t loader(_Protect *, const char *);
 
 int main() {
-  
 #ifdef HAS_PTE
   init_mm();
 #endif
@@ -29,9 +27,10 @@ int main() {
   Log("Initializing interrupt/exception handler...");
   init_irq();
 #endif
+
   init_fs();
+
   uint32_t entry = loader(NULL, "/bin/pal");
-  Log("load successfully");
   ((void (*)(void))entry)();
 
   panic("Should not reach here");

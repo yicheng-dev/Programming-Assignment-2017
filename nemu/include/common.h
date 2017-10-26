@@ -23,6 +23,8 @@ typedef uint32_t vaddr_t;
 
 typedef uint16_t ioaddr_t;
 
+volatile static int dummy;
+
 #define false 0
 #define true 1
 
