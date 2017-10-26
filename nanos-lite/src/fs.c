@@ -115,6 +115,7 @@ off_t fs_lseek(int fd, off_t offset, int whence)
 	case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset;break;
 	default: return -1;
   }
+  if (file_table[fd].open_offset > file_table[fd].size) file_table[fd].open_offset = file_table[fd].size;
 
 //  printf("fs_lseek end, open_offset:%d\n",file_table[fd].open_offset);
   return file_table[fd].open_offset;
