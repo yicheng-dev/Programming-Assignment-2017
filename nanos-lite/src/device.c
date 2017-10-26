@@ -29,7 +29,7 @@ size_t events_read(void *buf, size_t len) {
   else {
     sprintf(events, "t %d\n", _uptime());
   }
-  if (len > strlen(buf)) len = strlen(buf);
+  if (len > strlen(events)) len = strlen(events);
   memcpy(buf, (void*)events, len);
 //  printf("buf:%s\n",buf);
 //  printf("strlen(buf):%d\n",strlen(buf));

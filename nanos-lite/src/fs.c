@@ -52,7 +52,7 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 		case FD_DISPINFO: 
 			if (len + file_table[fd].open_offset > file_table[fd].size)
 			  len = file_table[fd].size - file_table[fd].open_offset;
-			dispinfo_read(buf,file_table[fd].open_offset, len);
+			dispinfo_read(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 			file_table[fd].open_offset +=len;
 			return len;
 	    case FD_EVENTS:
@@ -85,7 +85,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 	   case FD_FB: 
 				   if (len + file_table[fd].open_offset > file_table[fd].size)
 					   len = file_table[fd].size - file_table[fd].open_offset;
-				   fb_write(buf,file_table[fd].open_offset, len);
+				   fb_write(buf, file_table[fd].disk_offset+file_table[fd].open_offset, len);
 				   file_table[fd].open_offset += len;
 				   return len;    
 	   default: if (len + file_table[fd].open_offset > file_table[fd].size)
