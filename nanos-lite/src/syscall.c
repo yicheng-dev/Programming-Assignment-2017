@@ -1,12 +1,12 @@
 #include "common.h"
 #include "syscall.h"
 uintptr_t sys_none();
-int fs_open(const char*);
+int fs_open(const char*,int,int);
 void sys_exit(uintptr_t);
 ssize_t sys_write(int,const void*i,size_t);
 uint32_t sys_brk(uint32_t);
 int sys_open(const char*);
-int fs_open(const char*);
+int fs_open(const char*,int,int);
 ssize_t fs_write(int,const void*,size_t);
 ssize_t fs_read(int,void*,size_t);
 off_t fs_lseek(int,off_t,int);
@@ -31,7 +31,7 @@ _RegSet* do_syscall(_RegSet *r) {
         SYSCALL_ARG1(r) = sys_brk(a[1]);
         break;
 	case SYS_open:
-		SYSCALL_ARG1(r) = fs_open((char*)a[1]);
+		SYSCALL_ARG1(r) = fs_open((char*)a[1],a[2],a[3]);
 		break;
 	case SYS_read:
 		SYSCALL_ARG1(r) = fs_read(a[1],(void*)a[2],a[3]);
