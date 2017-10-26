@@ -1,5 +1,4 @@
 #include "game.h"
-
 static int real_fps;
 
 void set_fps(int value) {
@@ -78,6 +77,7 @@ void create_new_letter(){
   head->x = rand() % (W / 8 - 2) * 8 + 8;
   head->v = (rand() % 1000)/(2000) + 1;
   head->text = rand() % 26;
+  
   release_key(head->text);
 }
 
