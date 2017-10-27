@@ -1,15 +1,14 @@
 #include "FLOAT.h"
 #include <stdint.h>
 #include <assert.h>
+#include "math.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-  assert(0);
-  return 0;
+  return a * b;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
-  assert(0);
-  return 0;
+  return a/b;
 }
 
 FLOAT f2F(float a) {
@@ -23,13 +22,11 @@ FLOAT f2F(float a) {
    * performing arithmetic operations on it directly?
    */
 
-  assert(0);
-  return 0;
+  return a * pow(2,16);
 }
 
 FLOAT Fabs(FLOAT a) {
-  assert(0);
-  return 0;
+  return a > 0 ? a : ~a+1;
 }
 
 /* Functions below are already implemented */
