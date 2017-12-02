@@ -26,9 +26,40 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
+//  if (特殊情况)
+  paddr_t paddr = page_translate(addr);
   return paddr_read(addr, len);
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
+  // if (特殊情况)
+  paddr_t paddr = page_translate(addr);
   paddr_write(addr, len, data);
+}
+
+paddr_t page_translate(vaddr_t addr){
+  if (cpu.cr0.paging == 1){
+    PDE pde;
+	PTE pte;
+	vaddr_t ret_addr;
+	uint32_t offset, dir, page;
+    dir = ((addr >> 22) & 0x3ff) << 2;
+	page = ((addr >> 12) & 0x3ff) << 2;
+	offset = addr & 0xfff;
+	ret_addr = cpu.cr3.page_directory_base << 12 + (dir << 2);
+	pde.val = paddr_read(ret_addr, 4);
+	Assert(pde.present,"now, present:0x%x\n",pde.present);
+    
+	ret_addr = pde.page_frame << 12 + (page << 2);
+	pte.val = paddr_read(ret_addr, 4);
+	Assert(pte.present,"now, present:0x%x\n",pte.present);
+
+	ret_addr = pte.page_frame << 12 + offset;
+
+	return ret_addr;
+
+
+  }
+  else return addr;
+
 }
