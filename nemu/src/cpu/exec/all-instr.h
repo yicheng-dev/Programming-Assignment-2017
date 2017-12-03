@@ -41,6 +41,7 @@ make_EHelper(shr);
 make_EHelper(sar);
 make_EHelper(setcc);
 make_EHelper(test);
+make_EHelper(clr_CF);
 
 // control
 make_EHelper(jmp);

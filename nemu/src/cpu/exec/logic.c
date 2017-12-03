@@ -75,3 +75,7 @@ make_EHelper(not) {
 
   print_asm_template1(not);
 }
+make_EHelper(clr_CF) {
+  rtl_set_CF(&tzero);
+  print_asm("clc");
+}
