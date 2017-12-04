@@ -44,7 +44,6 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 
 
 paddr_t page_translate(vaddr_t addr){
-  /*
   if (cpu.cr0.paging == 1){
 	printf("page translate begin\n");
 	printf("cpu.cr0: 0x%x\ncpu.cr3: 0x%x\n",cpu.cr0.val,cpu.cr3.val);
@@ -73,14 +72,4 @@ paddr_t page_translate(vaddr_t addr){
 //	printf("page translate skip\n");
 	return addr;
   }
-  */
-  if (!cpu.cr0.paging) return (paddr_t)addr;
-  printf("page translate begin\n");
-  uint32_t pde,pte;
-  pde = paddr_read(cpu.cr3.val + 4*((addr>>22) & 0x3ff), 4);
-  assert((pde & 0x001) == 1);
-  pte = paddr_read((pde & ~0xfff) + 4*((addr>>12) & 0x3ff), 4);
-  assert((pte & 0x001) == 1);
-  return (paddr_t)((pte & ~0xfff) | (addr & 0xfff));
-
 }
