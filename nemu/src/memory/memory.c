@@ -61,9 +61,10 @@ paddr_t page_translate(vaddr_t addr){
 
 	printf("page_translate end!\n");
 	return ret_addr;
-
-
   }
-  else return addr;
+  else{
+	printf("page translate skip\n");
+	return addr;
+  }
 
 }
