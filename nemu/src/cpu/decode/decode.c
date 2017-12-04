@@ -373,15 +373,20 @@ make_DHelper(out_a2dx) {
 #endif
 }
 
-make_DHelper(mov_G2CR) {
-  decode_op_r(eip, id_src, true);
-  decode_op_cr(eip, id_dest, false);
+void read_cr_r(vaddr_t *eip, Operand *creg, bool load_creg_val, Operand *reg, bool load_reg_val);
 
+make_DHelper(mov_G2CR) {
+/*  decode_op_r(eip, id_src, true);
+  decode_op_cr(eip, id_dest, false);
+*/
+  read_cr_r(eip, id_dest, false, id_src, true);
 }
 
 make_DHelper(mov_CR2G) {
-  decode_op_cr(eip, id_src, true);
+/*  decode_op_cr(eip, id_src, true);
   decode_op_r(eip, id_dest, false);
+*/
+  read_cr_r(eip, id_dest, false, id_src, true);
 }
 
 void operand_write(Operand *op, rtlreg_t* src) {
