@@ -101,7 +101,7 @@ paddr_t page_translate(vaddr_t addr){
 paddr_t page_translate(vaddr_t addr) {
 	  if (!cpu.cr0.paging)
 		      return (paddr_t)addr;
-	      
+	     printf("addr: 0x%x\n",addr); 
 	    uint32_t PDE, PTE;
 		  PDE = paddr_read(cpu.cr3.val + 4 * PDX(addr), 4);
 		    assert((PDE & PTE_P) == 1);
