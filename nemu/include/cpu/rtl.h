@@ -95,6 +95,11 @@ static inline void rtl_sr_l(int r, const rtlreg_t* src1) {
 
 /* RTL psuedo instructions */
 
+static inline void rtl_lcr(rtlreg_t* dest, int r) {
+  if (r == 0) *dest = cpu.cr0.val;
+  else if (r == 3) *dest = cpu.cr3.val;
+}
+
 static inline void rtl_lr(rtlreg_t* dest, int r, int width) {
   switch (width) {
     case 4: rtl_lr_l(dest, r); return;
