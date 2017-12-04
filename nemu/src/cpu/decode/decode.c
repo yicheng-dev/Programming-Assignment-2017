@@ -92,9 +92,9 @@ static inline make_DopHelper(r_mod) {
 
   ModR_M mod;
   mod.val = instr_fetch(eip, 1);
-  op->reg = mod.reg;
+  op->reg = mod.R_M;
   if (load_val) {
-	rtl_lr(&op->val, op->reg, op->width);
+	rtl_lr(&op->val, op->reg, 4);
   }
 
 #ifdef DEBUG
