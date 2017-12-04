@@ -100,6 +100,11 @@ static inline void rtl_lcr(rtlreg_t* dest, int r) {
   else if (r == 3) *dest = cpu.cr3.val;
 }
 
+static inline void rtl_scr(int r, const rtlreg_t* src1) {
+  if (r == 0) cpu.cr0.val = *src1;
+  else if (r == 3) cpu.cr3.val = *src1;
+}
+
 static inline void rtl_lr(rtlreg_t* dest, int r, int width) {
   switch (width) {
     case 4: rtl_lr_l(dest, r); return;
