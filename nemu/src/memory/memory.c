@@ -57,15 +57,15 @@ paddr_t page_translate(vaddr_t addr){
     dir = ((addr >> 22) & 0x3ff) << 2;
 	page = ((addr >> 12) & 0x3ff) << 2;
 	offset = addr & 0xfff;
-	ret_addr = (cpu.cr3.page_directory_base << 12) + dir;
+	ret_addr = cpu.cr3.val + dir;
 	pde.val = paddr_read(ret_addr, 4);
 	Assert(pde.present == 1,"now, present:0x%x\n",pde.present);
     
-	ret_addr = (pde.page_frame << 12) + page;
+	ret_addr = ((uint32_t)(pde.val) & ~0xfff) + page;
 	pte.val = paddr_read(ret_addr, 4);
 	Assert(pte.present == 1,"now, present:0x%x\n",pte.present);
 
-	ret_addr = (pte.page_frame << 12) | offset;
+	ret_addr = ((uint32_t)(pte.val) & ~0xfff) | offset;
 
 //	printf("page_translate end!\n");
 	return ret_addr;
