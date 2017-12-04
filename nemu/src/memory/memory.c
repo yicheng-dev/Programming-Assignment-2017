@@ -53,7 +53,7 @@ paddr_t page_translate(vaddr_t addr){
 //	printf("num: %d\n",num);
 //	printf("page translate begin\n");
 //	printf("cpu.cr0: 0x%x\ncpu.cr3: 0x%x\n",cpu.cr0.val,cpu.cr3.val);
-    printf("addr: 0x%x\n",addr);
+//    printf("addr: 0x%x\n",addr);
     PDE pde;
 	PTE pte;
 	vaddr_t ret_addr;
