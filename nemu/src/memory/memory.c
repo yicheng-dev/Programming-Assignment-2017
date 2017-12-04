@@ -26,7 +26,7 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 	mmio_write(addr, len, data, is_mmio(addr));
 }
 
-/*
+
 uint32_t vaddr_read(vaddr_t addr, int len) {
 //  if (特殊情况)
 	
@@ -41,31 +41,6 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   paddr_write(paddr, len, data);
 
 }
-*/
-
-#define PG_BEGIN(va) ((va) & ~0xfff)
-uint32_t vaddr_read(vaddr_t addr, int len) {
-	  vaddr_t next_page_begin = PG_BEGIN(addr + len - 1);
-	    if (PG_BEGIN(addr) != next_page_begin) {
-			    int fst_half_len = next_page_begin - addr;
-				    uint32_t fst_val = paddr_read(page_translate(addr), fst_half_len);
-					    uint32_t snd_val = paddr_read(page_translate(next_page_begin), len - fst_half_len);
-						    return ((snd_val << (fst_half_len << 3)) | fst_val);
-							  }   
-		  else 
-			      return paddr_read(page_translate(addr), len);
-}
-
-void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-	  vaddr_t next_page_begin = PG_BEGIN(addr + len - 1);
-	    if (PG_BEGIN(addr) != next_page_begin) {
-			    int fst_half_len = next_page_begin - addr;
-				    paddr_write(page_translate(addr), fst_half_len, data);
-					    paddr_write(page_translate(next_page_begin), len - fst_half_len, (data >> (fst_half_len << 3)));
-						  } 
-		  else
-			      paddr_write(page_translate(addr), len, data);
-}
 
 //static int translate_num = 0; //调试用
 
@@ -76,6 +51,7 @@ paddr_t page_translate(vaddr_t addr){
 //  }
   if (cpu.cr0.paging == 1){
 	printf("page translate begin\n");
+	printf("cpu.cr0: 0x%x\ncpu.cr3: 0x%x\n",cpu.cr0.val,cpu.cr3.val);
 
     PDE pde;
 	PTE pte;
