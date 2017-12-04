@@ -24,6 +24,7 @@ uintptr_t loader(_Protect *as, const char *filename) {
   while (page<page_num){
     pa = new_page();
 	fs_read(fd, pa, PGSIZE);
+	_map(as, va, pa);
     page++;
 	va += PGSIZE;
   }
