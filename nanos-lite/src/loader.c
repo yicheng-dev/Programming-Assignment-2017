@@ -10,17 +10,24 @@ extern ssize_t fs_read(int, void*, size_t);
 extern ssize_t fs_write(int ,const void*, size_t);
 
 extern size_t fs_filesz(int fd);
+extern void* new_page(void);
 
 uintptr_t loader(_Protect *as, const char *filename) {
+  void *va = DEFAULT_ENTRY;
+  void *pa;
 //  size_t ramdisk_size = get_ramdisk_size();
-/*  void *buf = DEFAULT_ENTRY;
+//  void *buf = DEFAULT_ENTRY;
   int fd = fs_open(filename, 0, 0);
-  fs_read(fd, buf, fs_filesz(fd));
+
+  int page_num = fs_filesz(fd)/PGSIZE+1;
+  int page = 0;
+  while (page<page_num){
+    pa = new_page();
+	fs_read(fd, pa, PGSIZE);
+    page++;
+	va += PGSIZE;
+  }
   fs_close(fd);
-*/
-  void *pa = NULL;
-  _map(as, DEFAULT_ENTRY, pa);
 //  printf("filename:%s\nfd:%d\n",filename,fd);
-//  return (uintptr_t)DEFAULT_ENTRY;
-  return (uintptr_t)pa;
+  return (uintptr_t)DEFAULT_ENTRY;
 }
