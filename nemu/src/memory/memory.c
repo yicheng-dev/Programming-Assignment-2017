@@ -53,7 +53,6 @@ paddr_t page_translate(vaddr_t addr){
   if (cpu.cr0.paging == 1){
 
 	printf("num: %d\n",num);
-	num++;
 //	printf("page translate begin\n");
 //	printf("cpu.cr0: 0x%x\ncpu.cr3: 0x%x\n",cpu.cr0.val,cpu.cr3.val);
     if (num == 113233) printf("addr: 0x%x\n",addr);
@@ -75,6 +74,7 @@ paddr_t page_translate(vaddr_t addr){
 	ret_addr = ((uint32_t)(pte.val) & ~0xfff) | offset;
 
 //	printf("page_translate end!\n");
+	num++;
 	return ret_addr;
   }
   else{
