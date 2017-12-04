@@ -66,15 +66,18 @@ void _switch(_Protect *p) {
 }
 
 void _map(_Protect *p, void *va, void *pa) {
-  PDE * pde = (PDE*)p->ptr + PDX(va); //find the directory`
+  PDE * pde = (PDE*)p->ptr;
+  uint32_t dir = PDX(va); //find the directory`
+  uint32_t  page = PTX(va);
+  pde += dir;
   PTE * pte;
-  uint32_t hit = *pde & PTE_P; // judge whether it's necessary to allocate a new page_table
-  if (hit == 0){ //present=0
+  uint32_t present = *pde & PTE_P; // judge whether it's necessary to allocate a new page_table
+  if (present == 0){ //present=0
     pte = (PTE*)(palloc_f)();
 	*pde = ((uint32_t)(pte) & ~0xfff) | PTE_P;
   }
   else pte = (PTE* )((uint32_t)(*pde) & ~0xfff);
-  pte[PTX(va)] = ((uint32_t)(pa) & ~0xfff) | PTE_P;
+  pte[page] = ((uint32_t)(pa) & ~0xfff) | PTE_P;
 }
 
 void _unmap(_Protect *p, void *va) {
