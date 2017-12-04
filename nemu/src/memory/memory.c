@@ -40,6 +40,8 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 
 paddr_t page_translate(vaddr_t addr){
   if (cpu.cr0.paging == 1){
+	printf("page translate begin\n");
+
     PDE pde;
 	PTE pte;
 	vaddr_t ret_addr;
