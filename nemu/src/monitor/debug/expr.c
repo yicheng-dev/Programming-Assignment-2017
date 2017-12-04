@@ -10,7 +10,7 @@
 
 
 enum {
-  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REG_4,TK_REGSIG,TK_DEREF,TK_NEGSIG,
+  TK_NOTYPE = 256,TK_LBRAC,TK_RBRAC,TK_NUM,TK_HEXNUM,TK_REG_1,TK_REG_2,TK_REG_3,TK_REG_4,TK_CREG,TK_REGSIG,TK_DEREF,TK_NEGSIG,
   TK_NOT,TK_MULTI,TK_DIVIDE,TK_MOD,TK_PLUS,TK_SUB,TK_EQ,TK_NEQ,TK_AND,TK_OR,TK_GE,TK_LE,TK_GREATER,
   TK_LESS
 
@@ -35,6 +35,7 @@ static struct rule {
   {"\\$e[sd]+i",TK_REG_2},
   {"\\$e[sb]+p",TK_REG_3},
   {"\\$eip",TK_REG_4},
+  {"\\$cr[0-3]",TK_CREG},
   {"!",TK_NOT},
   {"\\*", TK_MULTI},         // multiply
   {"/", TK_DIVIDE},          // divide
@@ -162,6 +163,11 @@ static bool make_token(char *e) {
 								new_token.str[index]=substr_start[index];
 							break;
 			case TK_REG_4:  new_token.type=rules[i].token_type;
+							new_token.str_len=substr_len;
+							for (int index=0;index<substr_len;index++)
+								new_token.str[index]=substr_start[index];
+							break;
+			case TK_CREG:   new_token.type=rules[i].token_type;
 							new_token.str_len=substr_len;
 							for (int index=0;index<substr_len;index++)
 								new_token.str[index]=substr_start[index];
@@ -374,6 +380,16 @@ int eval(int p,int q){
 				ret=cpu.eip;
 			return ret;
 		}
+		else if (tokens[q].type == TK_CREG)
+		{
+			uint32_t ret=0;
+			if (tokens[q].str[3]=='0')
+				ret = cpu.cr0.val;
+			else if (tokens[q].str[3]=='3')
+				ret = cpu.cr3.val;
+			return ret;
+		}
+		
 		else{
 			printf("Error: There's something wrong with your input!\n");
 			bad_expression=true;
