@@ -45,7 +45,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 static int translate_num = 0; //调试用
 
 paddr_t page_translate(vaddr_t addr){
-  if (translate_num < 50){
+  if (translate_num < 10000){
     translate_num++;
 	printf("cr0.val: 0x%x\n",cpu.cr0.val);
   }
