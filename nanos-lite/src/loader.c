@@ -19,9 +19,9 @@ uintptr_t loader(_Protect *as, const char *filename) {
 //  void *buf = DEFAULT_ENTRY;
   int fd = fs_open(filename, 0, 0);
 
-  int page_num = fs_filesz(fd)/PGSIZE+1;
+  int page_num = fs_filesz(fd)/PGSIZE;
   int page = 0;
-  while (page<page_num){
+  while (page <= page_num){
     pa = new_page();
 	fs_read(fd, pa, PGSIZE);
 	_map(as, va, pa);
