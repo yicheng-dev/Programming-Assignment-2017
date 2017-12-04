@@ -55,7 +55,7 @@ paddr_t page_translate(vaddr_t addr){
 	pte.val = paddr_read(ret_addr, 4);
 	Assert(pte.present,"now, present:0x%x\n",pte.present);
 
-	ret_addr = (pte.page_frame << 12) + offset;
+	ret_addr = (pte.page_frame << 12) | offset;
 
 	return ret_addr;
 
