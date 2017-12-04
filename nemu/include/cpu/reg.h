@@ -86,6 +86,7 @@ static inline int check_reg_index(int index) {
 extern const char* regsl[];
 extern const char* regsw[];
 extern const char* regsb[];
+extern const char* creg[];
 
 static inline const char* reg_name(int index, int width) {
   assert(index >= 0 && index < 8);
@@ -95,6 +96,10 @@ static inline const char* reg_name(int index, int width) {
     case 2: return regsw[index];
     default: assert(0);
   }
+}
+
+static inline const char* creg_name(int index) {
+  return creg[index];
 }
 
 #endif
