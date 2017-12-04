@@ -41,6 +41,8 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   // if (特殊情况)
   paddr_t paddr = page_translate(addr);
+  if (cpu.cr0.paging == 1)
+	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
   paddr_write(paddr, len, data);
 
 }
