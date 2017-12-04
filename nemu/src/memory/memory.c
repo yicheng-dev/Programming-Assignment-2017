@@ -63,7 +63,7 @@ paddr_t page_translate(vaddr_t addr){
 	return ret_addr;
   }
   else{
-//	printf("page translate skip\n");
+	printf("page translate skip\n");
 	return addr;
   }
 
