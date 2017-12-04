@@ -87,6 +87,22 @@ static inline make_DopHelper(r) {
 #endif
 }
 
+static inline make_DopHelper(r_mod) {
+  op->type = OP_TYPE_REG;
+
+  ModR_M mod;
+  mod.val = instr_fetch(eip, 1);
+  op->reg = mod.R_M;
+  if (load_val) {
+	rtl_lr(&op->val, op->reg, op->width);
+  }
+
+#ifdef DEBUG
+  snprintf(op->str, OP_STR_SIZE, "%%%s", reg_name(op->reg, op->width));
+#endif
+
+}
+
 static inline make_DopHelper(cr) {
   op->type = OP_TYPE_CREG;
 
@@ -375,14 +391,13 @@ make_DHelper(out_a2dx) {
 
 
 make_DHelper(mov_G2CR) {
-  decode_op_r(eip, id_src, true);
+  decode_op_r_mod(eip, id_src, true);
   decode_op_cr(eip, id_dest, false);
-
 }
 
 make_DHelper(mov_CR2G) {
   decode_op_cr(eip, id_src, true);
-  decode_op_r(eip, id_dest, false);
+  decode_op_r_mod(eip, id_dest, false);
 
 }
 
