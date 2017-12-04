@@ -38,7 +38,13 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   paddr_write(paddr, len, data);
 }
 
+static int translate_num = 0; //调试用
+
 paddr_t page_translate(vaddr_t addr){
+  if (translate_num < 50){
+    translate_num++;
+	printf("cr0.paging: %d\n",cpu.cr0.paging);
+  }
   if (cpu.cr0.paging == 1){
 	printf("page translate begin\n");
 
