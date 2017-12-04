@@ -18,9 +18,8 @@ uintptr_t loader(_Protect *as, const char *filename) {
 //  size_t ramdisk_size = get_ramdisk_size();
 //  void *buf = DEFAULT_ENTRY;
   int fd = fs_open(filename, 0, 0);
-
-  int page_num = fs_filesz(fd)/PGSIZE;
   int page = 0;
+  int page_num = fs_filesz(fd)/PGSIZE;
   while (page <= page_num){
     pa = new_page();
 	fs_read(fd, pa, PGSIZE);
