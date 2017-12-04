@@ -57,6 +57,7 @@ paddr_t page_translate(vaddr_t addr){
 
 	ret_addr = (pte.page_frame << 12) | offset;
 
+	printf("page_translate end!\n");
 	return ret_addr;
 
 
