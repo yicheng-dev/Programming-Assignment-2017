@@ -112,3 +112,30 @@ void read_ModR_M(vaddr_t *eip, Operand *rm, bool load_rm_val, Operand *reg, bool
   }
 }
 
+void read_ModR_CR(vaddr_t *eip, Operand *reg, bool load_reg_val, Operand *creg, bool load_creg_val) {
+  ModR_M m;
+  m.val = instr_fetch(eip, 1);
+  if (creg != NULL) {
+    creg->type = OP_TYPE_CREG;
+	creg->reg = m.reg;
+	if (load_creg_val) {
+	  rtl_lcr(&creg->val, creg->reg);
+	}
+
+#ifdef DEBUG
+	snprintf(creg->str, OP_STR_SIZE, "%%%s", creg_name(creg->reg));
+#endif
+  }
+  if (m.mod == 3) {
+	reg->type = OP_TYPE_REG;
+	reg->reg = m.R_M;
+	if (load_reg_val) {
+	  rtl_lr(&reg->val, reg->reg, reg->width);
+	}
+#ifdef DEBUG
+	snprintf(reg->str, OP_STR_SIZE, "%%%s", reg_name(reg->reg, reg->width));
+#endif
+  }
+
+}
+

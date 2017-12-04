@@ -86,7 +86,7 @@ static inline make_DopHelper(r) {
   snprintf(op->str, OP_STR_SIZE, "%%%s", reg_name(op->reg, op->width));
 #endif
 }
-
+/*
 static inline make_DopHelper(r_mod) {
   op->type = OP_TYPE_REG;
 
@@ -94,7 +94,7 @@ static inline make_DopHelper(r_mod) {
   mod.val = instr_fetch(eip, 1);
   op->reg = mod.R_M;
   if (load_val) {
-	rtl_lr(&op->val, op->reg, 4);
+	rtl_lr(&op->val, op->reg, op->width);
   }
 
 #ifdef DEBUG
@@ -117,7 +117,7 @@ static inline make_DopHelper(cr) {
   snprintf(op->str, OP_STR_SIZE, "%%%s", creg_name(op->reg));
 #endif
 }
-
+*/
 /* I386 manual does not contain this abbreviation.
  * We decode everything of modR/M byte by one time.
  */
@@ -389,16 +389,20 @@ make_DHelper(out_a2dx) {
 #endif
 }
 
+extern void read_ModR_CR(vaddr_t *eip, Operand *reg, bool load_reg_val, Operand *creg, bool load_creg_val);
 
 make_DHelper(mov_G2CR) {
-  decode_op_r_mod(eip, id_src, true);
+/*  decode_op_r_mod(eip, id_src, true);
   decode_op_cr(eip, id_dest, false);
+  */
+  read_ModR_CR(eip, id_src, true, id_dest, false);
 }
 
 make_DHelper(mov_CR2G) {
-  decode_op_cr(eip, id_src, true);
+/*  decode_op_cr(eip, id_src, true);
   decode_op_r_mod(eip, id_dest, false);
-
+*/
+  read_ModR_CR(eip, id_dest, false, id_src, true);
 }
 
 void operand_write(Operand *op, rtlreg_t* src) {
