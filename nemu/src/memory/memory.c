@@ -47,7 +47,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 }
 
 //static int num = 0;
-
+/*
 paddr_t page_translate(vaddr_t addr){
   if (cpu.cr0.paging == 1){
 
@@ -80,4 +80,34 @@ paddr_t page_translate(vaddr_t addr){
 //	printf("page translate skip\n");
 	return addr;
   }
+}
+*/
+#define PGSHFT    12      // log2(PGSIZE)
+#define PTXSHFT   12      // Offset of PTX in a linear address
+#define PDXSHFT   22      // Offset of PDX in a linear address
+
+// Page table/directory entry flags
+#define PTE_P     0x001     // Present
+#define PTE_A     0x020     // Accessed
+#define PTE_D     0x040     // Dirty
+
+#define PDX(va)     (((uint32_t)(va) >> PDXSHFT) & 0x3ff)
+#define PTX(va)     (((uint32_t)(va) >> PTXSHFT) & 0x3ff)
+#define OFF(va)     ((uint32_t)(va) & 0xfff)
+
+// Address in page table or page directory entry
+#define PTE_ADDR(pte)   ((uint32_t)(pte) & ~0xfff)
+#define PG_BEGIN(va)   ((va) & ~0xfff)
+paddr_t page_translate(vaddr_t addr) {
+	  if (!cpu.cr0.paging)
+		      return (paddr_t)addr;
+	      
+	    uint32_t PDE, PTE;
+		  PDE = paddr_read(cpu.cr3.val + 4 * PDX(addr), 4);
+		    assert((PDE & PTE_P) == 1);
+			  
+			  PTE = paddr_read(PTE_ADDR(PDE) + 4 * PTX(addr), 4);
+			    assert((PTE & PTE_P) == 1);
+				  
+				  return (paddr_t)(PTE_ADDR(PTE) | OFF(addr));
 }
