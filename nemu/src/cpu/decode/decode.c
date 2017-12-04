@@ -374,13 +374,13 @@ make_DHelper(out_a2dx) {
 }
 
 make_DHelper(mov_G2CR) {
-  decode_op_r(eip, id_src, true);
+  decode_op_r(eip, id_src, false);
   decode_op_cr(eip, id_dest, true);
 
 }
 
 make_DHelper(mov_CR2G) {
-  decode_op_cr(eip, id_src, true);
+  decode_op_cr(eip, id_src, false);
   decode_op_r(eip, id_dest, true);
 }
 
