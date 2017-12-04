@@ -31,8 +31,8 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 //  if (特殊情况)
 	
   paddr_t paddr = page_translate(addr);
-  if (cpu.cr0.paging == 1) 
-	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
+//  if (cpu.cr0.paging == 1) 
+//	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
 
   return paddr_read(paddr, len);
 
@@ -41,8 +41,8 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   // if (特殊情况)
   paddr_t paddr = page_translate(addr);
-  if (cpu.cr0.paging == 1)
-	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
+//  if (cpu.cr0.paging == 1)
+//	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
   paddr_write(paddr, len, data);
 
 }
@@ -55,7 +55,7 @@ paddr_t page_translate(vaddr_t addr){
 	printf("num: %d\n",num);
 //	printf("page translate begin\n");
 //	printf("cpu.cr0: 0x%x\ncpu.cr3: 0x%x\n",cpu.cr0.val,cpu.cr3.val);
-    if (num == 113233) printf("addr: 0x%x\n",addr);
+    printf("addr: 0x%x\n",addr);
     PDE pde;
 	PTE pte;
 	vaddr_t ret_addr;
