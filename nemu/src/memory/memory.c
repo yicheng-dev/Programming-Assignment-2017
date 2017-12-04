@@ -30,20 +30,20 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 uint32_t vaddr_read(vaddr_t addr, int len) {
 //  if (特殊情况)
 	
-//  paddr_t paddr = page_translate(addr);
- // if (cpu.cr0.paging == 1) 
-//	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
+  paddr_t paddr = page_translate(addr);
+  if (cpu.cr0.paging == 1) 
+	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
 
-  return paddr_read(addr, len);
+  return paddr_read(paddr, len);
 
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
   // if (特殊情况)
-//  paddr_t paddr = page_translate(addr);
-//  if (cpu.cr0.paging == 1)
-//	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
-  paddr_write(addr, len, data);
+  paddr_t paddr = page_translate(addr);
+  if (cpu.cr0.paging == 1)
+	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
+  paddr_write(paddr, len, data);
 
 }
 
