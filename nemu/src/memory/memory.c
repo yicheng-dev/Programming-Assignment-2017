@@ -47,11 +47,11 @@ paddr_t page_translate(vaddr_t addr){
     dir = ((addr >> 22) & 0x3ff) << 2;
 	page = ((addr >> 12) & 0x3ff) << 2;
 	offset = addr & 0xfff;
-	ret_addr = (cpu.cr3.page_directory_base << 12) + (dir << 2);
+	ret_addr = (cpu.cr3.page_directory_base << 12) + dir;
 	pde.val = paddr_read(ret_addr, 4);
 	Assert(pde.present,"now, present:0x%x\n",pde.present);
     
-	ret_addr = (pde.page_frame << 12) + (page << 2);
+	ret_addr = (pde.page_frame << 12) + page;
 	pte.val = paddr_read(ret_addr, 4);
 	Assert(pte.present,"now, present:0x%x\n",pte.present);
 
