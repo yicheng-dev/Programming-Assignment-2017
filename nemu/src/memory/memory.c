@@ -44,9 +44,13 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 
 }
 
+static int num = 0;
 
 paddr_t page_translate(vaddr_t addr){
   if (cpu.cr0.paging == 1){
+
+	printf("num: %d\n",num);
+	num++;
 //	printf("page translate begin\n");
 //	printf("cpu.cr0: 0x%x\ncpu.cr3: 0x%x\n",cpu.cr0.val,cpu.cr3.val);
 
