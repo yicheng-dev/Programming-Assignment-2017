@@ -78,8 +78,8 @@ void _map(_Protect *p, void *va, void *pa) {
   }
   else {
 	pte = (PTE* )((uint32_t)(*pde) & ~0xfff);
-    pde[page] = ((uint32_t)(pa) & ~0xfff) | PTE_P;
   }
+  pde[page] = ((uint32_t)(pa) & ~0xfff) | PTE_P;
 }
 
 void _unmap(_Protect *p, void *va) {
