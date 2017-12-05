@@ -7,6 +7,8 @@
     guest_to_host(addr); \
     })
 
+#define PGSIZE 0x1000
+
 uint8_t pmem[PMEM_SIZE];
 paddr_t page_translate(vaddr_t addr);
 
@@ -27,22 +29,24 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-//  if (特殊情况)
-	
-  paddr_t paddr = page_translate(addr);
-//  if (cpu.cr0.paging == 1) 
-//	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
-
-  return paddr_read(paddr, len);
+  if (len + (addr & 0xfff) > PGSIZE) {
+    int len1 = PGSIZE - (addr & 0xfff);
+	return paddr_read(page_translate(addr), len1);
+  }
+  return paddr_read(page_translate(addr), len);
 
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  // if (特殊情况)
-  paddr_t paddr = page_translate(addr);
-//  if (cpu.cr0.paging == 1)
-//	  printf("addr: 0x%x\tpaddr: 0x%x\n",addr,paddr);
-  paddr_write(paddr, len, data);
+  if (len + (addr & 0xfff) > PGSIZE) {
+    int len1 = PGSIZE - (addr & 0xfff);
+	paddr_write(page_translate(addr), len1, data);
+	int len2 = len - len1;
+	data = data >> (8*len1);
+	paddr_write(page_translate(addr+len1), len2, data);
+  }
+  else
+    paddr_write(page_translate(addr), len, data);
 
 }
 
