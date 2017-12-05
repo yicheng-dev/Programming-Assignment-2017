@@ -8,6 +8,7 @@ extern ssize_t fs_read(int fd, void *buf, size_t len);
 extern ssize_t fs_write(int fd, const void *buf, size_t len);
 extern off_t fs_lseek(int fd, off_t offset, int whence);
 extern int fs_close(int fd);
+extern int mm_brk(uint32_t new_brk);
 
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
@@ -24,7 +25,7 @@ _RegSet* do_syscall(_RegSet *r) {
 				   SYSCALL_ARG1(r) = fs_write((int)SYSCALL_ARG2(r), (const void*)SYSCALL_ARG3(r), (size_t)SYSCALL_ARG4(r));
 				   break;
 	case SYS_brk:  _heap.end = (void*)SYSCALL_ARG2(r);//printf("end:0x%x\n",_heap.end); 
-				   SYSCALL_ARG1(r)=0; 
+				   SYSCALL_ARG1(r) = mm_brk((uint32_t)_heap.end); 
 				   break;
 	case SYS_open: SYSCALL_ARG1(r) = fs_open((const char*)SYSCALL_ARG2(r),(int) SYSCALL_ARG3(r),(int) SYSCALL_ARG4(r));
 				   break;
