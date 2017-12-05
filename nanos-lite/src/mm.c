@@ -29,7 +29,7 @@ int mm_brk(uint32_t new_brk) {
       void *va, *pa;
 	  void * begin = ADDR(current->max_brk)==current->max_brk ? 
 		  (void*)current->max_brk : (void*)ADDR(current->max_brk)+PGSIZE; 
-	  void * end = (void*)ADDR(new_brk) - PGSIZE;
+	  void * end = (void*)ADDR(new_brk);
 	  for (va = begin; va <= end;va+=PGSIZE) {
         pa = new_page();
 		_map(&current->as, va, pa);
