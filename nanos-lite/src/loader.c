@@ -22,7 +22,10 @@ uintptr_t loader(_Protect *as, const char *filename) {
   int page_num = fs_filesz(fd)/PGSIZE;
   while (page <= page_num){
     pa = new_page();
-	fs_read(fd, pa, PGSIZE);
+	if ((uint32_t)(va) + PGSIZE <= fs_filesz(fd))
+		fs_read(fd, pa, PGSIZE);
+	else
+		fs_read(fd, pa, fs_filesz(fd)-(uint32_t)va);
 	_map(as, va, pa);
     page++;
 	va += PGSIZE;
