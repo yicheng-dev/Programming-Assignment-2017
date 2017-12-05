@@ -24,7 +24,7 @@ _RegSet* do_syscall(_RegSet *r) {
 	case SYS_write: //printf("eax:0x%x; ecx:0x%x; edx:0x%x; ebx:0x%x\n",r->eax,r->ecx,r->edx,r->ebx);break;
 				   SYSCALL_ARG1(r) = fs_write((int)SYSCALL_ARG2(r), (const void*)SYSCALL_ARG3(r), (size_t)SYSCALL_ARG4(r));
 				   break;
-	case SYS_brk:  _heap.end = (void*)SYSCALL_ARG2(r);//printf("end:0x%x\n",_heap.end); 
+	case SYS_brk:  //_heap.end = (void*)SYSCALL_ARG2(r);//printf("end:0x%x\n",_heap.end); 
 				   SYSCALL_ARG1(r) = mm_brk((uint32_t)_heap.end); 
 				   break;
 	case SYS_open: SYSCALL_ARG1(r) = fs_open((const char*)SYSCALL_ARG2(r),(int) SYSCALL_ARG3(r),(int) SYSCALL_ARG4(r));
