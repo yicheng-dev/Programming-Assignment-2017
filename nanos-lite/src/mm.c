@@ -27,8 +27,8 @@ int mm_brk(uint32_t new_brk) {
 
 //      void * va, *pa;
 //	  int index = 0;
-      int len = new_brk - current->max_brk;
-      _map(&current->as, (void*)current->max_brk,(void*)len);
+//      int len = new_brk - current->max_brk;
+      _map(&current->as, (void*)current->max_brk,(void*)new_brk);
 
 
 	  current->max_brk = new_brk;
