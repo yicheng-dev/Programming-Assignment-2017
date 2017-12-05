@@ -31,7 +31,10 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 uint32_t vaddr_read(vaddr_t addr, int len) {
   if (len + (addr & 0xfff) > PGSIZE) {
     int len1 = PGSIZE - (addr & 0xfff);
-	return paddr_read(page_translate(addr), len1);
+	int len2 = len - len1;
+	int ret1 = paddr_read(page_translate(addr), len1);
+	int ret2 = paddr_read(page_translate(addr+len1), len2);
+	return ret1+(ret2 >> (8*len1));
   }
   return paddr_read(page_translate(addr), len);
 
