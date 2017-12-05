@@ -29,7 +29,7 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 }
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
-  printf("addr:0x%x\tlen:%d\n",addr,len);
+//  printf("addr:0x%x\tlen:%d\n",addr,len);
   if (len + (addr & 0xfff) > PGSIZE) {
     int len1 = PGSIZE - (addr & 0xfff);
 	int len2 = len - len1;
