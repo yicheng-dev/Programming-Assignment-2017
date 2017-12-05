@@ -31,8 +31,7 @@ void paddr_write(paddr_t addr, int len, uint32_t data) {
 
 uint32_t vaddr_read(vaddr_t addr, int len) {
 //  printf("addr:0x%x\tlen:%d\n",addr,len);
-//  if (len + (addr & 0xfff) > PGSIZE) {
-  if ((addr & ~0xfff) != ((addr+len-1) & ~0xfff)) {
+  if (len + (addr & 0xfff) > PGSIZE) {
 	int len1 = PGSIZE - (addr & 0xfff);
 	int len2 = len - len1;
 	int ret1 = paddr_read(page_translate(addr), len1);
@@ -45,8 +44,7 @@ uint32_t vaddr_read(vaddr_t addr, int len) {
 }
 
 void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-//  if (len + (addr & 0xfff) > PGSIZE) {
-  if ((addr & ~0xfff) != ((addr+len-1) & ~0xfff)) {
+  if (len + (addr & 0xfff) > PGSIZE) {
 	int len1 = PGSIZE - (addr & 0xfff);
 	paddr_write(page_translate(addr), len1, data);
 	int len2 = len - len1;

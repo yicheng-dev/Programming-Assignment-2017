@@ -64,7 +64,7 @@ void _release(_Protect *p) {
 void _switch(_Protect *p) {
   set_cr3(p->ptr);
 }
-
+/*
 void _map(_Protect *p, void *va, void *pa) {
   PDE * pde = (PDE*)p->ptr;
   uint32_t dir = PDX(va); //find the directory`
@@ -80,6 +80,15 @@ void _map(_Protect *p, void *va, void *pa) {
 	pte = (PTE* )((uint32_t)(*pde) & ~0xfff);
   }
   pte[page] = ((uint32_t)(pa) & ~0xfff) | PTE_P;
+}
+*/
+
+void _map(_Protect *p, void *va, void*pa) {
+  uint32_t *pd = p->ptr;
+  uint32_t dir = (uint32_t)va >> 22;
+  uint32_t page = ((uint32_t)va >> 12) & 0x3ff;
+  uint32_t pt = pd[dir];
+  ((uint32_t*)pt)[page] = (uint32_t)pa | 0x1;
 }
 
 void _unmap(_Protect *p, void *va) {
