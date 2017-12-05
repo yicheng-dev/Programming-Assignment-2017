@@ -68,7 +68,7 @@ void _switch(_Protect *p) {
 void _map(_Protect *p, void *va, void *pa) {
   PDE * pde = (PDE*)p->ptr;
   uint32_t dir = PDX(va); //find the directory`
-  uint32_t  page = PTX(va);
+  uint32_t page = PTX(va);
   pde += dir;
   PTE * pte;
   uint32_t present = *pde & PTE_P; // judge whether it's necessary to allocate a new page_table
