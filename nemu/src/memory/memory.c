@@ -63,11 +63,11 @@ paddr_t page_translate(vaddr_t addr){
 	offset = addr & 0xfff;
 	ret_addr = cpu.cr3.val + dir;
 	pde.val = paddr_read(ret_addr, 4);
-	Assert(pde.present == 1,"now, present:0x%x\n",pde.present);
+//	Assert(pde.present == 1,"now, present:0x%x\n",pde.present);
     
 	ret_addr = ((uint32_t)(pde.val) & ~0xfff) + page;
 	pte.val = paddr_read(ret_addr, 4);
-	Assert(pte.present == 1,"now, present:0x%x\n",pte.present);
+//	Assert(pte.present == 1,"now, present:0x%x\n",pte.present);
 
 	ret_addr = ((uint32_t)(pte.val) & ~0xfff) | offset;
 
