@@ -1,6 +1,8 @@
 #include "proc.h"
 #include "memory.h"
 
+#define ADDR(va) ((uint32_t)(va) & ~0xfff)
+
 static void *pf = NULL;
 
 void* new_page(void) {
@@ -24,13 +26,11 @@ int mm_brk(uint32_t new_brk) {
 	if (new_brk > current->max_brk) {
 	  // TODO: map memory region [current->max_brk, new_brk)
 	  // into address space current->as
-
-//      void * va, *pa;
-//	  int index = 0;
-      int len = new_brk - current->max_brk;
-      _map(&current->as, (void*)current->max_brk,(void*)len);
-
-
+      void *va, *pa;
+	  for (va = (void*)ADDR(current->max_brk); va<=(void*)ADDR(new_brk);va+=PGSIZE) {
+        pa = new_page();
+		_map(&current->as, va, pa);
+	  }
 	  current->max_brk = new_brk;
 	}
 	current->cur_brk = new_brk;
