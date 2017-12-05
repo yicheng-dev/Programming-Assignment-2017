@@ -22,10 +22,10 @@ int mm_brk(uint32_t new_brk) {
   else {
 	if (new_brk > current->max_brk) {
 
-	  printf("new_brk: 0x%x\tcurrent->max_brk: 0x%x\n",new_brk, current->max_brk);
+//	  printf("new_brk: 0x%x\tcurrent->max_brk: 0x%x\n",new_brk, current->max_brk);
 	  // TODO: map memory region [current->max_brk, new_brk)
 	  // into address space current->as
-	  _map(&current->as, pf, (void*)new_brk);
+	  _map(&current->as, pf+current->max_brk, pf+new_brk);
 	  current->max_brk = new_brk;
 	}
 	current->cur_brk = new_brk;
