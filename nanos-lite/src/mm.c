@@ -16,13 +16,13 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 int mm_brk(uint32_t new_brk) {
+	  printf("new_brk: 0x%x\tcurrent->max_brk: 0x%x\n",new_brk, current->max_brk);
   if (current->cur_brk == 0) {
 	current->cur_brk = current->max_brk = new_brk;
   }
   else {
 	if (new_brk > current->max_brk) {
 
-	  printf("new_brk: 0x%x\tcurrent->max_brk: 0x%x\n",new_brk, current->max_brk);
 	  // TODO: map memory region [current->max_brk, new_brk)
 	  // into address space current->as
 	  _map(&current->as, (void*)current->max_brk, (void*)new_brk);
