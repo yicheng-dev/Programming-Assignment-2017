@@ -13,7 +13,7 @@ extern size_t fs_filesz(int fd);
 extern void* new_page(void);
 
 uintptr_t loader(_Protect *as, const char *filename) {
-  void *va = DEFAULT_ENTRY;
+  int offset = 0;
   void *pa;
 //  size_t ramdisk_size = get_ramdisk_size();
 //  void *buf = DEFAULT_ENTRY;
@@ -22,13 +22,13 @@ uintptr_t loader(_Protect *as, const char *filename) {
   int page_num = fs_filesz(fd)/PGSIZE;
   while (page <= page_num){
     pa = new_page();
-	if ((uint32_t)(va) + PGSIZE <= fs_filesz(fd))
+	if (offset + PGSIZE <= fs_filesz(fd))
 		fs_read(fd, pa, PGSIZE);
 	else
-		fs_read(fd, pa, fs_filesz(fd)-(uint32_t)va);
-	_map(as, va, pa);
+		fs_read(fd, pa, fs_filesz(fd)-offset);
+	_map(as, DEFAULT_ENTRY+offset, pa);
     page++;
-	va += PGSIZE;
+	offset += PGSIZE;
   }
   fs_close(fd);
 //  printf("filename:%s\nfd:%d\n",filename,fd);
