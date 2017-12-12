@@ -105,7 +105,7 @@ _RegSet *_umake(_Protect *p, _Area ustack, _Area kstack, void *entry, char *cons
   *stack = 0x0; stack--;  //esp
   *stack = (int)ustack.end; stack--;  //ebp
   *stack = 0x0; stack--;  //esi
-  *stack = 0x0; stack--;  //edi
+  *stack = 0x0;   //edi
 
   return (_RegSet*)stack;
 }
