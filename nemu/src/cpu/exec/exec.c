@@ -247,18 +247,18 @@ void exec_wrapper(bool print_flag) {
     puts(decoding.asm_buf);
   }
 #endif
-
+  update_eip();
 #ifdef DIFF_TEST
   uint32_t eip = cpu.eip;
+#endif
+//  printf("in wrapper, eip:%x\n",cpu.eip);
+#ifdef DIFF_TEST
+  void difftest_step(uint32_t);
+  difftest_step(eip);
 #endif
   if (cpu.INTR & cpu.IF) {
 	cpu.INTR = false;
 	raise_intr(TIMER_IRQ, cpu.eip);
     update_eip();
   }
-//  printf("in wrapper, eip:%x\n",cpu.eip);
-#ifdef DIFF_TEST
-  void difftest_step(uint32_t);
-  difftest_step(eip);
-#endif
 }
