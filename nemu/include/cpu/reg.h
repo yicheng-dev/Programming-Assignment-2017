@@ -69,7 +69,7 @@ typedef struct{
 			CR3 cr3;
 		};
 	};
-
+    bool INTR;
 } CPU_state;
 
 extern CPU_state cpu;
