@@ -35,7 +35,7 @@ _RegSet* schedule(_RegSet *prev) {
 	current = &pcb[0];
 	first_process = false;
   }
-  else if (process_cnt >= 2) {
+  else if (process_cnt >= 4) {
 	current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 	process_cnt = 0;
   }
