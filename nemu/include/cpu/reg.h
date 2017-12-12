@@ -31,6 +31,7 @@ typedef struct{
 		struct{
           rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi, CS, IDTR;
 		  vaddr_t eip;
+          bool INTR;
 		};
 	};
 	union{
@@ -69,7 +70,6 @@ typedef struct{
 			CR3 cr3;
 		};
 	};
-    bool INTR;
 } CPU_state;
 
 extern CPU_state cpu;
