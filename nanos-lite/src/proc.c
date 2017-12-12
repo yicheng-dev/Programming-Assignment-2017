@@ -32,7 +32,7 @@ _RegSet* schedule(_RegSet *prev) {
   static int process_cnt = 0;
   static bool first_process = true;
   if (first_process) {
-	current = &pcb[0];
+	current = &pcb[1];
 	first_process = false;
   }
   else if (process_cnt >= 4) {
