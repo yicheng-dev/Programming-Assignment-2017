@@ -29,7 +29,8 @@ void load_prog(const char *filename) {
 static int process_cnt = 0;
 
 _RegSet* schedule(_RegSet *prev) {
-  current->tf = prev;
+  if (current)
+	current->tf = prev;
   if (process_cnt >= 2) {
 	current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
 	process_cnt = 0;
