@@ -112,7 +112,7 @@ PAL_Init(
       TerminateOnError("Could not initialize Video: %d.\n", e);
    }
 
-//   Log("VIDEO_Init success");
+   Log("VIDEO_Init success");
    SDL_WM_SetCaption("Loading...", NULL);
 
    e = PAL_InitGlobals();
@@ -120,33 +120,33 @@ PAL_Init(
    {
       TerminateOnError("Could not initialize global data: %d.\n", e);
    }
-//   Log("PAL_InitGolbals success");
+   Log("PAL_InitGolbals success");
 
    e = PAL_InitFont();
    if (e != 0)
    {
       TerminateOnError("Could not load fonts: %d.\n", e);
    }
-//   Log("PAL_InitFont success");
+   Log("PAL_InitFont success");
 
    e = PAL_InitUI();
    if (e != 0)
    {
       TerminateOnError("Could not initialize UI subsystem: %d.\n", e);
    }
-//   Log("PAL_InitUI success");
+   Log("PAL_InitUI success");
 
    e = PAL_InitText();
    if (e != 0)
    {
       TerminateOnError("Could not initialize text subsystem: %d.\n", e);
    }
-//   Log("PAL_InitText success");
+   Log("PAL_InitText success");
 
    PAL_InitInput();
-//   Log("PAL_InitInput success");
+   Log("PAL_InitInput success");
    PAL_InitResources();
-//   Log("PAL_InitResources success");
+   Log("PAL_InitResources success");
    SOUND_OpenAudio();
 
 #ifdef PAL_WIN95
@@ -184,27 +184,27 @@ PAL_Shutdown(
 --*/
 {
    SOUND_CloseAudio();
-//	Log("SOUND_CloseAudio success");
+	Log("SOUND_CloseAudio success");
    PAL_FreeFont();
-//	Log("PAL_FreeFont success");
+	Log("PAL_FreeFont success");
    PAL_FreeResources();
-//	Log("PAL_FreeResources success");
+	Log("PAL_FreeResources success");
    PAL_FreeGlobals();
-//	Log("PAL_FreeGlobals success");
+	Log("PAL_FreeGlobals success");
    PAL_FreeUI();
-//	Log("PAL_FreeUI success");
+	Log("PAL_FreeUI success");
    PAL_FreeText();
-//	Log("PAL_FreeText success");
+	Log("PAL_FreeText success");
    PAL_ShutdownInput();
-//	Log("PAL_ShutdownInput success");
+	Log("PAL_ShutdownInput success");
    VIDEO_Shutdown();
-//	Log("VIDEO_Shutdown success");
+	Log("VIDEO_Shutdown success");
 
    UTIL_CloseLog();
-//	Log("UTIL_CloseLog success");
+	Log("UTIL_CloseLog success");
 
    SDL_Quit();
-//	Log("SDL_Quit success");
+	Log("SDL_Quit success");
 
 #if defined(GPH)
 	chdir("/usr/gp2x");
