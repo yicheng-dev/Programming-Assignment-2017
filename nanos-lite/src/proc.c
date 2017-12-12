@@ -30,8 +30,7 @@ void load_prog(const char *filename) {
 static bool first_process = true;
 
 _RegSet* schedule(_RegSet *prev) {
-  if (current)
-	current->tf = prev;
+  current->tf = prev;
   if (first_process) {
 	current = &pcb[1];
 	first_process = false;
