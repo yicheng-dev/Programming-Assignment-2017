@@ -93,7 +93,7 @@ _RegSet *_umake(_Protect *p, _Area ustack, _Area kstack, void *entry, char *cons
   *stack = 0x0; stack--;  //envp
   *stack = 0x0; stack--;  //start_ret_address
   // trap frame
-  *stack = 0x2; stack--;  //eflags
+  *stack = 0x202; stack--;  //eflags
   *stack = 0x8; stack--;  //cs
   *stack = (int)entry; stack--;  //eip
   *stack = 0x0; stack--;  //error_code
