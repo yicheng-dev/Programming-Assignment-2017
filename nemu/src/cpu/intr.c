@@ -7,6 +7,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
    */
 
   rtl_push(&cpu.eflags);
+  cpu.IF = 0;
   rtl_push(&cpu.CS);
   rtl_push(&ret_addr);
 //  printf("NO:%d\n",NO);
@@ -25,4 +26,5 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
 }
 
 void dev_raise_intr() {
+  cpu.INTR = true;
 }

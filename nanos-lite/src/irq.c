@@ -4,7 +4,7 @@ extern _RegSet* do_syscall(_RegSet *r);
 extern _RegSet* schedule(_RegSet *prev);
 static _RegSet* do_event(_Event e, _RegSet* r) {
   switch (e.event) {
-	case _EVENT_IRQ_TIME: break;
+	case _EVENT_IRQ_TIME:Log("Time!\n");return schedule(r); break;
 	case _EVENT_IRQ_IODEV: break;
 	case _EVENT_ERROR: break;
 	case _EVENT_PAGE_FAULT: break;
