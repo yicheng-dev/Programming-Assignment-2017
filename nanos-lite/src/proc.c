@@ -26,7 +26,7 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
-static int process_cnt = 0;
+//static int process_cnt = 0;
 static bool first_process = true;
 
 _RegSet* schedule(_RegSet *prev) {
@@ -35,11 +35,9 @@ _RegSet* schedule(_RegSet *prev) {
 	current = &pcb[1];
 	first_process = false;
   }
-  else if (process_cnt >= 4) {
-	current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-	process_cnt = 0;
-  }
-  process_cnt++;
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]); 
+ // process_cnt = 0;
+ // process_cnt++;
   _switch(&current->as);
   return current->tf;
 }
