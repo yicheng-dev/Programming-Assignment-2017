@@ -4,7 +4,7 @@
 
 static PCB pcb[MAX_NR_PROC];
 static int nr_proc = 0;
-PCB *current = NULL;
+PCB *current = &pcb[0];
 
 uintptr_t loader(_Protect *as, const char *filename);
 
