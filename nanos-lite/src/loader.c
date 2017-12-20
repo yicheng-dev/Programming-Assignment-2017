@@ -15,8 +15,6 @@ extern void* new_page(void);
 uintptr_t loader(_Protect *as, const char *filename) {
   int offset = 0;
   void *pa;
-//  size_t ramdisk_size = get_ramdisk_size();
-//  void *buf = DEFAULT_ENTRY;
   int fd = fs_open(filename, 0, 0);
   int page = 0;
   int page_num = fs_filesz(fd)/PGSIZE;
@@ -31,6 +29,5 @@ uintptr_t loader(_Protect *as, const char *filename) {
 	offset += PGSIZE;
   }
   fs_close(fd);
-//  printf("filename:%s\nfd:%d\n",filename,fd);
   return (uintptr_t)DEFAULT_ENTRY;
 }

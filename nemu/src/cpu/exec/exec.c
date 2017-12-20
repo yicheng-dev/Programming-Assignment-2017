@@ -260,5 +260,6 @@ void exec_wrapper(bool print_flag) {
 	cpu.INTR = false;
 	raise_intr(TIMER_IRQ, cpu.eip);
     update_eip();
-  }
+  } 
 }
+

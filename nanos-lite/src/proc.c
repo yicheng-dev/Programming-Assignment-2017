@@ -11,14 +11,8 @@ uintptr_t loader(_Protect *as, const char *filename);
 void load_prog(const char *filename) {
   int i = nr_proc ++;
   _protect(&pcb[i].as);
-//  printf("reach");
   uintptr_t entry = loader(&pcb[i].as, filename);
 
-  // TODO: remove the following three lines after you have implemented _umake()
-/*  _switch(&pcb[i].as);
-  current = &pcb[i];
-  ((void (*)(void))entry)();
-*/
   _Area stack;
   stack.start = pcb[i].stack;
   stack.end = stack.start + sizeof(pcb[i].stack);
@@ -26,11 +20,11 @@ void load_prog(const char *filename) {
   pcb[i].tf = _umake(&pcb[i].as, stack, stack, (void *)entry, NULL, NULL);
 }
 
-static int process_cnt = 0;
+static int process_cnt = 4;
 static bool first_process = true;
 
 _RegSet* schedule(_RegSet *prev) {
-  printf("schedule!\n");
+//  printf("schedule!\n");
   current->tf = prev;
   if (first_process) {
 	current = &pcb[0];
